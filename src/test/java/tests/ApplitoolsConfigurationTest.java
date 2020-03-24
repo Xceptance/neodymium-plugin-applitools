@@ -1,10 +1,7 @@
 package tests;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.util.Properties;
 import java.util.UUID;
 
 import org.aeonbits.owner.ConfigFactory;
@@ -12,13 +9,9 @@ import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import com.xceptance.neodymium.NeodymiumRunner;
 
 import util.applitools.ApplitoolsConfiguration;
 
-@RunWith(NeodymiumRunner.class)
 public class ApplitoolsConfigurationTest extends AbstractTest
 {
     private static final String filename = "config/dev-applitools.properties";
@@ -36,61 +29,43 @@ public class ApplitoolsConfigurationTest extends AbstractTest
     }
 
     @Test
-    public void testProjectName()
+    public void testProjectName() throws IOException
     {
         final String projectName = "Test-Project";
-        writePropertiy("applitools.projectName", projectName);
+        writePropertiy(filename, "applitools.projectName", projectName);
         Assert.assertEquals(projectName, ConfigFactory.create(ApplitoolsConfiguration.class).projectName());
     }
 
     @Test
-    public void testMatchLevel()
+    public void testMatchLevel() throws IOException
     {
         final String matchLevel = "NONE";
-        writePropertiy("applitools.matchLevel", matchLevel);
+        writePropertiy(filename, "applitools.matchLevel", matchLevel);
         Assert.assertEquals(matchLevel, ConfigFactory.create(ApplitoolsConfiguration.class).matchLevel());
     }
 
     @Test
-    public void testApiKey()
+    public void testApiKey() throws IOException
     {
         final String apiKey = UUID.randomUUID().toString();
-        writePropertiy("applitools.apiKey", apiKey);
+        writePropertiy(filename, "applitools.apiKey", apiKey);
         Assert.assertEquals(apiKey, ConfigFactory.create(ApplitoolsConfiguration.class).apiKey());
     }
 
     @Test
-    public void testBatch()
+    public void testBatch() throws IOException
     {
         final String batchName = "Test-Batch";
-        writePropertiy("applitools.batch", batchName);
+        writePropertiy(filename, "applitools.batch", batchName);
         Assert.assertEquals(batchName, ConfigFactory.create(ApplitoolsConfiguration.class).batch());
     }
 
     @Test
-    public void testThrowException()
+    public void testThrowException() throws IOException
     {
         final String throwException = "true";
-        writePropertiy("applitools.throwException", throwException);
+        writePropertiy(filename, "applitools.throwException", throwException);
         Assert.assertEquals(throwException, ConfigFactory.create(ApplitoolsConfiguration.class).throwException());
     }
 
-    private void writePropertiy(String name, String value)
-    {
-        try
-        {
-            OutputStream output = new FileOutputStream(filename, true);
-
-            Properties prop = new Properties();
-            // set the properties value
-            prop.setProperty(name, value);
-
-            // save properties to project root folder
-            prop.store(output, null);
-        }
-        catch (IOException io)
-        {
-            io.printStackTrace();
-        }
-    }
 }
