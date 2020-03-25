@@ -59,20 +59,12 @@
 					</dependency>
 				</dependencies>
 			</plugin>
-			<plugin>
-				<groupId>io.qameta.allure</groupId>
-				<artifactId>allure-maven</artifactId>
-				<version>${allure.version}</version>
-				<configuration>
-					<reportVersion>${allure.version}</reportVersion>
-				</configuration>
-			</plugin>
 		</plugins>
 	</build>
 
 	<profiles>
 		<profile>
-			<id>java</id>
+			<id>release-neodymium-applitools-plugin</id>
 			<activation>
 				<activeByDefault>true</activeByDefault>
 			</activation>
@@ -84,37 +76,15 @@
 						<configuration>
 							<includes>
 								<!-- Neodymium (pure Java) test cases -->
-								<include>template/neodymium/tests/**/*Test.java</include>
+								<include>tests/**/*Test.java</include>
 							</includes>
 							<properties>
 								<property>
 									<name>listener</name>
-									<value>io.qameta.allure.junit4.AllureJunit4</value>
+									<value>util.applitools.TestListener,io.qameta.allure.junit4.AllureJunit4
+									</value>
 								</property>
 							</properties>
-						</configuration>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-		<profile>
-			<id>cucumber</id>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-surefire-plugin</artifactId>
-						<configuration>
-							<includes>
-								<!-- Cucumber test cases -->
-								<include>template/cucumber/tests/RunAllFeaturesTest.java
-								</include>
-							</includes>
-							<systemPropertyVariables>
-								<cucumber.options>--plugin
-									io.qameta.allure.cucumber4jvm.AllureCucumber4Jvm
-								</cucumber.options>
-							</systemPropertyVariables>
 						</configuration>
 					</plugin>
 				</plugins>
