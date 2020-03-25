@@ -18,11 +18,9 @@ import org.junit.runner.RunWith;
 
 import com.applitools.eyes.selenium.Eyes;
 import com.xceptance.neodymium.NeodymiumRunner;
-import com.xceptance.neodymium.module.statement.browser.multibrowser.Browser;
 
 import util.applitools.ApplitoolsApi;
 
-@Browser("Chrome_1024x768")
 @RunWith(NeodymiumRunner.class)
 public abstract class AbstractTest
 {

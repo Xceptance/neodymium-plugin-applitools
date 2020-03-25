@@ -9,9 +9,11 @@ import org.junit.rules.ExpectedException;
 
 import com.applitools.eyes.EyesException;
 import com.codeborne.selenide.Selenide;
+import com.xceptance.neodymium.module.statement.browser.multibrowser.Browser;
 
 import util.applitools.ApplitoolsApi;
 
+@Browser("Chrome_headless")
 public class ApplitoolsApiExceptionsTest extends AbstractTest
 {
 
