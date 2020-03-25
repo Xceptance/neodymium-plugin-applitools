@@ -1,5 +1,7 @@
 package util.applitools;
 
+import static com.google.common.base.Strings.isNullOrEmpty;
+
 import java.util.function.Supplier;
 
 import org.aeonbits.owner.ConfigFactory;
@@ -134,11 +136,10 @@ public class ApplitoolsApi
     private static String getApiKey()
     {
         String apiKey = ConfigFactory.create(ApplitoolsConfiguration.class).apiKey();
-        // if (isNullOrEmpty(apiKey))
-        // {
-        // throw new RuntimeException("No API Key found; Please set applitools.apiKey property in
-        // applitools.properties");
-        // }
+        if (isNullOrEmpty(apiKey))
+        {
+            throw new RuntimeException("No API Key found; Please set applitools.apiKey property in applitools.properties");
+        }
         return apiKey;
     }
 
