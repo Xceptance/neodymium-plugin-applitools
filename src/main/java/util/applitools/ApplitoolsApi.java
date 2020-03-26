@@ -2,11 +2,11 @@ package util.applitools;
 
 import static com.google.common.base.Strings.isNullOrEmpty;
 
+import java.util.HashMap;
 import java.util.function.Supplier;
 
 import org.aeonbits.owner.ConfigFactory;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.events.EventFiringWebDriver;
 
@@ -28,6 +28,8 @@ public class ApplitoolsApi
         }
     });
 
+    private static HashMap<String, BatchInfo> batches = new HashMap<String, BatchInfo>();
+
     public static void setupGlobal()
     {
         setupForGroupOfTests(ConfigFactory.create(ApplitoolsConfiguration.class).batch());
@@ -35,19 +37,28 @@ public class ApplitoolsApi
 
     public static void setupForGroupOfTests(String batchNameForGroup)
     {
-        BatchInfo batch = new BatchInfo(batchNameForGroup);
-        String batchId = BatchHelper.getBatch(batchNameForGroup);
-        if (batchId == null)
+        BatchInfo batch;
+        if (batches.containsKey(batchNameForGroup))
         {
-            String newBatchId = BatchHelper.addBatch(batchNameForGroup);
-            if (newBatchId != null)
-            {
-                batch.setId(newBatchId);
-            }
+            batch = batches.get(batchNameForGroup);
         }
         else
         {
-            batch.setId(batchId);
+            batch = new BatchInfo(batchNameForGroup);
+            String batchId = BatchHelper.getBatch(batchNameForGroup);
+            if (batchId == null)
+            {
+                String newBatchId = BatchHelper.addBatch(batchNameForGroup);
+                if (newBatchId != null)
+                {
+                    batch.setId(newBatchId);
+                }
+            }
+            else
+            {
+                batch.setId(batchId);
+            }
+            batches.put(batchNameForGroup, batch);
         }
         eyes.get().setBatch(batch);
         setupForSingleTest();
@@ -97,14 +108,13 @@ public class ApplitoolsApi
 
     public static void assertElements(String elementSelector)
     {
-        WebDriver driver = getDriver();
         if (elementSelector.substring(0, 1).equals("//"))
         {
-            driver.findElements(By.xpath(elementSelector)).forEach(element -> eyes.get().checkElement(element, elementSelector));
+            getDriver().findElements(By.xpath(elementSelector)).forEach(element -> eyes.get().checkElement(element, elementSelector));
         }
         else
         {
-            driver.findElements(By.cssSelector(elementSelector)).forEach(element -> eyes.get().checkElement(element, elementSelector));
+            getDriver().findElements(By.cssSelector(elementSelector)).forEach(element -> eyes.get().checkElement(element, elementSelector));
         }
     }
 
