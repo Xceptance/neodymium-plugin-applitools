@@ -22,6 +22,7 @@ public class ApplitoolsApiExceptionsTest extends AbstractTest
     @Test
     public void testSetupGlobalWithoutApiKey() throws IOException
     {
+        ApplitoolsApi.getConfiguration().setProperty("applitools.apiKey", "");
         exceptionRule.expect(RuntimeException.class);
         exceptionRule.expectMessage("No API Key found; Please set applitools.apiKey property in applitools.properties");
         ApplitoolsApi.setupGlobal();

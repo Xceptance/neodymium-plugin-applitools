@@ -1,9 +1,7 @@
 package tests;
 
-import java.io.File;
 import java.io.IOException;
 
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -13,13 +11,6 @@ import util.applitools.ApplitoolsApi;
 
 public class ApplitoolsApiTest extends AbstractTest
 {
-
-    @After
-    public void deleteDevApplitoolsProperiesFile()
-    {
-        new File("config/dev-applitools.properties").delete();
-    }
-
     @Test
     public void testSetMatchLevel() throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException
     {
