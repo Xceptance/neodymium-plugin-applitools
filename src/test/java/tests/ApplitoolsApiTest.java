@@ -5,12 +5,14 @@ import java.io.IOException;
 
 import org.junit.After;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.applitools.eyes.MatchLevel;
 
 import util.applitools.ApplitoolsApi;
 
+@Ignore
 public class ApplitoolsApiTest extends AbstractTest
 {
 

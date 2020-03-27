@@ -2,6 +2,7 @@ package tests;
 
 import java.io.IOException;
 
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -12,6 +13,7 @@ import com.xceptance.neodymium.module.statement.browser.multibrowser.Browser;
 
 import util.applitools.ApplitoolsApi;
 
+@Ignore
 @Browser("Chrome_headless")
 public class ApplitoolsApiExceptionsTest extends AbstractTest
 {
