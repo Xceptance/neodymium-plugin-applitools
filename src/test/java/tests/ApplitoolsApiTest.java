@@ -5,14 +5,12 @@ import java.io.IOException;
 
 import org.junit.After;
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import com.applitools.eyes.MatchLevel;
 
 import util.applitools.ApplitoolsApi;
 
-@Ignore
 public class ApplitoolsApiTest extends AbstractTest
 {
 
@@ -51,9 +49,9 @@ public class ApplitoolsApiTest extends AbstractTest
         final String invalidApiKey = randomInvalidApiKey();
         final String matchLevel = "NONE";
         final String batchName = "Test Batch";
-        writePropertiy(devPropertiesFile, "applitools.apiKey", invalidApiKey);
-        writePropertiy(devPropertiesFile, "applitools.matchLevel", matchLevel);
-        writePropertiy(devPropertiesFile, "applitools.batch", batchName);
+        ApplitoolsApi.getConfiguration().setProperty("applitools.apiKey", invalidApiKey);
+        ApplitoolsApi.getConfiguration().setProperty("applitools.matchLevel", matchLevel);
+        ApplitoolsApi.getConfiguration().setProperty("applitools.batch", batchName);
         ApplitoolsApi.setupGlobal();
 
         Assert.assertEquals(MatchLevel.NONE, getApplitoolsEyes().getMatchLevel());
@@ -65,7 +63,7 @@ public class ApplitoolsApiTest extends AbstractTest
     public void testSetupGlobaWithEmptyOptionalProperties() throws IOException
     {
         final String invalidApiKey = randomInvalidApiKey();
-        writePropertiy(devPropertiesFile, "applitools.apiKey", invalidApiKey);
+        ApplitoolsApi.getConfiguration().setProperty("applitools.apiKey", invalidApiKey);
         ApplitoolsApi.setupGlobal();
     }
 

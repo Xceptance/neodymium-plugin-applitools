@@ -2,7 +2,6 @@ package tests;
 
 import java.io.IOException;
 
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -13,7 +12,6 @@ import com.xceptance.neodymium.module.statement.browser.multibrowser.Browser;
 
 import util.applitools.ApplitoolsApi;
 
-@Ignore
 @Browser("Chrome_headless")
 public class ApplitoolsApiExceptionsTest extends AbstractTest
 {
@@ -34,7 +32,7 @@ public class ApplitoolsApiExceptionsTest extends AbstractTest
     {
         Selenide.open("https://www.xceptance.com/en/");
         final String invalidApiKey = randomInvalidApiKey();
-        writePropertiy(devPropertiesFile, "applitools.apiKey", invalidApiKey);
+        ApplitoolsApi.getConfiguration().setProperty("applitools.apiKey", invalidApiKey);
 
         exceptionRule.expect(EyesException.class);
         exceptionRule.expectMessage("eyes.openBase() failed");
@@ -55,7 +53,7 @@ public class ApplitoolsApiExceptionsTest extends AbstractTest
     {
         Selenide.open("https://www.xceptance.com/en/");
         final String invalidApiKey = randomInvalidApiKey();
-        writePropertiy(devPropertiesFile, "applitools.apiKey", invalidApiKey);
+        ApplitoolsApi.getConfiguration().setProperty("applitools.apiKey", invalidApiKey);
 
         exceptionRule.expect(IllegalStateException.class);
         exceptionRule.expectMessage("Eyes not open");
@@ -68,7 +66,7 @@ public class ApplitoolsApiExceptionsTest extends AbstractTest
     {
         Selenide.open("https://www.xceptance.com/en/");
         final String invalidApiKey = randomInvalidApiKey();
-        writePropertiy(devPropertiesFile, "applitools.apiKey", invalidApiKey);
+        ApplitoolsApi.getConfiguration().setProperty("applitools.apiKey", invalidApiKey);
 
         exceptionRule.expect(IllegalStateException.class);
         exceptionRule.expectMessage("Eyes not open");

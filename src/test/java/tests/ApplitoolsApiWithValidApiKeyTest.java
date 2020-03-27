@@ -2,7 +2,6 @@ package tests;
 
 import java.io.IOException;
 
-import org.junit.After;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -18,19 +17,27 @@ public class ApplitoolsApiWithValidApiKeyTest extends AbstractTest
     // for local test run, please enter your api key here
     private static final String apiKey = System.getenv("API_KEY");
 
-    @After
-    public void endAssertions()
-    {
-        ApplitoolsApi.endAssertions();
-    }
+    private static final String batchName = "Plugin Unit Tests";
 
     @Test
     public void testOpenEyesWithValidApiKey() throws IOException
     {
         Selenide.open("https://www.xceptance.com/en/");
-        writePropertiy(devPropertiesFile, "applitools.apiKey", apiKey);
-        writePropertiy(devPropertiesFile, "applitools.projectName", "Unit-Test");
-        ApplitoolsApi.setupGlobal();
+        ApplitoolsApi.getConfiguration().setProperty("applitools.apiKey", apiKey);
+        ApplitoolsApi.getConfiguration().setProperty("applitools.projectName", "Unit-Test");
+
+        ApplitoolsApi.setupForGroupOfTests(batchName);
+        ApplitoolsApi.openEyes("test");
+    }
+
+    @Test
+    public void testAssertPage() throws IOException
+    {
+        Selenide.open("https://www.xceptance.com/en/");
+        ApplitoolsApi.getConfiguration().setProperty("applitools.apiKey", apiKey);
+        ApplitoolsApi.getConfiguration().setProperty("applitools.projectName", "Unit-Test");
+
+        ApplitoolsApi.setupForGroupOfTests(batchName);
         ApplitoolsApi.openEyes("test");
     }
 }

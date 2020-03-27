@@ -7,6 +7,7 @@ import java.util.function.Supplier;
 
 import org.aeonbits.owner.ConfigFactory;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.events.EventFiringWebDriver;
 
@@ -19,6 +20,15 @@ import com.xceptance.neodymium.util.Neodymium;
 
 public class ApplitoolsApi
 {
+    private static ThreadLocal<ApplitoolsConfiguration> applitoolsConfiguration = ThreadLocal.withInitial(new Supplier<ApplitoolsConfiguration>()
+    {
+        @Override
+        public ApplitoolsConfiguration get()
+        {
+            return ConfigFactory.create(ApplitoolsConfiguration.class);
+        }
+    });
+
     private static ThreadLocal<Eyes> eyes = ThreadLocal.withInitial(new Supplier<Eyes>()
     {
         @Override
@@ -30,9 +40,14 @@ public class ApplitoolsApi
 
     private static HashMap<String, BatchInfo> batches = new HashMap<String, BatchInfo>();
 
+    public static ApplitoolsConfiguration getConfiguration()
+    {
+        return applitoolsConfiguration.get();
+    }
+
     public static void setupGlobal()
     {
-        setupForGroupOfTests(ConfigFactory.create(ApplitoolsConfiguration.class).batch());
+        setupForGroupOfTests(applitoolsConfiguration.get().batch());
     }
 
     public static void setupForGroupOfTests(String batchNameForGroup)
@@ -71,7 +86,7 @@ public class ApplitoolsApi
 
     public static void setupForSingleTest()
     {
-        setMatchLevel(ConfigFactory.create(ApplitoolsConfiguration.class).matchLevel());
+        setMatchLevel(applitoolsConfiguration.get().matchLevel());
 
         eyes.get().setApiKey(getApiKey());
     }
@@ -83,7 +98,7 @@ public class ApplitoolsApi
 
     public static void openEyes(String testName)
     {
-        eyes.get().open(getDriver(), ConfigFactory.create(ApplitoolsConfiguration.class).projectName(), testName);
+        eyes.get().open(getDriver(), applitoolsConfiguration.get().projectName(), testName);
     }
 
     /**
@@ -108,13 +123,14 @@ public class ApplitoolsApi
 
     public static void assertElements(String elementSelector)
     {
+        WebDriver driver = getDriver();
         if (elementSelector.substring(0, 1).equals("//"))
         {
-            getDriver().findElements(By.xpath(elementSelector)).forEach(element -> eyes.get().checkElement(element, elementSelector));
+            driver.findElements(By.xpath(elementSelector)).forEach(element -> eyes.get().checkElement(element, elementSelector));
         }
         else
         {
-            getDriver().findElements(By.cssSelector(elementSelector)).forEach(element -> eyes.get().checkElement(element, elementSelector));
+            driver.findElements(By.cssSelector(elementSelector)).forEach(element -> eyes.get().checkElement(element, elementSelector));
         }
     }
 
@@ -139,7 +155,7 @@ public class ApplitoolsApi
 
     public static void endAssertions()
     {
-        TestResults allTestResults = eyes.get().close(Boolean.parseBoolean(ConfigFactory.create(ApplitoolsConfiguration.class).throwException()));
+        TestResults allTestResults = eyes.get().close(Boolean.parseBoolean(applitoolsConfiguration.get().throwException()));
         if (allTestResults == null)
         {
             throw new RuntimeException("something went wrong, maybe you have not called Applitools.openEyes() before calling this method");
@@ -151,7 +167,7 @@ public class ApplitoolsApi
 
     private static String getApiKey()
     {
-        String apiKey = ConfigFactory.create(ApplitoolsConfiguration.class).apiKey();
+        String apiKey = applitoolsConfiguration.get().apiKey();
         if (isNullOrEmpty(apiKey))
         {
             throw new RuntimeException("No API Key found; Please set applitools.apiKey property in applitools.properties");

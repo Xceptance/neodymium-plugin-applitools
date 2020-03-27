@@ -29,4 +29,6 @@ public interface ApplitoolsConfiguration extends Mutable
 
     @Key("applitools.batch")
     String batch();
+
+    String setProperty(String key, String value);
 }
