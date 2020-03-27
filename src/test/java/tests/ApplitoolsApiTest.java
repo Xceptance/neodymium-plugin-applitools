@@ -71,11 +71,10 @@ public class ApplitoolsApiTest extends AbstractTest
 
     @Browser("Chrome_headless")
     @Test
-    public void testOpenEyesWithInvalidApiKey() throws IOException
+    public void testOpenEyesWithValidApiKey() throws IOException
     {
         Selenide.open("https://www.xceptance.com/en/");
         writePropertiy(devPropertiesFilename, "applitools.apiKey", System.getenv("API_KEY"));
-        System.out.println(System.getenv("API_KEY"));
         ApplitoolsApi.setupGlobal();
         ApplitoolsApi.openEyes("test");
     }
