@@ -29,13 +29,13 @@ public abstract class AbstractTest
     protected final String devPropertiesFilename = "config/dev-applitools.properties";
 
     @After
-    public void cleanup()
+    public synchronized void cleanup()
     {
         filesToDelete.forEach(file -> new File(file).delete());
         new File(devPropertiesFilename).delete();
     }
 
-    protected void writePropertiy(String filename, String name, String value) throws IOException
+    protected synchronized void writePropertiy(String filename, String name, String value) throws IOException
     {
         if (name.contains("batch"))
         {
@@ -51,7 +51,7 @@ public abstract class AbstractTest
         prop.store(output, null);
     }
 
-    protected String readPropertiy(String filename, String name) throws IOException
+    protected synchronized String readPropertiy(String filename, String name) throws IOException
     {
         if (name.contains("batch"))
         {
@@ -65,7 +65,7 @@ public abstract class AbstractTest
         return prop.getProperty(name);
     }
 
-    protected Eyes getApplitoolsEyes() throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException
+    protected synchronized Eyes getApplitoolsEyes() throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException
     {
         Field privateStringField = ApplitoolsApi.class.getDeclaredField("eyes");
 
@@ -76,7 +76,7 @@ public abstract class AbstractTest
         return fieldValue.get();
     }
 
-    protected String randomInvalidApiKey()
+    protected synchronized String randomInvalidApiKey()
     {
         String randomInvalidApiKey = UUID.randomUUID().toString().replaceAll("-", "");
         Random random = new Random();

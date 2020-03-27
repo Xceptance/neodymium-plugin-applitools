@@ -8,8 +8,6 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.applitools.eyes.MatchLevel;
-import com.codeborne.selenide.Selenide;
-import com.xceptance.neodymium.module.statement.browser.multibrowser.Browser;
 
 import util.applitools.ApplitoolsApi;
 
@@ -69,13 +67,4 @@ public class ApplitoolsApiTest extends AbstractTest
         ApplitoolsApi.setupGlobal();
     }
 
-    @Browser("Chrome_headless")
-    @Test
-    public void testOpenEyesWithValidApiKey() throws IOException
-    {
-        Selenide.open("https://www.xceptance.com/en/");
-        writePropertiy(devPropertiesFilename, "applitools.apiKey", System.getenv("API_KEY"));
-        ApplitoolsApi.setupGlobal();
-        ApplitoolsApi.openEyes("test");
-    }
 }
