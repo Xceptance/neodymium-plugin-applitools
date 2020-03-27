@@ -10,6 +10,7 @@ import com.xceptance.neodymium.module.statement.browser.multibrowser.Browser;
 
 import util.applitools.ApplitoolsApi;
 
+@Browser("Chrome_headless")
 public class ApplitoolsApiWithValidApiKeyTest extends AbstractTest
 { // for local test run, please enter your api key here
     private static final String apiKey = System.getenv("API_KEY");
@@ -20,7 +21,6 @@ public class ApplitoolsApiWithValidApiKeyTest extends AbstractTest
         ApplitoolsApi.endAssertions();
     }
 
-    @Browser("Chrome_1024x768")
     @Test
     public void testOpenEyesWithValidApiKey() throws IOException
     {
