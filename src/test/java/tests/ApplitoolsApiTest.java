@@ -8,6 +8,8 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.applitools.eyes.MatchLevel;
+import com.codeborne.selenide.Selenide;
+import com.xceptance.neodymium.module.statement.browser.multibrowser.Browser;
 
 import util.applitools.ApplitoolsApi;
 
@@ -60,12 +62,21 @@ public class ApplitoolsApiTest extends AbstractTest
     }
 
     @Test
-    public void testSetupGlobaWithEmptyOptionalProperties()
-        throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException, IOException
+    public void testSetupGlobaWithEmptyOptionalProperties() throws IOException
     {
         final String invalidApiKey = randomInvalidApiKey();
         writePropertiy("config/dev-applitools.properties", "applitools.apiKey", invalidApiKey);
         ApplitoolsApi.setupGlobal();
     }
 
+    @Browser("Chrome_headless")
+    @Test
+    public void testOpenEyesWithInvalidApiKey() throws IOException
+    {
+        Selenide.open("https://www.xceptance.com/en/");
+        writePropertiy(devPropertiesFilename, "applitools.apiKey", System.getenv("API_KEY"));
+        System.out.println(System.getenv("API_KEY"));
+        ApplitoolsApi.setupGlobal();
+        ApplitoolsApi.openEyes("test");
+    }
 }
