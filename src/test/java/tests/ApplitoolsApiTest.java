@@ -49,9 +49,9 @@ public class ApplitoolsApiTest extends AbstractTest
         final String invalidApiKey = randomInvalidApiKey();
         final String matchLevel = "NONE";
         final String batchName = "Test Batch";
-        writePropertiy("config/dev-applitools.properties", "applitools.apiKey", invalidApiKey);
-        writePropertiy("config/dev-applitools.properties", "applitools.matchLevel", matchLevel);
-        writePropertiy("config/dev-applitools.properties", "applitools.batch", batchName);
+        writePropertiy(devPropertiesFile, "applitools.apiKey", invalidApiKey);
+        writePropertiy(devPropertiesFile, "applitools.matchLevel", matchLevel);
+        writePropertiy(devPropertiesFile, "applitools.batch", batchName);
         ApplitoolsApi.setupGlobal();
 
         Assert.assertEquals(MatchLevel.NONE, getApplitoolsEyes().getMatchLevel());
@@ -63,7 +63,7 @@ public class ApplitoolsApiTest extends AbstractTest
     public void testSetupGlobaWithEmptyOptionalProperties() throws IOException
     {
         final String invalidApiKey = randomInvalidApiKey();
-        writePropertiy("config/dev-applitools.properties", "applitools.apiKey", invalidApiKey);
+        writePropertiy(devPropertiesFile, "applitools.apiKey", invalidApiKey);
         ApplitoolsApi.setupGlobal();
     }
 

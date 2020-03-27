@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.Random;
 import java.util.UUID;
+import java.util.concurrent.locks.ReentrantLock;
 
 import org.junit.After;
 import org.junit.runner.RunWith;
@@ -26,22 +27,25 @@ public abstract class AbstractTest
 {
     protected List<String> filesToDelete = new ArrayList<String>();
 
-    protected final String devPropertiesFilename = "config/dev-applitools.properties";
+    protected final File devPropertiesFile = new File("config/dev-applitools.properties");
+
+    private static ReentrantLock lock = new ReentrantLock();
 
     @After
     public synchronized void cleanup()
     {
         filesToDelete.forEach(file -> new File(file).delete());
-        new File(devPropertiesFilename).delete();
+        devPropertiesFile.delete();
     }
 
-    protected synchronized void writePropertiy(String filename, String name, String value) throws IOException
+    protected synchronized void writePropertiy(File file, String name, String value) throws IOException
     {
+        lock.lock();
         if (name.contains("batch"))
         {
-            filesToDelete.add(filename);
+            filesToDelete.add(file.getName());
         }
-        OutputStream output = new FileOutputStream(filename, true);
+        OutputStream output = new FileOutputStream(file, true);
 
         Properties prop = new Properties();
         // set the properties value
@@ -51,17 +55,18 @@ public abstract class AbstractTest
         prop.store(output, null);
     }
 
-    protected synchronized String readPropertiy(String filename, String name) throws IOException
+    protected synchronized String readPropertiy(File file, String name) throws IOException
     {
         if (name.contains("batch"))
         {
-            filesToDelete.add(filename);
+            filesToDelete.add(file.getName());
         }
-        InputStream input = new FileInputStream(filename);
+        InputStream input = new FileInputStream(file);
         Properties prop = new Properties();
 
         // load a properties file
         prop.load(input);
+        lock.unlock();
         return prop.getProperty(name);
     }
 

@@ -32,7 +32,7 @@ public class ApplitoolsConfigurationTest extends AbstractTest
     public void testProjectName() throws IOException
     {
         final String projectName = "Test-Project";
-        writePropertiy(filename, "applitools.projectName", projectName);
+        writePropertiy(new File(filename), "applitools.projectName", projectName);
         Assert.assertEquals(projectName, ConfigFactory.create(ApplitoolsConfiguration.class).projectName());
     }
 
@@ -40,7 +40,7 @@ public class ApplitoolsConfigurationTest extends AbstractTest
     public void testMatchLevel() throws IOException
     {
         final String matchLevel = "NONE";
-        writePropertiy(filename, "applitools.matchLevel", matchLevel);
+        writePropertiy(new File(filename), "applitools.matchLevel", matchLevel);
         Assert.assertEquals(matchLevel, ConfigFactory.create(ApplitoolsConfiguration.class).matchLevel());
     }
 
@@ -48,7 +48,7 @@ public class ApplitoolsConfigurationTest extends AbstractTest
     public void testApiKey() throws IOException
     {
         final String apiKey = UUID.randomUUID().toString();
-        writePropertiy(filename, "applitools.apiKey", apiKey);
+        writePropertiy(new File(filename), "applitools.apiKey", apiKey);
         Assert.assertEquals(apiKey, ConfigFactory.create(ApplitoolsConfiguration.class).apiKey());
     }
 
@@ -56,7 +56,7 @@ public class ApplitoolsConfigurationTest extends AbstractTest
     public void testBatch() throws IOException
     {
         final String batchName = "Test-Batch";
-        writePropertiy(filename, "applitools.batch", batchName);
+        writePropertiy(new File(filename), "applitools.batch", batchName);
         Assert.assertEquals(batchName, ConfigFactory.create(ApplitoolsConfiguration.class).batch());
     }
 
@@ -64,7 +64,7 @@ public class ApplitoolsConfigurationTest extends AbstractTest
     public void testThrowException() throws IOException
     {
         final String throwException = "true";
-        writePropertiy(filename, "applitools.throwException", throwException);
+        writePropertiy(new File(filename), "applitools.throwException", throwException);
         Assert.assertEquals(throwException, ConfigFactory.create(ApplitoolsConfiguration.class).throwException());
     }
 

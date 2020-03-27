@@ -26,8 +26,8 @@ public class ApplitoolsApiWithValidApiKeyTest extends AbstractTest
     public void testOpenEyesWithValidApiKey() throws IOException
     {
         Selenide.open("https://www.xceptance.com/en/");
-        writePropertiy(devPropertiesFilename, "applitools.apiKey", apiKey);
-        writePropertiy(devPropertiesFilename, "applitools.projectName", "Unit-Test");
+        writePropertiy(devPropertiesFile, "applitools.apiKey", apiKey);
+        writePropertiy(devPropertiesFile, "applitools.projectName", "Unit-Test");
         ApplitoolsApi.setupGlobal();
         ApplitoolsApi.openEyes("test");
     }

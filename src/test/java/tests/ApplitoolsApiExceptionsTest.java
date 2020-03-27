@@ -1,6 +1,5 @@
 package tests;
 
-import java.io.File;
 import java.io.IOException;
 
 import org.junit.Rule;
@@ -23,7 +22,6 @@ public class ApplitoolsApiExceptionsTest extends AbstractTest
     @Test
     public void testSetupGlobalWithoutApiKey() throws IOException
     {
-        new File(devPropertiesFilename).createNewFile();
         exceptionRule.expect(RuntimeException.class);
         exceptionRule.expectMessage("No API Key found; Please set applitools.apiKey property in applitools.properties");
         ApplitoolsApi.setupGlobal();
@@ -34,7 +32,7 @@ public class ApplitoolsApiExceptionsTest extends AbstractTest
     {
         Selenide.open("https://www.xceptance.com/en/");
         final String invalidApiKey = randomInvalidApiKey();
-        writePropertiy(devPropertiesFilename, "applitools.apiKey", invalidApiKey);
+        writePropertiy(devPropertiesFile, "applitools.apiKey", invalidApiKey);
 
         exceptionRule.expect(EyesException.class);
         exceptionRule.expectMessage("eyes.openBase() failed");
@@ -55,7 +53,7 @@ public class ApplitoolsApiExceptionsTest extends AbstractTest
     {
         Selenide.open("https://www.xceptance.com/en/");
         final String invalidApiKey = randomInvalidApiKey();
-        writePropertiy(devPropertiesFilename, "applitools.apiKey", invalidApiKey);
+        writePropertiy(devPropertiesFile, "applitools.apiKey", invalidApiKey);
 
         exceptionRule.expect(IllegalStateException.class);
         exceptionRule.expectMessage("Eyes not open");
@@ -68,7 +66,7 @@ public class ApplitoolsApiExceptionsTest extends AbstractTest
     {
         Selenide.open("https://www.xceptance.com/en/");
         final String invalidApiKey = randomInvalidApiKey();
-        writePropertiy(devPropertiesFilename, "applitools.apiKey", invalidApiKey);
+        writePropertiy(devPropertiesFile, "applitools.apiKey", invalidApiKey);
 
         exceptionRule.expect(IllegalStateException.class);
         exceptionRule.expectMessage("Eyes not open");

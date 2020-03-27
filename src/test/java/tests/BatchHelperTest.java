@@ -25,7 +25,7 @@ public class BatchHelperTest extends AbstractTest
     {
         final String batchName = "Test Batch";
         filename = "target/Test Batch.properties";
-        writePropertiy(filename, "batch." + batchName, batchName + new Date().toString());
+        writePropertiy(new File(filename), "batch." + batchName, batchName + new Date().toString());
         String batchId = BatchHelper.getBatch(batchName);
         Assert.assertNotNull(batchId);
         Assert.assertFalse(batchId.equals(""));
@@ -37,7 +37,7 @@ public class BatchHelperTest extends AbstractTest
         final String batchName = "Test Batch";
         filename = "target/Test Batch.properties";
         BatchHelper.addBatch(batchName);
-        String batchId = readPropertiy(filename, "batch." + batchName);
+        String batchId = readPropertiy(new File(filename), "batch." + batchName);
         Assert.assertNotNull(batchId);
         Assert.assertFalse(batchId.equals(""));
     }
