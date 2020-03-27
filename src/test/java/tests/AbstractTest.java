@@ -26,13 +26,10 @@ public abstract class AbstractTest
 {
     protected List<File> filesToDelete = new ArrayList<File>();
 
-    protected final File devPropertiesFile = new File("config/dev-applitools.properties");
-
     @After
     public synchronized void cleanup()
     {
         filesToDelete.forEach(file -> file.delete());
-        devPropertiesFile.delete();
     }
 
     protected synchronized void writePropertiy(File file, String name, String value) throws IOException
