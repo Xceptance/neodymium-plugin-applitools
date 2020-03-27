@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Properties;
 import java.util.Random;
 import java.util.UUID;
-import java.util.concurrent.locks.ReentrantLock;
 
 import org.junit.After;
 import org.junit.runner.RunWith;
@@ -25,25 +24,22 @@ import util.applitools.ApplitoolsApi;
 @RunWith(NeodymiumRunner.class)
 public abstract class AbstractTest
 {
-    protected List<String> filesToDelete = new ArrayList<String>();
+    protected List<File> filesToDelete = new ArrayList<File>();
 
     protected final File devPropertiesFile = new File("config/dev-applitools.properties");
-
-    private static ReentrantLock lock = new ReentrantLock();
 
     @After
     public synchronized void cleanup()
     {
-        filesToDelete.forEach(file -> new File(file).delete());
+        filesToDelete.forEach(file -> file.delete());
         devPropertiesFile.delete();
     }
 
     protected synchronized void writePropertiy(File file, String name, String value) throws IOException
     {
-        lock.lock();
         if (name.contains("batch"))
         {
-            filesToDelete.add(file.getName());
+            filesToDelete.add(file);
         }
         OutputStream output = new FileOutputStream(file, true);
 
@@ -59,14 +55,13 @@ public abstract class AbstractTest
     {
         if (name.contains("batch"))
         {
-            filesToDelete.add(file.getName());
+            filesToDelete.add(file);
         }
         InputStream input = new FileInputStream(file);
         Properties prop = new Properties();
 
         // load a properties file
         prop.load(input);
-        lock.unlock();
         return prop.getProperty(name);
     }
 
