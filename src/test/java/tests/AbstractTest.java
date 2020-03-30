@@ -1,15 +1,9 @@
 package tests;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 import java.util.Random;
 import java.util.UUID;
 
@@ -30,36 +24,6 @@ public abstract class AbstractTest
     public synchronized void cleanup()
     {
         filesToDelete.forEach(file -> file.delete());
-    }
-
-    protected synchronized void writePropertiy(File file, String name, String value) throws IOException
-    {
-        if (name.contains("batch"))
-        {
-            filesToDelete.add(file);
-        }
-        OutputStream output = new FileOutputStream(file, true);
-
-        Properties prop = new Properties();
-        // set the properties value
-        prop.setProperty(name, value);
-
-        // save properties to project root folder
-        prop.store(output, null);
-    }
-
-    protected synchronized String readPropertiy(File file, String name) throws IOException
-    {
-        if (name.contains("batch"))
-        {
-            filesToDelete.add(file);
-        }
-        InputStream input = new FileInputStream(file);
-        Properties prop = new Properties();
-
-        // load a properties file
-        prop.load(input);
-        return prop.getProperty(name);
     }
 
     protected synchronized Eyes getApplitoolsEyes() throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException
