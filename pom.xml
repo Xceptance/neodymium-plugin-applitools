@@ -22,7 +22,16 @@
 			<distribution>repo</distribution>
 		</license>
 	</licenses>
-
+	
+	<distributionManagement>
+		<repository>
+			<id>github</id>
+			<name>GitHub Neodymium Applitools Plugin</name>
+			<url>https://maven.pkg.github.com/Xceptance/neodymium-plugin-applitools
+			</url>
+		</repository>
+	</distributionManagement>
+	
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
