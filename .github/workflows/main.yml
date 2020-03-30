@@ -21,9 +21,9 @@ jobs:
         API_KEY: ${{ secrets.API_KEY }}
         API_USERNAME: ${{ secrets.API_USERNAME }}
         API_PASSWORD: ${{ secrets.API_PASSWORD }}
-    - run: mvn -B clean compile package -P release-neodymium-applitools-plugin
-    - run: mvn -B clean compile package -P run-tests-in-parallel-forks
-    - run: mvn -B clean compile package -Dtest=OneBatchOnParallelTest
-    - run: mvn -B clean compile package -P run-tests-in-parallel-threads
-    - run: mvn -B clean compile package -Dtest=OneBatchOnParallelTest
-
+        run: |
+          mvn -B clean compile package -P release-neodymium-applitools-plugin
+          mvn -B clean compile package -P run-tests-in-parallel-forks
+          mvn -B clean compile package -Dtest=OneBatchOnParallelTest
+          mvn -B clean compile package -P run-tests-in-parallel-threads
+          mvn -B clean compile package -Dtest=OneBatchOnParallelTest
