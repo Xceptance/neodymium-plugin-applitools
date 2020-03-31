@@ -4,6 +4,6 @@ public class NewFeature
 {
     public static void doSomething()
     {
-        System.out.println("something is done");
+        System.out.println("something is done 1");
     }
 }
