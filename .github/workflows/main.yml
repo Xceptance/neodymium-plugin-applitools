@@ -20,5 +20,5 @@ jobs:
       run: cp .github/workflows/settings.xml ~/.m2
     - name: Deploy
       env:
-        GITHUB_TOKEN:  ${{ secrets.GITHUB_TOKEN }}
+        ACCESS_TOKEN:  ${{ secrets.ACCESS_TOKEN }}
       run: mvn deploy
