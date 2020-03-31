@@ -19,4 +19,6 @@ jobs:
     - name: Customize Maven repo settings
       run: cp .github/workflows/settings.xml ~/.m2
     - name: Deploy
+      env:
+        GITHUB_TOKEN:  ${{ secrets.GITHUB_TOKEN }}
       run: mvn -B deploy
