@@ -6,6 +6,8 @@ import java.util.UUID;
 import org.junit.Assert;
 import org.junit.Test;
 
+import com.applitools.eyes.MatchLevel;
+
 import util.applitools.ApplitoolsApi;
 
 public class ApplitoolsConfigurationTest extends AbstractTest
@@ -23,7 +25,7 @@ public class ApplitoolsConfigurationTest extends AbstractTest
     {
         final String matchLevel = "NONE";
         ApplitoolsApi.getConfiguration().setProperty("applitools.matchLevel", matchLevel);
-        Assert.assertEquals(matchLevel, ApplitoolsApi.getConfiguration().matchLevel());
+        Assert.assertEquals(MatchLevel.valueOf(matchLevel), ApplitoolsApi.getConfiguration().matchLevel());
     }
 
     @Test
@@ -50,7 +52,7 @@ public class ApplitoolsConfigurationTest extends AbstractTest
         final String throwException = "true";
         ApplitoolsApi.getConfiguration().setProperty("applitools.throwException", throwException);
 
-        Assert.assertEquals(throwException, ApplitoolsApi.getConfiguration().throwException());
+        Assert.assertEquals(Boolean.parseBoolean(throwException), ApplitoolsApi.getConfiguration().throwException());
     }
 
 }

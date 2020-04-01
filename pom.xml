@@ -91,7 +91,7 @@
 							<properties>
 								<property>
 									<name>listener</name>
-									<value>util.applitools.TestListener,io.qameta.allure.junit4.AllureJunit4
+									<value>io.qameta.allure.junit4.AllureJunit4
 									</value>
 								</property>
 							</properties>
@@ -117,7 +117,7 @@
 							<properties>
 								<property>
 									<name>listener</name>
-									<value>util.applitools.TestListener,io.qameta.allure.junit4.AllureJunit4
+									<value>io.qameta.allure.junit4.AllureJunit4
 									</value>
 								</property>
 							</properties>
@@ -146,7 +146,7 @@
 							<properties>
 								<property>
 									<name>listener</name>
-									<value>util.applitools.TestListener,io.qameta.allure.junit4.AllureJunit4
+									<value>io.qameta.allure.junit4.AllureJunit4
 									</value>
 								</property>
 							</properties>
@@ -174,7 +174,7 @@
 							<properties>
 								<property>
 									<name>listener</name>
-									<value>util.applitools.TestListener,io.qameta.allure.junit4.AllureJunit4
+									<value>io.qameta.allure.junit4.AllureJunit4
 									</value>
 								</property>
 							</properties>
