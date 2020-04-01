@@ -6,6 +6,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.applitools.eyes.MatchLevel;
+import com.xceptance.neodymium.util.DataUtils;
 
 import util.applitools.ApplitoolsApi;
 
@@ -15,7 +16,7 @@ public class ApplitoolsApiTest extends AbstractTest
     public void testSetMatchLevel() throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException
     {
         ApplitoolsApi.setMatchLevel("NONE");
-        Assert.assertEquals(getApplitoolsEyes().getMatchLevel(), MatchLevel.NONE);
+        Assert.assertEquals(ApplitoolsApi.getEyes().getMatchLevel(), MatchLevel.NONE);
     }
 
     @Test
@@ -23,7 +24,7 @@ public class ApplitoolsApiTest extends AbstractTest
     {
         final boolean hideCaret = false;
         ApplitoolsApi.setHideCaret(hideCaret);
-        Assert.assertEquals(getApplitoolsEyes().getHideCaret(), hideCaret);
+        Assert.assertEquals(ApplitoolsApi.getEyes().getHideCaret(), hideCaret);
     }
 
     @Test
@@ -31,13 +32,13 @@ public class ApplitoolsApiTest extends AbstractTest
     {
         final int waitMilisec = 3000;
         ApplitoolsApi.setWaitBeforeScreenshot(waitMilisec);
-        Assert.assertEquals(getApplitoolsEyes().getWaitBeforeScreenshots(), waitMilisec);
+        Assert.assertEquals(ApplitoolsApi.getEyes().getWaitBeforeScreenshots(), waitMilisec);
     }
 
     @Test
     public void testSetupGlobalWithInvalidApiKey() throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException, IOException
     {
-        final String invalidApiKey = randomInvalidApiKey();
+        final String invalidApiKey = DataUtils.randomPassword();
         final String matchLevel = "NONE";
         final String batchName = "Test Batch";
         ApplitoolsApi.getConfiguration().setProperty("applitools.apiKey", invalidApiKey);
@@ -45,15 +46,15 @@ public class ApplitoolsApiTest extends AbstractTest
         ApplitoolsApi.getConfiguration().setProperty("applitools.batch", batchName);
         ApplitoolsApi.setupGlobal();
 
-        Assert.assertEquals(MatchLevel.NONE, getApplitoolsEyes().getMatchLevel());
-        Assert.assertEquals(batchName, getApplitoolsEyes().getBatch().getName());
-        Assert.assertEquals(invalidApiKey, getApplitoolsEyes().getApiKey());
+        Assert.assertEquals(MatchLevel.NONE, ApplitoolsApi.getEyes().getMatchLevel());
+        Assert.assertEquals(batchName, ApplitoolsApi.getEyes().getBatch().getName());
+        Assert.assertEquals(invalidApiKey, ApplitoolsApi.getEyes().getApiKey());
     }
 
     @Test
     public void testSetupGlobaWithEmptyOptionalProperties() throws IOException
     {
-        final String invalidApiKey = randomInvalidApiKey();
+        final String invalidApiKey = DataUtils.randomPassword();
         ApplitoolsApi.getConfiguration().setProperty("applitools.apiKey", invalidApiKey);
         ApplitoolsApi.setupGlobal();
     }

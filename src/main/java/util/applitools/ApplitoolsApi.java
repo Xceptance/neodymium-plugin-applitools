@@ -38,67 +38,58 @@ public class ApplitoolsApi
         }
     });
 
-    private static HashMap<String, BatchInfo> batches = new HashMap<String, BatchInfo>();
+    protected static HashMap<String, BatchInfo> batches = new HashMap<String, BatchInfo>();
 
     public static ApplitoolsConfiguration getConfiguration()
     {
         return applitoolsConfiguration.get();
     }
 
-    public static void setupGlobal()
+    public static Eyes getEyes()
     {
-        setupForGroupOfTests(applitoolsConfiguration.get().batch());
+        return eyes.get();
     }
 
-    public static void setupForGroupOfTests(String batchNameForGroup)
+    public static void setupGlobal()
+    {
+        setupGroupingOfTestsByName(applitoolsConfiguration.get().batch());
+    }
+
+    public synchronized static void setupGroupingOfTestsByName(String batchName)
     {
         BatchInfo batch;
-        if (batches.containsKey(batchNameForGroup))
+        if (batches.containsKey(batchName))
         {
-            batch = batches.get(batchNameForGroup);
+            batch = batches.get(batchName);
         }
         else
         {
-            batch = new BatchInfo(batchNameForGroup);
-            String batchId = BatchHelper.getBatch(batchNameForGroup);
-            if (batchId == null)
-            {
-                String newBatchId = BatchHelper.addBatch(batchNameForGroup);
-                if (newBatchId != null)
-                {
-                    batch.setId(newBatchId);
-                }
-            }
-            else
-            {
-                batch.setId(batchId);
-            }
-            batches.put(batchNameForGroup, batch);
+            batch = new BatchInfo(batchName);
+            batches.put(batchName, batch);
         }
-        eyes.get().setBatch(batch);
-        setupForSingleTest();
+        getEyes().setBatch(batch);
+        setupBasic();
     }
 
-    public static void addPropertiy(String name, String value)
+    public static void setupBasic()
     {
-        eyes.get().addProperty(name, value);
-    }
-
-    public static void setupForSingleTest()
-    {
-        setMatchLevel(applitoolsConfiguration.get().matchLevel());
-
-        eyes.get().setApiKey(getApiKey());
+        getEyes().setMatchLevel(applitoolsConfiguration.get().matchLevel());
+        getEyes().setApiKey(getApplitoolsApiKey());
     }
 
     public static void setMatchLevel(String matchLevel)
     {
-        eyes.get().setMatchLevel(parseMatchLevel(matchLevel));
+        getEyes().setMatchLevel(MatchLevel.valueOf(matchLevel));
+    }
+
+    public static void addProperty(String name, String value)
+    {
+        getEyes().addProperty(name, value);
     }
 
     public static void openEyes(String testName)
     {
-        eyes.get().open(getDriver(), applitoolsConfiguration.get().projectName(), testName);
+        getEyes().open(getRemoteWebDriver(), applitoolsConfiguration.get().projectName(), testName);
     }
 
     /**
@@ -108,95 +99,62 @@ public class ApplitoolsApi
      */
     public static void setHideCaret(boolean hideCaret)
     {
-        eyes.get().setHideCaret(hideCaret);
+        getEyes().setHideCaret(hideCaret);
     }
 
-    public static void assertPage(String pageName)
+    public static void assertPage(String pageDescription)
     {
-        eyes.get().checkWindow(pageName);
-    }
-
-    public static void assertElement(String elementSelector)
-    {
-        assertElement(elementSelector, elementSelector);
+        getEyes().checkWindow(pageDescription);
     }
 
     public static void assertElements(String elementSelector)
     {
-        WebDriver driver = getDriver();
+        WebDriver driver = getRemoteWebDriver();
         if (elementSelector.substring(0, 1).equals("//"))
         {
-            driver.findElements(By.xpath(elementSelector)).forEach(element -> eyes.get().checkElement(element, elementSelector));
+            driver.findElements(By.xpath(elementSelector)).forEach(element -> getEyes().checkElement(element, elementSelector));
         }
         else
         {
-            driver.findElements(By.cssSelector(elementSelector)).forEach(element -> eyes.get().checkElement(element, elementSelector));
+            driver.findElements(By.cssSelector(elementSelector)).forEach(element -> getEyes().checkElement(element, elementSelector));
         }
     }
 
     public static void setWaitBeforeScreenshot(int waitBeforeScreenshots)
     {
-        eyes.get().setWaitBeforeScreenshots(waitBeforeScreenshots);
+        getEyes().setWaitBeforeScreenshots(waitBeforeScreenshots);
     }
 
-    public static void assertElement(String elementSelector, String tag)
+    public static void assertElement(By condition, String imageDescription)
     {
-        if (elementSelector.substring(0, 1).equals("//"))
-        {
-            eyes.get().checkElement(By.xpath(elementSelector), tag);
-
-        }
-        else
-        {
-            eyes.get().checkElement(By.cssSelector(elementSelector), tag);
-
-        }
+        getEyes().checkElement(condition, imageDescription);
     }
 
     public static void endAssertions()
     {
-        TestResults allTestResults = eyes.get().close(Boolean.parseBoolean(applitoolsConfiguration.get().throwException()));
+        TestResults allTestResults = getEyes().close(applitoolsConfiguration.get().throwException());
         if (allTestResults == null)
         {
             throw new RuntimeException("something went wrong, maybe you have not called Applitools.openEyes() before calling this method");
         }
         AllureAddons.addToReport("number of missmatches", allTestResults.getMismatches());
         AllureAddons.addToReport("link to results of visual assetions in this test", allTestResults.getUrl());
-        eyes.get().abortIfNotClosed();
+        getEyes().abortIfNotClosed();
     }
 
-    private static String getApiKey()
+    private static String getApplitoolsApiKey()
     {
-        String apiKey = applitoolsConfiguration.get().apiKey();
-        if (isNullOrEmpty(apiKey))
+        String applitoolsApiKey = applitoolsConfiguration.get().applitoolsApiKey();
+        if (isNullOrEmpty(applitoolsApiKey))
         {
             throw new RuntimeException("No API Key found; Please set applitools.apiKey property in applitools.properties");
         }
-        return apiKey;
+        return applitoolsApiKey;
     }
 
-    private static RemoteWebDriver getDriver()
+    private static RemoteWebDriver getRemoteWebDriver()
     {
         EventFiringWebDriver eventFiringWebDriver = (EventFiringWebDriver) Neodymium.getDriver();
         return (RemoteWebDriver) eventFiringWebDriver.getWrappedDriver();
-    }
-
-    private static MatchLevel parseMatchLevel(String matchLevel)
-    {
-        switch (matchLevel)
-        {
-            case "LAYOUT2":
-                return MatchLevel.LAYOUT2;
-            case "LAYOUT":
-                return MatchLevel.LAYOUT;
-            case "CONTENT":
-                return MatchLevel.CONTENT;
-            case "EXACT":
-                return MatchLevel.EXACT;
-            case "NONE":
-                return MatchLevel.NONE;
-            default:
-                return MatchLevel.STRICT;
-        }
     }
 }

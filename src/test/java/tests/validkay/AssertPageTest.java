@@ -17,7 +17,7 @@ public class AssertPageTest extends AbstractValidKeyTest
     public void testAssertPage() throws IOException
     {
         final String testName = "assert page test";
-        ApplitoolsApi.setupForGroupOfTests(batchName);
+        ApplitoolsApi.setupGroupingOfTestsByName(batchName);
         ApplitoolsApi.openEyes(testName);
         ApplitoolsApi.assertPage("Homepage");
         ApplitoolsApi.endAssertions();

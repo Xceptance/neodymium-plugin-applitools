@@ -5,30 +5,30 @@ import org.aeonbits.owner.Config.LoadType;
 import org.aeonbits.owner.Config.Sources;
 import org.aeonbits.owner.Mutable;
 
+import com.applitools.eyes.MatchLevel;
+
 @LoadPolicy(LoadType.MERGE)
 @Sources(
 {
-  "file:config/dev-applitools.properties", "file:config/applitools.properties"
+  "${neodymium.temporaryConfigFile}", "file:config/dev-applitools.properties", "file:config/applitools.properties"
 })
 
 public interface ApplitoolsConfiguration extends Mutable
 {
-
     @Key("applitools.apiKey")
-    String apiKey();
+    String applitoolsApiKey();
 
     @Key("applitools.projectName")
     String projectName();
 
     @Key("applitools.matchLevel")
     @DefaultValue("STRICT")
-    String matchLevel();
+    MatchLevel matchLevel();
 
     @Key("applitools.throwException")
-    String throwException();
+    @DefaultValue("false")
+    boolean throwException();
 
     @Key("applitools.batch")
     String batch();
-
-    String setProperty(String key, String value);
 }

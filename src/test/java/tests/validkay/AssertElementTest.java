@@ -3,6 +3,7 @@ package tests.validkay;
 import java.io.IOException;
 
 import org.junit.Test;
+import org.openqa.selenium.By;
 
 import com.codeborne.selenide.Selenide;
 
@@ -16,9 +17,9 @@ public class AssertElementTest extends AbstractValidKeyTest
     public void testAssertElement() throws IOException
     {
         final String testName = "assert element test";
-        ApplitoolsApi.setupForGroupOfTests(batchName);
+        ApplitoolsApi.setupGroupingOfTestsByName(batchName);
         ApplitoolsApi.openEyes(testName);
-        ApplitoolsApi.assertElement("#navigation");
+        ApplitoolsApi.assertElement(By.cssSelector("#navigation"), "top navigation menu");
         ApplitoolsApi.endAssertions();
         Selenide.open("https://applitools.com/users/login");
         ApplitoolsTestManagerPage testManger = new ApplitoolsLoginPage().login(username, password);

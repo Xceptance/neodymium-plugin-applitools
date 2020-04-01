@@ -11,7 +11,7 @@ public class OpenEyesTest extends AbstractValidKeyTest
     @Test
     public void testOpenEyesWithValidApiKey() throws IOException
     {
-        ApplitoolsApi.setupForGroupOfTests(batchName);
+        ApplitoolsApi.setupGroupingOfTestsByName(batchName);
         ApplitoolsApi.openEyes("open eyes test");
     }
 }
