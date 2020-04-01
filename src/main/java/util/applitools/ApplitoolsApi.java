@@ -116,14 +116,9 @@ public class ApplitoolsApi
         getEyes().setHideCaret(hideCaret);
     }
 
-    public static void assertPage(String pageName)
+    public static void assertPage(String pageDescription)
     {
-        getEyes().checkWindow(pageName);
-    }
-
-    public static void assertElement(String elementSelector)
-    {
-        assertElement(elementSelector, elementSelector);
+        getEyes().checkWindow(pageDescription);
     }
 
     public static void assertElements(String elementSelector)
@@ -144,18 +139,9 @@ public class ApplitoolsApi
         getEyes().setWaitBeforeScreenshots(waitBeforeScreenshots);
     }
 
-    public static void assertElement(String elementSelector, String tag)
+    public static void assertElement(By condition, String imageDescription)
     {
-        if (elementSelector.substring(0, 1).equals("//"))
-        {
-            getEyes().checkElement(By.xpath(elementSelector), tag);
-
-        }
-        else
-        {
-            getEyes().checkElement(By.cssSelector(elementSelector), tag);
-
-        }
+        getEyes().checkElement(condition, imageDescription);
     }
 
     public static void endAssertions()

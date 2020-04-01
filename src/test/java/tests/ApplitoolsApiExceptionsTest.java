@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.openqa.selenium.By;
 
 import com.applitools.eyes.EyesException;
 import com.codeborne.selenide.Selenide;
@@ -72,6 +73,6 @@ public class ApplitoolsApiExceptionsTest extends AbstractTest
         exceptionRule.expect(IllegalStateException.class);
         exceptionRule.expectMessage("Eyes not open");
         ApplitoolsApi.setupGlobal();
-        ApplitoolsApi.assertElement("#navigation", "top navigation menu");
+        ApplitoolsApi.assertElement(By.cssSelector("#navigation"), "top navigation menu");
     }
 }
