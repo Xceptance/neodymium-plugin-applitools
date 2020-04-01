@@ -55,7 +55,7 @@ public class ApplitoolsApi
         setupGroupingOfTestsByName(applitoolsConfiguration.get().batch());
     }
 
-    public static void setupGroupingOfTestsByName(String batchName)
+    public synchronized static void setupGroupingOfTestsByName(String batchName)
     {
         BatchInfo batch;
         if (batches.containsKey(batchName))
@@ -65,19 +65,6 @@ public class ApplitoolsApi
         else
         {
             batch = new BatchInfo(batchName);
-            String batchId = BatchHelper.getBatch(batchName);
-            if (batchId == null)
-            {
-                String newBatchId = BatchHelper.addBatch(batchName);
-                if (newBatchId != null)
-                {
-                    batch.setId(newBatchId);
-                }
-            }
-            else
-            {
-                batch.setId(batchId);
-            }
             batches.put(batchName, batch);
         }
         getEyes().setBatch(batch);
