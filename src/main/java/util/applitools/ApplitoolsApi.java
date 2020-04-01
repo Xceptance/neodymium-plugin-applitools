@@ -81,10 +81,10 @@ public class ApplitoolsApi
             batches.put(batchNameForGroup, batch);
         }
         getEyes().setBatch(batch);
-        setupForSingleTest();
+        setupBasic();
     }
 
-    public static void setupForSingleTest()
+    public static void setupBasic()
     {
         setMatchLevel(applitoolsConfiguration.get().matchLevel());
 
