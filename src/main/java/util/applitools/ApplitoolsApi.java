@@ -86,19 +86,18 @@ public class ApplitoolsApi
 
     public static void setupBasic()
     {
-        setMatchLevel(applitoolsConfiguration.get().matchLevel());
-
+        getEyes().setMatchLevel(applitoolsConfiguration.get().matchLevel());
         getEyes().setApiKey(getApplitoolsApiKey());
+    }
+
+    public static void setMatchLevel(String matchLevel)
+    {
+        getEyes().setMatchLevel(MatchLevel.valueOf(matchLevel));
     }
 
     public static void addProperty(String name, String value)
     {
         getEyes().addProperty(name, value);
-    }
-
-    public static void setMatchLevel(String matchLevel)
-    {
-        getEyes().setMatchLevel(parseMatchLevel(matchLevel));
     }
 
     public static void openEyes(String testName)
@@ -146,7 +145,7 @@ public class ApplitoolsApi
 
     public static void endAssertions()
     {
-        TestResults allTestResults = getEyes().close(Boolean.parseBoolean(applitoolsConfiguration.get().throwException()));
+        TestResults allTestResults = getEyes().close(applitoolsConfiguration.get().throwException());
         if (allTestResults == null)
         {
             throw new RuntimeException("something went wrong, maybe you have not called Applitools.openEyes() before calling this method");
@@ -170,24 +169,5 @@ public class ApplitoolsApi
     {
         EventFiringWebDriver eventFiringWebDriver = (EventFiringWebDriver) Neodymium.getDriver();
         return (RemoteWebDriver) eventFiringWebDriver.getWrappedDriver();
-    }
-
-    private static MatchLevel parseMatchLevel(String matchLevel)
-    {
-        switch (matchLevel)
-        {
-            case "LAYOUT2":
-                return MatchLevel.LAYOUT2;
-            case "LAYOUT":
-                return MatchLevel.LAYOUT;
-            case "CONTENT":
-                return MatchLevel.CONTENT;
-            case "EXACT":
-                return MatchLevel.EXACT;
-            case "NONE":
-                return MatchLevel.NONE;
-            default:
-                return MatchLevel.STRICT;
-        }
     }
 }
