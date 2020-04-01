@@ -91,7 +91,7 @@ public class ApplitoolsApi
         getEyes().setApiKey(getApiKey());
     }
 
-    public static void addPropertiy(String name, String value)
+    public static void addProperty(String name, String value)
     {
         getEyes().addProperty(name, value);
     }
