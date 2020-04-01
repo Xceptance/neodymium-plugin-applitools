@@ -16,7 +16,7 @@ public class AssertElementTest extends AbstractValidKeyTest
     public void testAssertElement() throws IOException
     {
         final String testName = "assert element test";
-        ApplitoolsApi.setupForGroupOfTests(batchName);
+        ApplitoolsApi.setupGroupingOfTestsByName(batchName);
         ApplitoolsApi.openEyes(testName);
         ApplitoolsApi.assertElement("#navigation");
         ApplitoolsApi.endAssertions();

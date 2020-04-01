@@ -52,10 +52,10 @@ public class ApplitoolsApi
 
     public static void setupGlobal()
     {
-        setupForGroupOfTests(applitoolsConfiguration.get().batch());
+        setupGroupingOfTestsByName(applitoolsConfiguration.get().batch());
     }
 
-    public static void setupForGroupOfTests(String batchNameForGroup)
+    public static void setupGroupingOfTestsByName(String batchNameForGroup)
     {
         BatchInfo batch;
         if (batches.containsKey(batchNameForGroup))
