@@ -1,10 +1,8 @@
 package tests.validkay;
 
 import org.aeonbits.owner.ConfigFactory;
-import org.junit.After;
 import org.junit.Before;
 
-import com.codeborne.selenide.Selenide;
 import com.xceptance.neodymium.module.statement.browser.multibrowser.Browser;
 
 import tests.AbstractTest;
@@ -25,23 +23,10 @@ public abstract class AbstractValidKeyTest extends AbstractTest
     protected static final String batchName = "Plugin Unit Tests";
 
     @Before
-    public void before()
+    public void beforeEach()
     {
-        Selenide.open("https://www.xceptance.com/en/");
         ApplitoolsApi.getConfiguration().setProperty("applitools.apiKey", applitoolsApiKey);
         ApplitoolsApi.getConfiguration().setProperty("applitools.projectName", "Unit-Test");
-    }
-
-    @After
-    public void endAssertions()
-    {
-        try
-        {
-            ApplitoolsApi.endAssertions();
-        }
-        catch (RuntimeException e)
-        {
-
-        }
+        ApplitoolsApi.setupGroupingOfTestsByName(batchName);
     }
 }

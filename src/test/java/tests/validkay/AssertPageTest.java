@@ -10,14 +10,13 @@ import pageobjects.ApplitoolsLoginPage;
 import pageobjects.ApplitoolsTestManagerPage;
 import util.applitools.ApplitoolsApi;
 
-public class AssertPageTest extends AbstractValidKeyTest
+public class AssertPageTest extends AbstractDeleteBatchAfterTest
 {
-
     @Test
     public void testAssertPage() throws IOException
     {
+        Selenide.open("https://www.xceptance.com/en/");
         final String testName = "assert page test";
-        ApplitoolsApi.setupGroupingOfTestsByName(batchName);
         ApplitoolsApi.openEyes(testName);
         ApplitoolsApi.assertPage("Homepage");
         ApplitoolsApi.endAssertions();

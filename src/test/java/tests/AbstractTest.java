@@ -9,6 +9,8 @@ import org.junit.runner.RunWith;
 
 import com.xceptance.neodymium.NeodymiumRunner;
 
+import util.applitools.ApplitoolsApi;
+
 @RunWith(NeodymiumRunner.class)
 public abstract class AbstractTest
 {
@@ -18,5 +20,13 @@ public abstract class AbstractTest
     public synchronized void cleanup()
     {
         filesToDelete.forEach(file -> file.delete());
+        try
+        {
+            ApplitoolsApi.endAssertions();
+        }
+        catch (RuntimeException e)
+        {
+
+        }
     }
 }

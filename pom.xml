@@ -22,7 +22,7 @@
 			<distribution>repo</distribution>
 		</license>
 	</licenses>
-	
+
 	<distributionManagement>
 		<repository>
 			<id>github</id>
@@ -31,7 +31,7 @@
 			</url>
 		</repository>
 	</distributionManagement>
-	
+
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
@@ -49,7 +49,6 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>${surefire.version}</version>
 				<configuration>
-					<forkCount>2</forkCount>
 					<testFailureIgnore>true</testFailureIgnore>
 					<argLine>-javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
 					</argLine>
@@ -72,7 +71,7 @@
 	</build>
 	<profiles>
 		<profile>
-			<id>default</id>
+			<id>basic</id>
 			<activation>
 				<activeByDefault>true</activeByDefault>
 			</activation>
@@ -82,66 +81,12 @@
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-surefire-plugin</artifactId>
 						<configuration>
+							<forkCount>1</forkCount>
 							<includes>
 								<include>tests/**/*Test.java</include>
 							</includes>
 							<excludes>
-								<exclude>tests/validkay/OneBatchOnParallelTest.java</exclude>
-							</excludes>
-							<properties>
-								<property>
-									<name>listener</name>
-									<value>io.qameta.allure.junit4.AllureJunit4
-									</value>
-								</property>
-							</properties>
-						</configuration>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-		<profile>
-			<id>release-neodymium-applitools-plugin</id>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-surefire-plugin</artifactId>
-						<configuration>
-							<includes>
-								<include>tests/**/*Test.java</include>
-							</includes>
-							<excludes>
-								<exclude>tests/validkay/**/*Test.java</exclude>
-							</excludes>
-							<properties>
-								<property>
-									<name>listener</name>
-									<value>io.qameta.allure.junit4.AllureJunit4
-									</value>
-								</property>
-							</properties>
-						</configuration>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-		<profile>
-			<id>run-tests-in-parallel-forks</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-surefire-plugin</artifactId>
-						<configuration>
-							<includes>
-								<include>tests/validkay/**/*Test.java</include>
-							</includes>
-							<excludes>
-								<exclude>tests/validkay/OneBatchOnParallelTest.java</exclude>
+								<exclude>tests/validkay/parallel/**/*Test.java</exclude>
 							</excludes>
 							<properties>
 								<property>
@@ -166,10 +111,10 @@
 							<parallel>classes</parallel>
 							<threadCount>2</threadCount>
 							<includes>
-								<include>tests/validkay/**/*Test.java</include>
+								<include>tests/validkay/parallel/**/*Test.java</include>
 							</includes>
 							<excludes>
-								<exclude>tests/validkay/OneBatchOnParallelTest.java</exclude>
+								<exclude>tests/validkay/parallel/OneBatchOnParallelTest.java</exclude>
 							</excludes>
 							<properties>
 								<property>

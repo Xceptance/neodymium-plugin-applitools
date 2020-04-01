@@ -11,13 +11,13 @@ import pageobjects.ApplitoolsLoginPage;
 import pageobjects.ApplitoolsTestManagerPage;
 import util.applitools.ApplitoolsApi;
 
-public class AssertElementTest extends AbstractValidKeyTest
+public class AssertElementTest extends AbstractDeleteBatchAfterTest
 {
     @Test
     public void testAssertElement() throws IOException
     {
+        Selenide.open("https://www.xceptance.com/en/");
         final String testName = "assert element test";
-        ApplitoolsApi.setupGroupingOfTestsByName(batchName);
         ApplitoolsApi.openEyes(testName);
         ApplitoolsApi.assertElement(By.cssSelector("#navigation"), "top navigation menu");
         ApplitoolsApi.endAssertions();

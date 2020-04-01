@@ -24,6 +24,7 @@ public class ApplitoolsTestManagerPage
     {
         batchNames.filterBy(exactText(name)).forEach(batch -> {
             batch.parent().parent().parent().find(".checkbox.default").click();
+            batch.parent().parent().parent().find(".checkbox.default.checked").waitUntil(visible, 10000);
         });
         $(".ai-trash").click();
         $("button[data-test='modal-confirm']").click();

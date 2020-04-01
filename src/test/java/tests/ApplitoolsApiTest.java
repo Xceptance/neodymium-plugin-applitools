@@ -1,12 +1,12 @@
 package tests;
 
 import java.io.IOException;
+import java.util.UUID;
 
 import org.junit.Assert;
 import org.junit.Test;
 
 import com.applitools.eyes.MatchLevel;
-import com.xceptance.neodymium.util.DataUtils;
 
 import util.applitools.ApplitoolsApi;
 
@@ -38,15 +38,15 @@ public class ApplitoolsApiTest extends AbstractTest
     @Test
     public void testSetupGlobalWithInvalidApiKey() throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException, IOException
     {
-        final String invalidApiKey = DataUtils.randomPassword();
-        final String matchLevel = "NONE";
+        final String invalidApiKey = UUID.randomUUID().toString().replaceAll("-", "");
+        final String matchLevel = "STRICT";
         final String batchName = "Test Batch";
         ApplitoolsApi.getConfiguration().setProperty("applitools.apiKey", invalidApiKey);
         ApplitoolsApi.getConfiguration().setProperty("applitools.matchLevel", matchLevel);
         ApplitoolsApi.getConfiguration().setProperty("applitools.batch", batchName);
         ApplitoolsApi.setupGlobal();
 
-        Assert.assertEquals(MatchLevel.NONE, ApplitoolsApi.getEyes().getMatchLevel());
+        Assert.assertEquals(MatchLevel.STRICT, ApplitoolsApi.getEyes().getMatchLevel());
         Assert.assertEquals(batchName, ApplitoolsApi.getEyes().getBatch().getName());
         Assert.assertEquals(invalidApiKey, ApplitoolsApi.getEyes().getApiKey());
     }
@@ -54,7 +54,7 @@ public class ApplitoolsApiTest extends AbstractTest
     @Test
     public void testSetupGlobaWithEmptyOptionalProperties() throws IOException
     {
-        final String invalidApiKey = DataUtils.randomPassword();
+        final String invalidApiKey = UUID.randomUUID().toString().replaceAll("-", "");
         ApplitoolsApi.getConfiguration().setProperty("applitools.apiKey", invalidApiKey);
         ApplitoolsApi.setupGlobal();
     }

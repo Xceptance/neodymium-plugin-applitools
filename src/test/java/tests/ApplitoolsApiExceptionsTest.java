@@ -1,6 +1,7 @@
 package tests;
 
 import java.io.IOException;
+import java.util.UUID;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -10,7 +11,6 @@ import org.openqa.selenium.By;
 import com.applitools.eyes.EyesException;
 import com.codeborne.selenide.Selenide;
 import com.xceptance.neodymium.module.statement.browser.multibrowser.Browser;
-import com.xceptance.neodymium.util.DataUtils;
 
 import util.applitools.ApplitoolsApi;
 
@@ -34,7 +34,7 @@ public class ApplitoolsApiExceptionsTest extends AbstractTest
     public void testOpenEyesWithInvalidApiKey() throws IOException
     {
         Selenide.open("https://www.xceptance.com/en/");
-        final String invalidApiKey = DataUtils.randomPassword();
+        final String invalidApiKey = UUID.randomUUID().toString().replaceAll("-", "");
         ApplitoolsApi.getConfiguration().setProperty("applitools.apiKey", invalidApiKey);
 
         exceptionRule.expect(EyesException.class);
@@ -55,7 +55,7 @@ public class ApplitoolsApiExceptionsTest extends AbstractTest
     public void testPageAssertBeforeEyesOpened() throws IOException
     {
         Selenide.open("https://www.xceptance.com/en/");
-        final String invalidApiKey = DataUtils.randomPassword();
+        final String invalidApiKey = UUID.randomUUID().toString().replaceAll("-", "");
         ApplitoolsApi.getConfiguration().setProperty("applitools.apiKey", invalidApiKey);
 
         exceptionRule.expect(IllegalStateException.class);
@@ -68,7 +68,7 @@ public class ApplitoolsApiExceptionsTest extends AbstractTest
     public void testElementAssertBeforeEyesOpened() throws IOException
     {
         Selenide.open("https://www.xceptance.com/en/");
-        final String invalidApiKey = DataUtils.randomPassword();
+        final String invalidApiKey = UUID.randomUUID().toString().replaceAll("-", "");
         ApplitoolsApi.getConfiguration().setProperty("applitools.apiKey", invalidApiKey);
 
         exceptionRule.expect(IllegalStateException.class);

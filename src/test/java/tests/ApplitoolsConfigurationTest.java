@@ -28,12 +28,10 @@ public class ApplitoolsConfigurationTest extends AbstractTest
         Assert.assertEquals(MatchLevel.valueOf(matchLevel), ApplitoolsApi.getConfiguration().matchLevel());
     }
 
-    @Test
     public void testApiKey() throws IOException
     {
         final String apiKey = UUID.randomUUID().toString();
         ApplitoolsApi.getConfiguration().setProperty("applitools.apiKey", apiKey);
-
         Assert.assertEquals(apiKey, ApplitoolsApi.getConfiguration().applitoolsApiKey());
     }
 
@@ -42,16 +40,14 @@ public class ApplitoolsConfigurationTest extends AbstractTest
     {
         final String batchName = "Test-Batch";
         ApplitoolsApi.getConfiguration().setProperty("applitools.batch", batchName);
-
         Assert.assertEquals(batchName, ApplitoolsApi.getConfiguration().batch());
     }
 
     @Test
     public void testThrowException() throws IOException
     {
-        final String throwException = "true";
+        final String throwException = "false";
         ApplitoolsApi.getConfiguration().setProperty("applitools.throwException", throwException);
-
         Assert.assertEquals(Boolean.parseBoolean(throwException), ApplitoolsApi.getConfiguration().throwException());
     }
 
