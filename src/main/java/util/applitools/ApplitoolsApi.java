@@ -103,7 +103,7 @@ public class ApplitoolsApi
 
     public static void openEyes(String testName)
     {
-        getEyes().open(getDriver(), applitoolsConfiguration.get().projectName(), testName);
+        getEyes().open(getRemoteWebDriver(), applitoolsConfiguration.get().projectName(), testName);
     }
 
     /**
@@ -123,7 +123,7 @@ public class ApplitoolsApi
 
     public static void assertElements(String elementSelector)
     {
-        WebDriver driver = getDriver();
+        WebDriver driver = getRemoteWebDriver();
         if (elementSelector.substring(0, 1).equals("//"))
         {
             driver.findElements(By.xpath(elementSelector)).forEach(element -> getEyes().checkElement(element, elementSelector));
@@ -166,7 +166,7 @@ public class ApplitoolsApi
         return applitoolsApiKey;
     }
 
-    private static RemoteWebDriver getDriver()
+    private static RemoteWebDriver getRemoteWebDriver()
     {
         EventFiringWebDriver eventFiringWebDriver = (EventFiringWebDriver) Neodymium.getDriver();
         return (RemoteWebDriver) eventFiringWebDriver.getWrappedDriver();
