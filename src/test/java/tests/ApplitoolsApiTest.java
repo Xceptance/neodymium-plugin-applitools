@@ -1,6 +1,5 @@
 package tests;
 
-import java.io.IOException;
 import java.util.UUID;
 
 import org.junit.Assert;
@@ -13,14 +12,14 @@ import util.applitools.ApplitoolsApi;
 public class ApplitoolsApiTest extends AbstractTest
 {
     @Test
-    public void testSetMatchLevel() throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException
+    public void testSetMatchLevel()
     {
         ApplitoolsApi.setMatchLevel("NONE");
         Assert.assertEquals(ApplitoolsApi.getEyes().getMatchLevel(), MatchLevel.NONE);
     }
 
     @Test
-    public void testSetHideCaret() throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException
+    public void testSetHideCaret()
     {
         final boolean hideCaret = false;
         ApplitoolsApi.setHideCaret(hideCaret);
@@ -28,7 +27,7 @@ public class ApplitoolsApiTest extends AbstractTest
     }
 
     @Test
-    public void testSetWaitBeforeScreenshot() throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException
+    public void testSetWaitBeforeScreenshot()
     {
         final int waitMilisec = 3000;
         ApplitoolsApi.setWaitBeforeScreenshot(waitMilisec);
@@ -36,23 +35,24 @@ public class ApplitoolsApiTest extends AbstractTest
     }
 
     @Test
-    public void testSetupGlobalWithInvalidApiKey() throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException, IOException
+    public void testSetupGlobalWithInvalidApiKey()
     {
         final String invalidApiKey = UUID.randomUUID().toString().replaceAll("-", "");
-        final String matchLevel = "STRICT";
+        final String matchLevel = "NONE";
         final String batchName = "Test Batch";
+
         ApplitoolsApi.getConfiguration().setProperty("applitools.apiKey", invalidApiKey);
         ApplitoolsApi.getConfiguration().setProperty("applitools.matchLevel", matchLevel);
         ApplitoolsApi.getConfiguration().setProperty("applitools.batch", batchName);
         ApplitoolsApi.setupGlobal();
 
-        Assert.assertEquals(MatchLevel.STRICT, ApplitoolsApi.getEyes().getMatchLevel());
+        Assert.assertEquals(MatchLevel.NONE, ApplitoolsApi.getEyes().getMatchLevel());
         Assert.assertEquals(batchName, ApplitoolsApi.getEyes().getBatch().getName());
         Assert.assertEquals(invalidApiKey, ApplitoolsApi.getEyes().getApiKey());
     }
 
     @Test
-    public void testSetupGlobaWithEmptyOptionalProperties() throws IOException
+    public void testSetupGlobaWithEmptyOptionalProperties()
     {
         final String invalidApiKey = UUID.randomUUID().toString().replaceAll("-", "");
         ApplitoolsApi.getConfiguration().setProperty("applitools.apiKey", invalidApiKey);
