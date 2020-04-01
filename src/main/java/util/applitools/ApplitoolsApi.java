@@ -38,11 +38,16 @@ public class ApplitoolsApi
         }
     });
 
-    private static HashMap<String, BatchInfo> batches = new HashMap<String, BatchInfo>();
+    protected static HashMap<String, BatchInfo> batches = new HashMap<String, BatchInfo>();
 
     public static ApplitoolsConfiguration getConfiguration()
     {
         return applitoolsConfiguration.get();
+    }
+
+    public static Eyes getEyes()
+    {
+        return eyes.get();
     }
 
     public static void setupGlobal()
@@ -75,30 +80,30 @@ public class ApplitoolsApi
             }
             batches.put(batchNameForGroup, batch);
         }
-        eyes.get().setBatch(batch);
+        getEyes().setBatch(batch);
         setupForSingleTest();
-    }
-
-    public static void addPropertiy(String name, String value)
-    {
-        eyes.get().addProperty(name, value);
     }
 
     public static void setupForSingleTest()
     {
         setMatchLevel(applitoolsConfiguration.get().matchLevel());
 
-        eyes.get().setApiKey(getApiKey());
+        getEyes().setApiKey(getApiKey());
+    }
+
+    public static void addPropertiy(String name, String value)
+    {
+        getEyes().addProperty(name, value);
     }
 
     public static void setMatchLevel(String matchLevel)
     {
-        eyes.get().setMatchLevel(parseMatchLevel(matchLevel));
+        getEyes().setMatchLevel(parseMatchLevel(matchLevel));
     }
 
     public static void openEyes(String testName)
     {
-        eyes.get().open(getDriver(), applitoolsConfiguration.get().projectName(), testName);
+        getEyes().open(getDriver(), applitoolsConfiguration.get().projectName(), testName);
     }
 
     /**
@@ -108,12 +113,12 @@ public class ApplitoolsApi
      */
     public static void setHideCaret(boolean hideCaret)
     {
-        eyes.get().setHideCaret(hideCaret);
+        getEyes().setHideCaret(hideCaret);
     }
 
     public static void assertPage(String pageName)
     {
-        eyes.get().checkWindow(pageName);
+        getEyes().checkWindow(pageName);
     }
 
     public static void assertElement(String elementSelector)
@@ -126,43 +131,43 @@ public class ApplitoolsApi
         WebDriver driver = getDriver();
         if (elementSelector.substring(0, 1).equals("//"))
         {
-            driver.findElements(By.xpath(elementSelector)).forEach(element -> eyes.get().checkElement(element, elementSelector));
+            driver.findElements(By.xpath(elementSelector)).forEach(element -> getEyes().checkElement(element, elementSelector));
         }
         else
         {
-            driver.findElements(By.cssSelector(elementSelector)).forEach(element -> eyes.get().checkElement(element, elementSelector));
+            driver.findElements(By.cssSelector(elementSelector)).forEach(element -> getEyes().checkElement(element, elementSelector));
         }
     }
 
     public static void setWaitBeforeScreenshot(int waitBeforeScreenshots)
     {
-        eyes.get().setWaitBeforeScreenshots(waitBeforeScreenshots);
+        getEyes().setWaitBeforeScreenshots(waitBeforeScreenshots);
     }
 
     public static void assertElement(String elementSelector, String tag)
     {
         if (elementSelector.substring(0, 1).equals("//"))
         {
-            eyes.get().checkElement(By.xpath(elementSelector), tag);
+            getEyes().checkElement(By.xpath(elementSelector), tag);
 
         }
         else
         {
-            eyes.get().checkElement(By.cssSelector(elementSelector), tag);
+            getEyes().checkElement(By.cssSelector(elementSelector), tag);
 
         }
     }
 
     public static void endAssertions()
     {
-        TestResults allTestResults = eyes.get().close(Boolean.parseBoolean(applitoolsConfiguration.get().throwException()));
+        TestResults allTestResults = getEyes().close(Boolean.parseBoolean(applitoolsConfiguration.get().throwException()));
         if (allTestResults == null)
         {
             throw new RuntimeException("something went wrong, maybe you have not called Applitools.openEyes() before calling this method");
         }
         AllureAddons.addToReport("number of missmatches", allTestResults.getMismatches());
         AllureAddons.addToReport("link to results of visual assetions in this test", allTestResults.getUrl());
-        eyes.get().abortIfNotClosed();
+        getEyes().abortIfNotClosed();
     }
 
     private static String getApiKey()
