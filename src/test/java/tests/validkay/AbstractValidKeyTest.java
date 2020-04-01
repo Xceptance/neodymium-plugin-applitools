@@ -1,5 +1,6 @@
 package tests.validkay;
 
+import org.aeonbits.owner.ConfigFactory;
 import org.junit.After;
 import org.junit.Before;
 
@@ -13,13 +14,13 @@ import util.applitools.ApplitoolsApi;
 @Browser("Chrome_headless")
 public abstract class AbstractValidKeyTest extends AbstractTest
 {
-    protected static final Credentials CREDENTIALS = new Credentials();
+    protected static final Credentials CREDENTIALS = ConfigFactory.create(Credentials.class, System.getenv());
 
-    protected static final String applitoolsApiKey = CREDENTIALS.getApplitoolsApiKey();
+    protected static final String applitoolsApiKey = CREDENTIALS.applitoolsApiKey();
 
-    protected static final String username = CREDENTIALS.getUsername();
+    protected static final String username = CREDENTIALS.username();
 
-    protected static final String password = CREDENTIALS.getPassword();
+    protected static final String password = CREDENTIALS.password();
 
     protected static final String batchName = "Plugin Unit Tests";
 

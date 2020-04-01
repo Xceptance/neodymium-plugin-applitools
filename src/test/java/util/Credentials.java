@@ -1,37 +1,24 @@
 package util;
 
-import static com.google.common.base.Strings.isNullOrEmpty;
+import org.aeonbits.owner.Config.LoadPolicy;
+import org.aeonbits.owner.Config.LoadType;
+import org.aeonbits.owner.Config.Sources;
+import org.aeonbits.owner.Mutable;
 
-import org.aeonbits.owner.ConfigFactory;
-
-public class Credentials
+@LoadPolicy(LoadType.MERGE)
+@Sources(
 {
-    private CredentialsContainer credentials = ConfigFactory.create(CredentialsContainer.class);
+  "file:config/dev-credentials.properties"
+})
 
-    public String getApplitoolsApiKey()
-    {
-        if (isNullOrEmpty(credentials.applitoolsApiKey()))
-        {
-            return System.getenv("API_KEY");
-        }
-        return credentials.applitoolsApiKey();
-    }
+public interface Credentials extends Mutable
+{
+    @Key("apiKey")
+    String applitoolsApiKey();
 
-    public String getUsername()
-    {
-        if (isNullOrEmpty(credentials.username()))
-        {
-            return System.getenv("API_USERNAME");
-        }
-        return credentials.username();
-    }
+    @Key("username")
+    String username();
 
-    public String getPassword()
-    {
-        if (isNullOrEmpty(credentials.password()))
-        {
-            return System.getenv("API_PASSWORD");
-        }
-        return credentials.password();
-    }
+    @Key("password")
+    String password();
 }
