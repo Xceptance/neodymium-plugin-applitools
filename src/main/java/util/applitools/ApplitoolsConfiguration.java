@@ -15,7 +15,7 @@ public interface ApplitoolsConfiguration extends Mutable
 {
 
     @Key("applitools.apiKey")
-    String apiKey();
+    String applitoolsApiKey();
 
     @Key("applitools.projectName")
     String projectName();

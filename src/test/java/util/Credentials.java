@@ -8,13 +8,13 @@ public class Credentials
 {
     private CredentialsContainer credentials = ConfigFactory.create(CredentialsContainer.class);
 
-    public String getApiKey()
+    public String getApplitoolsApiKey()
     {
-        if (isNullOrEmpty(credentials.apiKey()))
+        if (isNullOrEmpty(credentials.applitoolsApiKey()))
         {
             return System.getenv("API_KEY");
         }
-        return credentials.apiKey();
+        return credentials.applitoolsApiKey();
     }
 
     public String getUsername()

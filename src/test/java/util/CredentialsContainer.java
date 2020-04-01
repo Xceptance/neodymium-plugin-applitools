@@ -14,7 +14,7 @@ import org.aeonbits.owner.Mutable;
 interface CredentialsContainer extends Mutable
 {
     @Key("applitools.apiKey")
-    String apiKey();
+    String applitoolsApiKey();
 
     @Key("applitools.username")
     String username();

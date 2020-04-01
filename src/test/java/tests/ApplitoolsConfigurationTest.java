@@ -32,7 +32,7 @@ public class ApplitoolsConfigurationTest extends AbstractTest
         final String apiKey = UUID.randomUUID().toString();
         ApplitoolsApi.getConfiguration().setProperty("applitools.apiKey", apiKey);
 
-        Assert.assertEquals(apiKey, ApplitoolsApi.getConfiguration().apiKey());
+        Assert.assertEquals(apiKey, ApplitoolsApi.getConfiguration().applitoolsApiKey());
     }
 
     @Test

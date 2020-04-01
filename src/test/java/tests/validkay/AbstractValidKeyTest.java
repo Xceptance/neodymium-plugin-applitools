@@ -15,7 +15,7 @@ public abstract class AbstractValidKeyTest extends AbstractTest
 {
     protected static final Credentials CREDENTIALS = new Credentials();
 
-    protected static final String apiKey = CREDENTIALS.getApiKey();
+    protected static final String applitoolsApiKey = CREDENTIALS.getApplitoolsApiKey();
 
     protected static final String username = CREDENTIALS.getUsername();
 
@@ -27,7 +27,7 @@ public abstract class AbstractValidKeyTest extends AbstractTest
     public void before()
     {
         Selenide.open("https://www.xceptance.com/en/");
-        ApplitoolsApi.getConfiguration().setProperty("applitools.apiKey", apiKey);
+        ApplitoolsApi.getConfiguration().setProperty("applitools.apiKey", applitoolsApiKey);
         ApplitoolsApi.getConfiguration().setProperty("applitools.projectName", "Unit-Test");
     }
 

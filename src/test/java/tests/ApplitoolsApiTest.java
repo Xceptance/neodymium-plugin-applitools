@@ -6,6 +6,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.applitools.eyes.MatchLevel;
+import com.xceptance.neodymium.util.DataUtils;
 
 import util.applitools.ApplitoolsApi;
 
@@ -37,7 +38,7 @@ public class ApplitoolsApiTest extends AbstractTest
     @Test
     public void testSetupGlobalWithInvalidApiKey() throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException, IOException
     {
-        final String invalidApiKey = randomInvalidApiKey();
+        final String invalidApiKey = DataUtils.randomPassword();
         final String matchLevel = "NONE";
         final String batchName = "Test Batch";
         ApplitoolsApi.getConfiguration().setProperty("applitools.apiKey", invalidApiKey);
@@ -53,7 +54,7 @@ public class ApplitoolsApiTest extends AbstractTest
     @Test
     public void testSetupGlobaWithEmptyOptionalProperties() throws IOException
     {
-        final String invalidApiKey = randomInvalidApiKey();
+        final String invalidApiKey = DataUtils.randomPassword();
         ApplitoolsApi.getConfiguration().setProperty("applitools.apiKey", invalidApiKey);
         ApplitoolsApi.setupGlobal();
     }

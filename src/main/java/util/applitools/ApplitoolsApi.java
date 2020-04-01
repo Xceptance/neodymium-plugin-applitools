@@ -88,7 +88,7 @@ public class ApplitoolsApi
     {
         setMatchLevel(applitoolsConfiguration.get().matchLevel());
 
-        getEyes().setApiKey(getApiKey());
+        getEyes().setApiKey(getApplitoolsApiKey());
     }
 
     public static void addProperty(String name, String value)
@@ -156,14 +156,14 @@ public class ApplitoolsApi
         getEyes().abortIfNotClosed();
     }
 
-    private static String getApiKey()
+    private static String getApplitoolsApiKey()
     {
-        String apiKey = applitoolsConfiguration.get().apiKey();
-        if (isNullOrEmpty(apiKey))
+        String applitoolsApiKey = applitoolsConfiguration.get().applitoolsApiKey();
+        if (isNullOrEmpty(applitoolsApiKey))
         {
             throw new RuntimeException("No API Key found; Please set applitools.apiKey property in applitools.properties");
         }
-        return apiKey;
+        return applitoolsApiKey;
     }
 
     private static RemoteWebDriver getDriver()
