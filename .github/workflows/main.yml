@@ -17,6 +17,10 @@ jobs:
       with:
         java-version: 1.8
     - name: run basic tests
+      env:
+        apiKey: ${{ secrets.apiKey }}
+        username: ${{ secrets.username }}
+        password: ${{ secrets.password }}
       run: mvn -B clean compile package -P basic
     - name: run test with valid api key in 2 threads and assert single batch created
       env:
