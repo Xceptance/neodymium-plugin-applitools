@@ -83,10 +83,10 @@
 						<configuration>
 							<forkCount>1</forkCount>
 							<includes>
-								<include>tests/**/*Test.java</include>
+								<include>util.applitools/**/*Test.java</include>
 							</includes>
 							<excludes>
-								<exclude>tests/validkay/parallel/**/*Test.java</exclude>
+								<exclude>util.applitools/validkey/parallel/**/*Test.java</exclude>
 							</excludes>
 							<properties>
 								<property>
@@ -111,10 +111,10 @@
 							<parallel>classes</parallel>
 							<threadCount>2</threadCount>
 							<includes>
-								<include>tests/validkay/parallel/**/*Test.java</include>
+								<include>util.applitools/validkey/parallel/**/*Test.java</include>
 							</includes>
 							<excludes>
-								<exclude>tests/validkay/parallel/OneBatchOnParallelTest.java</exclude>
+								<exclude>util.applitools/validkey/parallel/OneBatchOnParallelTest.java</exclude>
 							</excludes>
 							<properties>
 								<property>
