@@ -40,6 +40,15 @@ public class ApplitoolsApi
 
     protected static HashMap<String, BatchInfo> batches = new HashMap<String, BatchInfo>();
 
+    public static void cleanConfigurations()
+    {
+        getConfiguration().setProperty("applitools.apiKey", "");
+        getConfiguration().setProperty("applitools.projectName", "");
+        getConfiguration().setProperty("applitools.matchLevel", "STRICT");
+        getConfiguration().setProperty("applitools.throwException", "false");
+        getConfiguration().setProperty("applitools.batch", "");
+    }
+
     public static ApplitoolsConfiguration getConfiguration()
     {
         return applitoolsConfiguration.get();

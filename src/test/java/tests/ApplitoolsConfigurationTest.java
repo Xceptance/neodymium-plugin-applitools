@@ -20,7 +20,6 @@ import org.junit.Test;
 import com.applitools.eyes.MatchLevel;
 import com.google.common.base.Joiner;
 
-import util.applitools.ApplitoolsApi;
 import util.applitools.ApplitoolsConfiguration;
 
 public class ApplitoolsConfigurationTest extends AbstractTest
@@ -40,19 +39,12 @@ public class ApplitoolsConfigurationTest extends AbstractTest
     }
 
     @After
-    public synchronized void cleanup()
+    public void cleanup()
     {
+        super.cleanup();
         for (File tempFile : tempFiles)
         {
             deleteTempFile(tempFile);
-        }
-        try
-        {
-            ApplitoolsApi.endAssertions();
-        }
-        catch (RuntimeException e)
-        {
-
         }
     }
 
@@ -62,7 +54,7 @@ public class ApplitoolsConfigurationTest extends AbstractTest
         final String projectName = "Test-Project";
         properties2.put("applitools.projectName", projectName);
         writeMapToPropertiesFile(properties2, tempConfigFile2);
-        ConfigFactory.setProperty("applitools.temporaryConfigFile", "file:" + fileLocation);
+        ConfigFactory.setProperty("neodymium.temporaryConfigFile", "file:" + fileLocation);
         Assert.assertEquals(projectName, ConfigFactory.create(ApplitoolsConfiguration.class).projectName());
     }
 
@@ -72,7 +64,7 @@ public class ApplitoolsConfigurationTest extends AbstractTest
         final String matchLevel = "NONE";
         properties2.put("applitools.matchLevel", matchLevel);
         writeMapToPropertiesFile(properties2, tempConfigFile2);
-        ConfigFactory.setProperty("applitools.temporaryConfigFile", "file:" + fileLocation);
+        ConfigFactory.setProperty("neodymium.temporaryConfigFile", "file:" + fileLocation);
         Assert.assertEquals(MatchLevel.valueOf(matchLevel), ConfigFactory.create(ApplitoolsConfiguration.class).matchLevel());
     }
 
@@ -82,7 +74,7 @@ public class ApplitoolsConfigurationTest extends AbstractTest
         final String apiKey = UUID.randomUUID().toString();
         properties2.put("applitools.apiKey", apiKey);
         writeMapToPropertiesFile(properties2, tempConfigFile2);
-        ConfigFactory.setProperty("applitools.temporaryConfigFile", "file:" + fileLocation);
+        ConfigFactory.setProperty("neodymium.temporaryConfigFile", "file:" + fileLocation);
         Assert.assertEquals(apiKey, ConfigFactory.create(ApplitoolsConfiguration.class).applitoolsApiKey());
     }
 
@@ -92,7 +84,7 @@ public class ApplitoolsConfigurationTest extends AbstractTest
         final String batchName = "Test-Batch";
         properties2.put("applitools.batch", batchName);
         writeMapToPropertiesFile(properties2, tempConfigFile2);
-        ConfigFactory.setProperty("applitools.temporaryConfigFile", "file:" + fileLocation);
+        ConfigFactory.setProperty("neodymium.temporaryConfigFile", "file:" + fileLocation);
         Assert.assertEquals(batchName, ConfigFactory.create(ApplitoolsConfiguration.class).batch());
     }
 
@@ -102,7 +94,7 @@ public class ApplitoolsConfigurationTest extends AbstractTest
         final String throwException = "false";
         properties2.put("applitools.throwException", throwException);
         writeMapToPropertiesFile(properties2, tempConfigFile2);
-        ConfigFactory.setProperty("applitools.temporaryConfigFile", "file:" + fileLocation);
+        ConfigFactory.setProperty("neodymium.temporaryConfigFile", "file:" + fileLocation);
         Assert.assertEquals(Boolean.parseBoolean(throwException), ConfigFactory.create(ApplitoolsConfiguration.class).throwException());
     }
 

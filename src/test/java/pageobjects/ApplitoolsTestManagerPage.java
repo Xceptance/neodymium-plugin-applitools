@@ -1,5 +1,6 @@
 package pageobjects;
 
+import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
 import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
@@ -22,7 +23,9 @@ public class ApplitoolsTestManagerPage
 
     public ApplitoolsTestManagerPage deleteAllBatchesWithName(String name)
     {
+        batchNames.shouldHave(sizeGreaterThan(0));
         batchNames.filterBy(exactText(name)).forEach(batch -> {
+            batch.parent().parent().parent().find(".checkbox.default").hover();
             batch.parent().parent().parent().find(".checkbox.default").click();
             batch.parent().parent().parent().find(".checkbox.default.checked").waitUntil(visible, 10000);
         });
