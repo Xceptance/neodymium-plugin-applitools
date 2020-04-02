@@ -1,12 +1,12 @@
-package tests.validkay;
+package util.applitools.validkey;
 
 import org.aeonbits.owner.ConfigFactory;
 import org.junit.Before;
 
 import com.xceptance.neodymium.module.statement.browser.multibrowser.Browser;
 
-import tests.AbstractTest;
 import util.Credentials;
+import util.applitools.AbstractTest;
 import util.applitools.ApplitoolsApi;
 
 @Browser("Chrome_headless")

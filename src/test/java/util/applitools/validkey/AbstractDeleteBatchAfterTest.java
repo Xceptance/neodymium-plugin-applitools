@@ -1,4 +1,4 @@
-package util.applitools.validkay;
+package util.applitools.validkey;
 
 import org.junit.After;
 

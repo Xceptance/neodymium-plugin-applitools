@@ -1,4 +1,4 @@
-package tests.validkay;
+package util.applitools.validkey;
 
 import java.io.IOException;
 

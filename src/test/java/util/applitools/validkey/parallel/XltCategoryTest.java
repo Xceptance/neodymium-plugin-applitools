@@ -1,11 +1,11 @@
-package tests.validkay.parallel;
+package util.applitools.validkey.parallel;
 
 import org.junit.Test;
 
 import com.codeborne.selenide.Selenide;
 
-import tests.validkay.AbstractValidKeyTest;
 import util.applitools.ApplitoolsApi;
+import util.applitools.validkey.AbstractValidKeyTest;
 
 public class XltCategoryTest extends AbstractValidKeyTest
 {

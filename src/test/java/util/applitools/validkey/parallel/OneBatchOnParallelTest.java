@@ -1,11 +1,11 @@
-package util.applitools.validkay.parallel;
+package util.applitools.validkey.parallel;
 
 import org.junit.Test;
 
 import com.codeborne.selenide.Selenide;
 
 import pageobjects.ApplitoolsLoginPage;
-import tests.validkay.AbstractDeleteBatchAfterTest;
+import util.applitools.validkey.AbstractDeleteBatchAfterTest;
 
 public class OneBatchOnParallelTest extends AbstractDeleteBatchAfterTest
 {

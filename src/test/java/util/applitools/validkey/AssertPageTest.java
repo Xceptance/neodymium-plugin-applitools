@@ -1,4 +1,4 @@
-package util.applitools.validkay;
+package util.applitools.validkey;
 
 import java.io.IOException;
 
@@ -10,17 +10,19 @@ import pageobjects.ApplitoolsLoginPage;
 import pageobjects.ApplitoolsTestManagerPage;
 import util.applitools.ApplitoolsApi;
 
-public class OpenEyesTest extends AbstractDeleteBatchAfterTest
+public class AssertPageTest extends AbstractDeleteBatchAfterTest
 {
     @Test
-    public void testOpenEyesWithValidApiKey() throws IOException
+    public void testAssertPage() throws IOException
     {
-        final String testName = "open eyes test";
         Selenide.open("https://www.xceptance.com/en/");
+        final String testName = "assert page test";
         ApplitoolsApi.openEyes(testName);
+        ApplitoolsApi.assertPage("Homepage");
         ApplitoolsApi.endAssertions();
         Selenide.open("https://applitools.com/users/login");
         ApplitoolsTestManagerPage testManger = new ApplitoolsLoginPage().login(username, password);
         testManger.validateBatchContainsTest(batchName, testName);
+        testManger.validateTestContainsScreenshots(batchName, testName, 1);
     }
 }
