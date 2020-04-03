@@ -58,5 +58,4 @@ public class ApplitoolsApiTest extends AbstractTest
         ApplitoolsApi.getConfiguration().setProperty("applitools.apiKey", invalidApiKey);
         ApplitoolsApi.setupGlobal();
     }
-
 }

@@ -55,22 +55,33 @@ public class ApplitoolsApi
 
     public static void setupGlobal()
     {
-        setupGroupingOfTestsByName(getConfiguration().batch());
+        final String batch = getConfiguration().batch();
+        if (isNullOrEmpty(batch))
+        {
+            setupBasic();
+        }
+        else
+        {
+            setupGroupingOfTestsByName(batch);
+        }
     }
 
     public synchronized static void setupGroupingOfTestsByName(String batchName)
     {
         BatchInfo batch;
-        if (batches.containsKey(batchName))
+        if (!isNullOrEmpty(batchName))
         {
-            batch = batches.get(batchName);
+            if (batches.containsKey(batchName))
+            {
+                batch = batches.get(batchName);
+            }
+            else
+            {
+                batch = new BatchInfo(batchName);
+                batches.put(batchName, batch);
+            }
+            getEyes().setBatch(batch);
         }
-        else
-        {
-            batch = new BatchInfo(batchName);
-            batches.put(batchName, batch);
-        }
-        getEyes().setBatch(batch);
         setupBasic();
     }
 
