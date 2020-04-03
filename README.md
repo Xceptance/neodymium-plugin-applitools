@@ -16,9 +16,9 @@
 	          </servers>
           </settings>
 ```
-	where YOUR\_GITHUB\_LOGIN should be replaced with your github login (username or email) 
-	and YOUR\_GITHUB\_TOKEN with your personal access token, which should have read:packages permission
-	to generate one folow [this tutorial](https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line/)
+where YOUR\_GITHUB\_LOGIN should be replaced with your github login (username or email) 
+and YOUR\_GITHUB\_TOKEN with your personal access token, which should have read:packages permission
+to generate one folow [this tutorial](https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line/)
 *  as you have your settings ready add folowing to your project's `pom.xml`
 ```xml
         <repositories>
