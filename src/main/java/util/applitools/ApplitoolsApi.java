@@ -156,7 +156,7 @@ public class ApplitoolsApi
         String applitoolsApiKey = applitoolsConfiguration.get().applitoolsApiKey();
         if (isNullOrEmpty(applitoolsApiKey))
         {
-            throw new RuntimeException("No API Key found; Please set applitools.apiKey property in applitools.properties");
+            throw new RuntimeException("No Applitools API Key found: Please set the 'applitools.apiKey' property in 'config/applitools.properties' file.");
         }
         return applitoolsApiKey;
     }
