@@ -1,5 +1,5 @@
 # neodymium-plugin-applitools
-##To include this plugin in your maven project you will need
+## To include this plugin in your maven project you will need
 
 * `~/.m2/settings.xml` file, which should contain this text:
 ```xml
