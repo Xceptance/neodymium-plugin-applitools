@@ -1,4 +1,4 @@
-package util.applitools;
+package util.applitools.tests;
 
 import java.io.IOException;
 import java.util.UUID;
@@ -26,7 +26,7 @@ public class ApplitoolsApiExceptionsTest extends AbstractTest
     {
         ApplitoolsApi.getConfiguration().setProperty("applitools.apiKey", "");
         exceptionRule.expect(RuntimeException.class);
-        exceptionRule.expectMessage("No API Key found; Please set applitools.apiKey property in applitools.properties");
+        exceptionRule.expectMessage("No Applitools API Key found: Please set the 'applitools.apiKey' property in 'config/applitools.properties' file.");
         ApplitoolsApi.setupGlobal();
     }
 

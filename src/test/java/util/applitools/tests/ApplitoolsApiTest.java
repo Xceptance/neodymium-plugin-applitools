@@ -1,4 +1,4 @@
-package util.applitools;
+package util.applitools.tests;
 
 import java.util.UUID;
 

@@ -1,4 +1,4 @@
-package util.applitools;
+package util.applitools.tests;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -16,12 +16,14 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.JUnitCore;
+import org.junit.runner.Result;
 
 import com.applitools.eyes.MatchLevel;
 import com.google.common.base.Joiner;
 
-import util.applitools.ApplitoolsApi;
 import util.applitools.ApplitoolsConfiguration;
+import util.applitools.testclasses.ConfigurationGetsCleared;
 
 public class ApplitoolsConfigurationTest extends AbstractTest
 {
@@ -97,6 +99,14 @@ public class ApplitoolsConfigurationTest extends AbstractTest
         writeMapToPropertiesFile(properties2, tempConfigFile2);
         ConfigFactory.setProperty("neodymium.temporaryConfigFile", "file:" + fileLocation);
         Assert.assertEquals(Boolean.parseBoolean(throwException), ConfigFactory.create(ApplitoolsConfiguration.class).throwException());
+    }
+
+    @Test
+    public void testConfigurationGetCleared()
+    {
+        // test that NeodymiumRunner clears the context before each run
+        Result result = JUnitCore.runClasses(ConfigurationGetsCleared.class);
+        checkPass(result, 2, 0, 0);
     }
 
     /**
