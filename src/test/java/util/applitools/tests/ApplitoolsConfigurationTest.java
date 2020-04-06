@@ -60,7 +60,7 @@ public class ApplitoolsConfigurationTest extends AbstractTest
     @Test
     public void testThrowException() throws IOException, InterruptedException
     {
-        final String throwException = "false";
+        final String throwException = "true";
         properties2.put("applitools.throwException", throwException);
         writeMapToPropertiesFile(properties2, tempConfigFile2);
         ConfigFactory.setProperty(ApplitoolsApi.TEMPORARY_CONFIG_FILE_PROPERTY_NAME, "file:" + fileLocation);
@@ -70,7 +70,6 @@ public class ApplitoolsConfigurationTest extends AbstractTest
     @Test
     public void testConfigurationGetCleared()
     {
-        // test that NeodymiumRunner clears the context before each run
         Result result = JUnitCore.runClasses(ConfigurationGetsCleared.class);
         checkPass(result, 2, 0, 0);
     }
