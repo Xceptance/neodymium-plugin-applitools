@@ -16,13 +16,21 @@ public class ApplitoolsApiTest extends AbstractTest
     public void testSetMatchLevel()
     {
         ApplitoolsApi.setMatchLevel("NONE");
-        Assert.assertEquals(ApplitoolsApi.getEyes().getMatchLevel(), MatchLevel.NONE);
+        Assert.assertEquals(ApplitoolsApi.getEyes().getConfiguration().getMatchLevel(), MatchLevel.NONE);
     }
 
     @Test
-    public void testSetHideCaret()
+    public void testSetHideCaretToFalse()
     {
         final boolean hideCaret = false;
+        ApplitoolsApi.setHideCaret(hideCaret);
+        Assert.assertEquals(ApplitoolsApi.getEyes().getHideCaret(), hideCaret);
+    }
+
+    @Test
+    public void testSetHideCaretToTrue()
+    {
+        final boolean hideCaret = true;
         ApplitoolsApi.setHideCaret(hideCaret);
         Assert.assertEquals(ApplitoolsApi.getEyes().getHideCaret(), hideCaret);
     }
