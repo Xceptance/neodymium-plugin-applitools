@@ -3,6 +3,7 @@ package util.applitools;
 import static com.google.common.base.Strings.isNullOrEmpty;
 
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.WeakHashMap;
@@ -23,6 +24,13 @@ import com.xceptance.neodymium.util.Neodymium;
 
 public class ApplitoolsApi
 {
+    private static final BatchInfo globalBatch = new BatchInfo(ConfigFactory.create(ApplitoolsConfiguration.class).batch())
+    {
+        {
+            this.setId(new Date().toString());
+        }
+    };
+
     private static final Map<Thread, ApplitoolsConfiguration> CONFIGURATION = Collections.synchronizedMap(new WeakHashMap<>());
 
     public final static String TEMPORARY_CONFIG_FILE_PROPERTY_NAME = "applitools.temporaryConfigFile";
@@ -81,8 +89,9 @@ public class ApplitoolsApi
         }
         else
         {
-            setupGroupingOfTestsByName(batch);
+            getEyes().setBatch(globalBatch);
         }
+        setupBasic();
     }
 
     /**
