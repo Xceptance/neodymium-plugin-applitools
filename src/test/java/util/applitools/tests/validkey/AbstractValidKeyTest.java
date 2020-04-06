@@ -28,8 +28,7 @@ public abstract class AbstractValidKeyTest extends AbstractTest
         properties2.put("applitools.apiKey", applitoolsApiKey);
         properties2.put("applitools.projectName", "Unit-Test");
         writeMapToPropertiesFile(properties2, tempConfigFile2);
-        ConfigFactory.setProperty("neodymium.temporaryConfigFile", "file:" + fileLocation);
+        ConfigFactory.setProperty(ApplitoolsApi.TEMPORARY_CONFIG_FILE_PROPERTY_NAME, "file:" + fileLocation);
         ApplitoolsApi.setupGroupingOfTestsByName(batchName);
-        System.out.println(ApplitoolsApi.getConfiguration().matchLevel());
     }
 }
