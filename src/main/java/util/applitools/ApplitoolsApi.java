@@ -97,8 +97,9 @@ public class ApplitoolsApi
     }
 
     public static void setupBasic()
-    {        CONFIGURATION.remove(Thread.currentThread());
-    getConfiguration();
+    {
+        CONFIGURATION.remove(Thread.currentThread());
+        getConfiguration();
         getEyes().setMatchLevel(getConfiguration().matchLevel());
         getEyes().setApiKey(getApplitoolsApiKey());
     }
