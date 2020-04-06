@@ -1,10 +1,21 @@
 package util.applitools.tests;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.nio.file.Files;
+import java.text.MessageFormat;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
 import org.junit.After;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.runner.Result;
 import org.junit.runner.RunWith;
 
+import com.google.common.base.Joiner;
 import com.xceptance.neodymium.NeodymiumRunner;
 
 import util.applitools.ApplitoolsApi;
@@ -12,6 +23,20 @@ import util.applitools.ApplitoolsApi;
 @RunWith(NeodymiumRunner.class)
 public abstract class AbstractTest
 {
+    protected List<File> tempFiles = new LinkedList<>();
+
+    protected Map<String, String> properties2 = new HashMap<>();
+
+    protected final String fileLocation = "config/temp-applitools.properties";
+
+    protected File tempConfigFile2 = new File("./" + fileLocation);
+
+    @Before
+    public void setupApplitoolsConfiguration()
+    {
+        tempFiles.add(tempConfigFile2);
+    }
+
     @After
     public void cleanup()
     {
@@ -22,6 +47,10 @@ public abstract class AbstractTest
         catch (RuntimeException e)
         {
 
+        }
+        for (File tempFile : tempFiles)
+        {
+            deleteTempFile(tempFile);
         }
     }
 
@@ -43,5 +72,40 @@ public abstract class AbstractTest
     public void checkPass(Result result, int expectedRunCount, int expectedIgnoreCount, int expectedFailCount)
     {
         check(result, true, expectedRunCount, expectedIgnoreCount, expectedFailCount, null);
+    }
+
+    /**
+     * delete a temporary test file
+     */
+    private static void deleteTempFile(File tempFile)
+    {
+        if (tempFile.exists())
+        {
+            try
+            {
+                Files.delete(tempFile.toPath());
+            }
+            catch (Exception e)
+            {
+                System.out.println(MessageFormat.format("Couldn''t delete temporary file: ''{0}'' caused by {1}",
+                                                        tempFile.getAbsolutePath(), e));
+            }
+        }
+    }
+
+    public static void writeMapToPropertiesFile(Map<String, String> map, File file)
+    {
+        try
+        {
+            String join = Joiner.on("\r\n").withKeyValueSeparator("=").join(map);
+
+            FileOutputStream outputStream = new FileOutputStream(file);
+            outputStream.write(join.getBytes());
+            outputStream.close();
+        }
+        catch (Exception e)
+        {
+            throw new RuntimeException(e);
+        }
     }
 }

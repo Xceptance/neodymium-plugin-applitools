@@ -1,6 +1,7 @@
 package util.applitools.testclasses;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 import util.applitools.ApplitoolsApi;
@@ -8,6 +9,12 @@ import util.applitools.tests.AbstractTest;
 
 public class ConfigurationGetsCleared extends AbstractTest
 {
+    @Before
+    public void setupGlobal()
+    {
+        ApplitoolsApi.setupGlobal();
+    }
+
     private static final String propertyName = "test.property";
 
     @Test

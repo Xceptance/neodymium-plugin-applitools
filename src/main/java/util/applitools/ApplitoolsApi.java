@@ -68,6 +68,8 @@ public class ApplitoolsApi
 
     public synchronized static void setupGroupingOfTestsByName(String batchName)
     {
+        CONFIGURATION.remove(Thread.currentThread());
+        getConfiguration();
         BatchInfo batch;
         if (!isNullOrEmpty(batchName))
         {
@@ -147,7 +149,6 @@ public class ApplitoolsApi
     public static void endAssertions()
     {
         TestResults allTestResults = getEyes().close(getConfiguration().throwException());
-        CONFIGURATION.remove(Thread.currentThread());
         if (allTestResults == null)
         {
             throw new RuntimeException("something went wrong, maybe you have not called Applitools.openEyes() before calling this method");

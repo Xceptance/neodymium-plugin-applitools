@@ -1,56 +1,21 @@
 package util.applitools.tests;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.text.MessageFormat;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 import org.aeonbits.owner.ConfigFactory;
-import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
 
 import com.applitools.eyes.MatchLevel;
-import com.google.common.base.Joiner;
 
 import util.applitools.ApplitoolsConfiguration;
 import util.applitools.testclasses.ConfigurationGetsCleared;
 
 public class ApplitoolsConfigurationTest extends AbstractTest
 {
-    private List<File> tempFiles = new LinkedList<>();
-
-    private Map<String, String> properties2 = new HashMap<>();
-
-    private final String fileLocation = "config/temp-applitools.properties";
-
-    private File tempConfigFile2 = new File("./" + fileLocation);
-
-    @Before
-    public void setupApplitoolsConfiguration()
-    {
-        tempFiles.add(tempConfigFile2);
-    }
-
-    @After
-    public void cleanup()
-    {
-        super.cleanup();
-        for (File tempFile : tempFiles)
-        {
-            deleteTempFile(tempFile);
-        }
-    }
-
     @Test
     public void testProjectName() throws IOException, InterruptedException
     {
@@ -107,40 +72,5 @@ public class ApplitoolsConfigurationTest extends AbstractTest
         // test that NeodymiumRunner clears the context before each run
         Result result = JUnitCore.runClasses(ConfigurationGetsCleared.class);
         checkPass(result, 2, 0, 0);
-    }
-
-    /**
-     * delete a temporary test file
-     */
-    private static void deleteTempFile(File tempFile)
-    {
-        if (tempFile.exists())
-        {
-            try
-            {
-                Files.delete(tempFile.toPath());
-            }
-            catch (Exception e)
-            {
-                System.out.println(MessageFormat.format("Couldn''t delete temporary file: ''{0}'' caused by {1}",
-                                                        tempFile.getAbsolutePath(), e));
-            }
-        }
-    }
-
-    private static void writeMapToPropertiesFile(Map<String, String> map, File file)
-    {
-        try
-        {
-            String join = Joiner.on("\r\n").withKeyValueSeparator("=").join(map);
-
-            FileOutputStream outputStream = new FileOutputStream(file);
-            outputStream.write(join.getBytes());
-            outputStream.close();
-        }
-        catch (Exception e)
-        {
-            throw new RuntimeException(e);
-        }
     }
 }
