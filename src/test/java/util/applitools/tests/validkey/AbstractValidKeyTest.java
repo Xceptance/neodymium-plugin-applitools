@@ -9,8 +9,7 @@ import util.Credentials;
 import util.applitools.ApplitoolsApi;
 import util.applitools.tests.AbstractTest;
 
-//@Browser("Chrome_headless")
-@Browser("Chrome_1500x1000")
+@Browser("Chrome_headless")
 public abstract class AbstractValidKeyTest extends AbstractTest
 {
     protected static final Credentials CREDENTIALS = ConfigFactory.create(Credentials.class, System.getenv());
