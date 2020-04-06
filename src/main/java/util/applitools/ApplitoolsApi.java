@@ -3,7 +3,6 @@ package util.applitools;
 import static com.google.common.base.Strings.isNullOrEmpty;
 
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.WeakHashMap;
@@ -24,13 +23,6 @@ import com.xceptance.neodymium.util.Neodymium;
 
 public class ApplitoolsApi
 {
-    private static final BatchInfo globalBatch = new BatchInfo(ConfigFactory.create(ApplitoolsConfiguration.class).batch())
-    {
-        {
-            this.setId(new Date().toString());
-        }
-    };
-
     private static final Map<Thread, ApplitoolsConfiguration> CONFIGURATION = Collections.synchronizedMap(new WeakHashMap<>());
 
     public final static String TEMPORARY_CONFIG_FILE_PROPERTY_NAME = "applitools.temporaryConfigFile";
@@ -89,9 +81,8 @@ public class ApplitoolsApi
         }
         else
         {
-            getEyes().setBatch(globalBatch);
+            setupGroupingOfTestsByName(batch);
         }
-        setupBasic();
     }
 
     /**
@@ -148,11 +139,27 @@ public class ApplitoolsApi
         getEyes().setMatchLevel(MatchLevel.valueOf(matchLevel));
     }
 
+    /**
+     * Method to add property for test. Adds a custom key name/value property that will be associated with tests. You
+     * can view these properties and filter and group by these properties in the Test Manager.
+     * 
+     * @param name
+     *            property name
+     * @param value
+     *            property value
+     */
     public static void addProperty(String name, String value)
     {
         getEyes().addProperty(name, value);
     }
 
+    /**
+     * Method to start visual assertions. Call this method to start a test, before calling any of the check methods.
+     * 
+     * @param testName
+     *            The name of the test. This name must be unique within the scope of the application name. It may be any
+     *            string.
+     */
     public static void openEyes(String testName)
     {
         getEyes().open(getRemoteWebDriver(), getConfiguration().projectName(), testName);
@@ -168,34 +175,59 @@ public class ApplitoolsApi
         getEyes().setHideCaret(hideCaret);
     }
 
-    public static void assertPage(String pageDescription)
-    {
-        getEyes().checkWindow(pageDescription);
-    }
-
-    public static void assertElements(String elementSelector)
-    {
-        WebDriver driver = getRemoteWebDriver();
-        if (elementSelector.substring(0, 1).equals("//"))
-        {
-            driver.findElements(By.xpath(elementSelector)).forEach(element -> getEyes().checkElement(element, elementSelector));
-        }
-        else
-        {
-            driver.findElements(By.cssSelector(elementSelector)).forEach(element -> getEyes().checkElement(element, elementSelector));
-        }
-    }
-
+    /**
+     * Use this method to set the amount of time in milliseconds that Eyes will wait before capturing a screenshot.
+     * 
+     * @param waitBeforeScreenshots
+     *            time in milliseconds
+     */
     public static void setWaitBeforeScreenshot(int waitBeforeScreenshots)
     {
         getEyes().setWaitBeforeScreenshots(waitBeforeScreenshots);
     }
 
+    /**
+     * Method to make visual assert for the whole page
+     * 
+     * @param pageDescription
+     *            name for the screenshot
+     */
+    public static void assertPage(String pageDescription)
+    {
+        getEyes().checkWindow(pageDescription);
+    }
+
+    /**
+     * Method to make visual assert for elements in collection
+     * 
+     * @param condition
+     *            org.openqa.selenium.By object to select target elements
+     * @param description
+     *            screenshot description
+     */
+    public static void assertElements(By condition, String description)
+    {
+        WebDriver driver = getRemoteWebDriver();
+        driver.findElements(condition).forEach(element -> getEyes().checkElement(element, description));
+    }
+
+    /**
+     * Method to make visual assert for single element
+     * 
+     * @param condition
+     *            org.openqa.selenium.By object to select target element
+     * @param imageDescription
+     *            screenshot description
+     */
     public static void assertElement(By condition, String imageDescription)
     {
         getEyes().checkElement(condition, imageDescription);
     }
 
+    /**
+     * This method should be called at the end of each test to end all visual assertions and to add link to results to
+     * your allure report
+     */
     public static void endAssertions()
     {
         TestResults allTestResults = getEyes().close(getConfiguration().throwException());
