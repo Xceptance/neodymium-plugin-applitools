@@ -62,6 +62,8 @@ public class ApplitoolsApi
 
     public static void setupGlobal()
     {
+        CONFIGURATION.remove(Thread.currentThread());
+        getConfiguration();
         final String batch = getConfiguration().batch();
         if (isNullOrEmpty(batch))
         {
@@ -95,7 +97,8 @@ public class ApplitoolsApi
     }
 
     public static void setupBasic()
-    {
+    {        CONFIGURATION.remove(Thread.currentThread());
+    getConfiguration();
         getEyes().setMatchLevel(getConfiguration().matchLevel());
         getEyes().setApiKey(getApplitoolsApiKey());
     }
