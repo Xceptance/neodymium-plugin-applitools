@@ -1,4 +1,4 @@
-package util.applitools.validkey;
+package util.applitools.tests.validkey;
 
 import org.aeonbits.owner.ConfigFactory;
 import org.junit.Before;
@@ -6,10 +6,11 @@ import org.junit.Before;
 import com.xceptance.neodymium.module.statement.browser.multibrowser.Browser;
 
 import util.Credentials;
-import util.applitools.AbstractTest;
 import util.applitools.ApplitoolsApi;
+import util.applitools.tests.AbstractTest;
 
-@Browser("Chrome_headless")
+//@Browser("Chrome_headless")
+@Browser("Chrome_1500x1000")
 public abstract class AbstractValidKeyTest extends AbstractTest
 {
     protected static final Credentials CREDENTIALS = ConfigFactory.create(Credentials.class, System.getenv());
@@ -25,8 +26,11 @@ public abstract class AbstractValidKeyTest extends AbstractTest
     @Before
     public void beforeEach()
     {
-        ApplitoolsApi.getConfiguration().setProperty("applitools.apiKey", applitoolsApiKey);
-        ApplitoolsApi.getConfiguration().setProperty("applitools.projectName", "Unit-Test");
+        properties2.put("applitools.apiKey", applitoolsApiKey);
+        properties2.put("applitools.projectName", "Unit-Test");
+        writeMapToPropertiesFile(properties2, tempConfigFile2);
+        ConfigFactory.setProperty("neodymium.temporaryConfigFile", "file:" + fileLocation);
         ApplitoolsApi.setupGroupingOfTestsByName(batchName);
+        System.out.println(ApplitoolsApi.getConfiguration().matchLevel());
     }
 }

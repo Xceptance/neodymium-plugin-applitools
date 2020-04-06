@@ -2,7 +2,10 @@ package util.applitools;
 
 import static com.google.common.base.Strings.isNullOrEmpty;
 
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.WeakHashMap;
 import java.util.function.Supplier;
 
 import org.aeonbits.owner.ConfigFactory;
@@ -20,14 +23,7 @@ import com.xceptance.neodymium.util.Neodymium;
 
 public class ApplitoolsApi
 {
-    private static ThreadLocal<ApplitoolsConfiguration> applitoolsConfiguration = ThreadLocal.withInitial(new Supplier<ApplitoolsConfiguration>()
-    {
-        @Override
-        public ApplitoolsConfiguration get()
-        {
-            return ConfigFactory.create(ApplitoolsConfiguration.class);
-        }
-    });
+    private static final Map<Thread, ApplitoolsConfiguration> CONFIGURATION = Collections.synchronizedMap(new WeakHashMap<>());
 
     private static ThreadLocal<Eyes> eyes = ThreadLocal.withInitial(new Supplier<Eyes>()
     {
@@ -40,18 +36,16 @@ public class ApplitoolsApi
 
     protected static HashMap<String, BatchInfo> batches = new HashMap<String, BatchInfo>();
 
-    public static void cleanConfigurations()
-    {
-        getConfiguration().setProperty("applitools.apiKey", "");
-        getConfiguration().setProperty("applitools.projectName", "");
-        getConfiguration().setProperty("applitools.matchLevel", "STRICT");
-        getConfiguration().setProperty("applitools.throwException", "false");
-        getConfiguration().setProperty("applitools.batch", "");
-    }
-
+    /**
+     * Retrieves the context instance for the current Thread.
+     * 
+     * @return the context instance for the current Thread
+     */
     public static ApplitoolsConfiguration getConfiguration()
     {
-        return applitoolsConfiguration.get();
+        return CONFIGURATION.computeIfAbsent(Thread.currentThread(), key -> {
+            return ConfigFactory.create(ApplitoolsConfiguration.class);
+        });
     }
 
     public static Eyes getEyes()
@@ -61,28 +55,41 @@ public class ApplitoolsApi
 
     public static void setupGlobal()
     {
-        setupGroupingOfTestsByName(applitoolsConfiguration.get().batch());
+        final String batch = getConfiguration().batch();
+        if (isNullOrEmpty(batch))
+        {
+            setupBasic();
+        }
+        else
+        {
+            setupGroupingOfTestsByName(batch);
+        }
     }
 
     public synchronized static void setupGroupingOfTestsByName(String batchName)
     {
+        CONFIGURATION.remove(Thread.currentThread());
+        getConfiguration();
         BatchInfo batch;
-        if (batches.containsKey(batchName))
+        if (!isNullOrEmpty(batchName))
         {
-            batch = batches.get(batchName);
+            if (batches.containsKey(batchName))
+            {
+                batch = batches.get(batchName);
+            }
+            else
+            {
+                batch = new BatchInfo(batchName);
+                batches.put(batchName, batch);
+            }
+            getEyes().setBatch(batch);
         }
-        else
-        {
-            batch = new BatchInfo(batchName);
-            batches.put(batchName, batch);
-        }
-        getEyes().setBatch(batch);
         setupBasic();
     }
 
     public static void setupBasic()
     {
-        getEyes().setMatchLevel(applitoolsConfiguration.get().matchLevel());
+        getEyes().setMatchLevel(getConfiguration().matchLevel());
         getEyes().setApiKey(getApplitoolsApiKey());
     }
 
@@ -98,7 +105,7 @@ public class ApplitoolsApi
 
     public static void openEyes(String testName)
     {
-        getEyes().open(getRemoteWebDriver(), applitoolsConfiguration.get().projectName(), testName);
+        getEyes().open(getRemoteWebDriver(), getConfiguration().projectName(), testName);
     }
 
     /**
@@ -141,7 +148,7 @@ public class ApplitoolsApi
 
     public static void endAssertions()
     {
-        TestResults allTestResults = getEyes().close(applitoolsConfiguration.get().throwException());
+        TestResults allTestResults = getEyes().close(getConfiguration().throwException());
         if (allTestResults == null)
         {
             throw new RuntimeException("something went wrong, maybe you have not called Applitools.openEyes() before calling this method");
@@ -153,10 +160,10 @@ public class ApplitoolsApi
 
     private static String getApplitoolsApiKey()
     {
-        String applitoolsApiKey = applitoolsConfiguration.get().applitoolsApiKey();
+        String applitoolsApiKey = getConfiguration().applitoolsApiKey();
         if (isNullOrEmpty(applitoolsApiKey))
         {
-            throw new RuntimeException("No API Key found; Please set applitools.apiKey property in applitools.properties");
+            throw new RuntimeException("No Applitools API Key found: Please set the 'applitools.apiKey' property in 'config/applitools.properties' file.");
         }
         return applitoolsApiKey;
     }

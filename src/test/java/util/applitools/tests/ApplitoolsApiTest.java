@@ -1,7 +1,8 @@
-package util.applitools;
+package util.applitools.tests;
 
 import java.util.UUID;
 
+import org.aeonbits.owner.ConfigFactory;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -40,7 +41,11 @@ public class ApplitoolsApiTest extends AbstractTest
         final String invalidApiKey = UUID.randomUUID().toString().replaceAll("-", "");
         final String matchLevel = "NONE";
         final String batchName = "Test Batch";
-
+        properties2.put("applitools.apiKey", invalidApiKey);
+        properties2.put("applitools.matchLevel", matchLevel);
+        properties2.put("applitools.batch", batchName);
+        writeMapToPropertiesFile(properties2, tempConfigFile2);
+        ConfigFactory.setProperty("neodymium.temporaryConfigFile", "file:" + fileLocation);
         ApplitoolsApi.getConfiguration().setProperty("applitools.apiKey", invalidApiKey);
         ApplitoolsApi.getConfiguration().setProperty("applitools.matchLevel", matchLevel);
         ApplitoolsApi.getConfiguration().setProperty("applitools.batch", batchName);
@@ -55,8 +60,9 @@ public class ApplitoolsApiTest extends AbstractTest
     public void testSetupGlobaWithEmptyOptionalProperties()
     {
         final String invalidApiKey = UUID.randomUUID().toString().replaceAll("-", "");
-        ApplitoolsApi.getConfiguration().setProperty("applitools.apiKey", invalidApiKey);
+        properties2.put("applitools.apiKey", invalidApiKey);
+        writeMapToPropertiesFile(properties2, tempConfigFile2);
+        ConfigFactory.setProperty("neodymium.temporaryConfigFile", "file:" + fileLocation);
         ApplitoolsApi.setupGlobal();
     }
-
 }

@@ -1,4 +1,4 @@
-package util.applitools.validkey.parallel;
+package util.applitools.tests.validkey.parallel;
 
 import static com.codeborne.selenide.Selenide.$;
 
@@ -7,7 +7,7 @@ import org.junit.Test;
 import com.codeborne.selenide.Selenide;
 
 import util.applitools.ApplitoolsApi;
-import util.applitools.validkey.AbstractValidKeyTest;
+import util.applitools.tests.validkey.AbstractValidKeyTest;
 
 public class HomePageTest extends AbstractValidKeyTest
 {
