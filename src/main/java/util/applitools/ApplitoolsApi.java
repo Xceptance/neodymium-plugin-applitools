@@ -25,6 +25,8 @@ public class ApplitoolsApi
 {
     private static final Map<Thread, ApplitoolsConfiguration> CONFIGURATION = Collections.synchronizedMap(new WeakHashMap<>());
 
+    public final static String TEMPORARY_CONFIG_FILE_PROPERTY_NAME = "applitools.temporaryConfigFile";
+
     private static ThreadLocal<Eyes> eyes = ThreadLocal.withInitial(new Supplier<Eyes>()
     {
         @Override
@@ -43,6 +45,11 @@ public class ApplitoolsApi
      */
     public static ApplitoolsConfiguration getConfiguration()
     {
+        // the property needs to be a valid URI in order to satisfy the Owner framework
+        if (null == ConfigFactory.getProperty(TEMPORARY_CONFIG_FILE_PROPERTY_NAME))
+        {
+            ConfigFactory.setProperty(TEMPORARY_CONFIG_FILE_PROPERTY_NAME, "file:this/path/should/never/exist/noOneShouldCreateMe.properties");
+        }
         return CONFIGURATION.computeIfAbsent(Thread.currentThread(), key -> {
             return ConfigFactory.create(ApplitoolsConfiguration.class);
         });

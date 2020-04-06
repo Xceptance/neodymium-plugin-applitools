@@ -27,7 +27,7 @@ public class ApplitoolsApiExceptionsTest extends AbstractTest
     {
         properties2.put("applitools.apiKey", "");
         writeMapToPropertiesFile(properties2, tempConfigFile2);
-        ConfigFactory.setProperty("neodymium.temporaryConfigFile", "file:" + fileLocation);
+        ConfigFactory.setProperty(ApplitoolsApi.TEMPORARY_CONFIG_FILE_PROPERTY_NAME, "file:" + fileLocation);
         exceptionRule.expect(RuntimeException.class);
         exceptionRule.expectMessage("No Applitools API Key found: Please set the 'applitools.apiKey' property in 'config/applitools.properties' file.");
         ApplitoolsApi.setupGlobal();
@@ -41,7 +41,7 @@ public class ApplitoolsApiExceptionsTest extends AbstractTest
 
         properties2.put("applitools.apiKey", invalidApiKey);
         writeMapToPropertiesFile(properties2, tempConfigFile2);
-        ConfigFactory.setProperty("neodymium.temporaryConfigFile", "file:" + fileLocation);
+        ConfigFactory.setProperty(ApplitoolsApi.TEMPORARY_CONFIG_FILE_PROPERTY_NAME, "file:" + fileLocation);
 
         exceptionRule.expect(EyesException.class);
         exceptionRule.expectMessage("eyes.openBase() failed");
@@ -65,7 +65,7 @@ public class ApplitoolsApiExceptionsTest extends AbstractTest
 
         properties2.put("applitools.apiKey", invalidApiKey);
         writeMapToPropertiesFile(properties2, tempConfigFile2);
-        ConfigFactory.setProperty("neodymium.temporaryConfigFile", "file:" + fileLocation);
+        ConfigFactory.setProperty(ApplitoolsApi.TEMPORARY_CONFIG_FILE_PROPERTY_NAME, "file:" + fileLocation);
 
         exceptionRule.expect(IllegalStateException.class);
         exceptionRule.expectMessage("Eyes not open");
@@ -81,7 +81,7 @@ public class ApplitoolsApiExceptionsTest extends AbstractTest
 
         properties2.put("applitools.apiKey", invalidApiKey);
         writeMapToPropertiesFile(properties2, tempConfigFile2);
-        ConfigFactory.setProperty("neodymium.temporaryConfigFile", "file:" + fileLocation);
+        ConfigFactory.setProperty(ApplitoolsApi.TEMPORARY_CONFIG_FILE_PROPERTY_NAME, "file:" + fileLocation);
 
         exceptionRule.expect(IllegalStateException.class);
         exceptionRule.expectMessage("Eyes not open");

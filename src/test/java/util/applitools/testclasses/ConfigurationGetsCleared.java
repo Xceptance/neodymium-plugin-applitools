@@ -1,5 +1,8 @@
 package util.applitools.testclasses;
 
+import java.util.UUID;
+
+import org.aeonbits.owner.ConfigFactory;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,6 +15,10 @@ public class ConfigurationGetsCleared extends AbstractTest
     @Before
     public void setupGlobal()
     {
+        final String apiKey = UUID.randomUUID().toString();
+        properties2.put("applitools.apiKey", apiKey);
+        writeMapToPropertiesFile(properties2, tempConfigFile2);
+        ConfigFactory.setProperty(ApplitoolsApi.TEMPORARY_CONFIG_FILE_PROPERTY_NAME, "file:" + fileLocation);
         ApplitoolsApi.setupGlobal();
     }
 

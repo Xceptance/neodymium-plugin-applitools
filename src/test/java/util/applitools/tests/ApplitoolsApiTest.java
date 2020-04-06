@@ -45,7 +45,7 @@ public class ApplitoolsApiTest extends AbstractTest
         properties2.put("applitools.matchLevel", matchLevel);
         properties2.put("applitools.batch", batchName);
         writeMapToPropertiesFile(properties2, tempConfigFile2);
-        ConfigFactory.setProperty("neodymium.temporaryConfigFile", "file:" + fileLocation);
+        ConfigFactory.setProperty(ApplitoolsApi.TEMPORARY_CONFIG_FILE_PROPERTY_NAME, "file:" + fileLocation);
         ApplitoolsApi.getConfiguration().setProperty("applitools.apiKey", invalidApiKey);
         ApplitoolsApi.getConfiguration().setProperty("applitools.matchLevel", matchLevel);
         ApplitoolsApi.getConfiguration().setProperty("applitools.batch", batchName);
@@ -62,7 +62,7 @@ public class ApplitoolsApiTest extends AbstractTest
         final String invalidApiKey = UUID.randomUUID().toString().replaceAll("-", "");
         properties2.put("applitools.apiKey", invalidApiKey);
         writeMapToPropertiesFile(properties2, tempConfigFile2);
-        ConfigFactory.setProperty("neodymium.temporaryConfigFile", "file:" + fileLocation);
+        ConfigFactory.setProperty(ApplitoolsApi.TEMPORARY_CONFIG_FILE_PROPERTY_NAME, "file:" + fileLocation);
         ApplitoolsApi.setupGlobal();
     }
 }
