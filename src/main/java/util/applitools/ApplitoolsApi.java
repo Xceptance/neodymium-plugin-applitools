@@ -39,9 +39,9 @@ public class ApplitoolsApi
     protected static HashMap<String, BatchInfo> batches = new HashMap<String, BatchInfo>();
 
     /**
-     * Retrieves the context instance for the current Thread.
+     * Retrieves the instance of applitools configuration for the current thread.
      * 
-     * @return the context instance for the current Thread
+     * @return the configuration instance for the current thread
      */
     public static ApplitoolsConfiguration getConfiguration()
     {
@@ -55,11 +55,21 @@ public class ApplitoolsApi
         });
     }
 
+    /**
+     * Method to access eyes instance for current thread. This can be used to make custom manipulations with this
+     * object, e.g. to download pictures after test
+     * 
+     * @return eyes instance for current thread
+     */
     public static Eyes getEyes()
     {
         return eyes.get();
     }
 
+    /**
+     * Configures eyes object to start test. Configurations will be cleared and read from configuration file again. Use
+     * this method to setup tests, which belong to global batch (one with the name you entered in applitools.properties)
+     */
     public static void setupGlobal()
     {
         CONFIGURATION.remove(Thread.currentThread());
@@ -75,6 +85,14 @@ public class ApplitoolsApi
         }
     }
 
+    /**
+     * Configures eyes object to start test. Configurations will be cleared and read from configuration file again. Use
+     * this method with the same batchName parameter to setup the group tests, which belong to one batch , e.g. for all
+     * order test call this method with batchName 'order'
+     * 
+     * @param batchName
+     *            name of batch for group of tests
+     */
     public synchronized static void setupGroupingOfTestsByName(String batchName)
     {
         CONFIGURATION.remove(Thread.currentThread());
@@ -96,6 +114,10 @@ public class ApplitoolsApi
         setupBasic();
     }
 
+    /**
+     * Configures eyes object with minimal configurations. Use this method if you don't want test to belong to any
+     * existing batch
+     */
     public static void setupBasic()
     {
         CONFIGURATION.remove(Thread.currentThread());
@@ -104,6 +126,14 @@ public class ApplitoolsApi
         getEyes().setApiKey(getApplitoolsApiKey());
     }
 
+    /**
+     * Wrapper method for eyes.setMatchLevel. Through this method match level can be changed at any point of the test.
+     * To get to know more about avaliable match levels, please read
+     * <a href="https://help.applitools.com/hc/en-us/articles/360007188591-Match-Levels">this</a> article
+     * 
+     * @param matchLevel
+     *            string value of com.applitools.eyes.MatchLevel enum object
+     */
     public static void setMatchLevel(String matchLevel)
     {
         getEyes().setMatchLevel(MatchLevel.valueOf(matchLevel));
