@@ -11,8 +11,6 @@ import java.util.function.Supplier;
 import org.aeonbits.owner.ConfigFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.remote.RemoteWebDriver;
-import org.openqa.selenium.support.events.EventFiringWebDriver;
 
 import com.applitools.eyes.BatchInfo;
 import com.applitools.eyes.MatchLevel;
@@ -162,7 +160,7 @@ public class ApplitoolsApi
      */
     public static void openEyes(String testName)
     {
-        getEyes().open(getRemoteWebDriver(), getConfiguration().projectName(), testName);
+        getEyes().open(Neodymium.getRemoteWebDriver(), getConfiguration().projectName(), testName);
     }
 
     /**
@@ -207,7 +205,7 @@ public class ApplitoolsApi
      */
     public static void assertElements(By condition, String description)
     {
-        WebDriver driver = getRemoteWebDriver();
+        WebDriver driver = Neodymium.getRemoteWebDriver();
         driver.findElements(condition).forEach(element -> getEyes().checkElement(element, description));
     }
 
@@ -248,11 +246,5 @@ public class ApplitoolsApi
             throw new RuntimeException("No Applitools API Key found: Please set the 'applitools.apiKey' property in 'config/applitools.properties' file.");
         }
         return applitoolsApiKey;
-    }
-
-    private static RemoteWebDriver getRemoteWebDriver()
-    {
-        EventFiringWebDriver eventFiringWebDriver = (EventFiringWebDriver) Neodymium.getDriver();
-        return (RemoteWebDriver) eventFiringWebDriver.getWrappedDriver();
     }
 }
