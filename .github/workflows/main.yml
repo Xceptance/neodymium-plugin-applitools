@@ -21,7 +21,7 @@ jobs:
         apiKey: ${{ secrets.apiKey }}
         username: ${{ secrets.username }}
         password: ${{ secrets.password }}
-    - run: mvn -B clean compile package -P basic allure:report
+      run: mvn -B clean compile package -P basic allure:report
     - uses: actions/upload-artifact@v1
       with:
           name: allure-report-basic
