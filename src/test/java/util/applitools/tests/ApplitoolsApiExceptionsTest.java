@@ -1,6 +1,5 @@
 package util.applitools.tests;
 
-import java.io.IOException;
 import java.util.UUID;
 
 import org.aeonbits.owner.ConfigFactory;
@@ -23,7 +22,7 @@ public class ApplitoolsApiExceptionsTest extends AbstractTest
     public ExpectedException exceptionRule = ExpectedException.none();
 
     @Test
-    public void testSetupGlobalWithoutApiKey() throws IOException
+    public void testSetupGlobalWithoutApiKey()
     {
         properties2.put("applitools.apiKey", "");
         writeMapToPropertiesFile(properties2, tempConfigFile2);
@@ -34,7 +33,7 @@ public class ApplitoolsApiExceptionsTest extends AbstractTest
     }
 
     @Test
-    public void testOpenEyesWithInvalidApiKey() throws IOException
+    public void testOpenEyesWithInvalidApiKey()
     {
         Selenide.open("https://www.xceptance.com/en/");
         final String invalidApiKey = UUID.randomUUID().toString().replaceAll("-", "");
@@ -58,7 +57,7 @@ public class ApplitoolsApiExceptionsTest extends AbstractTest
     }
 
     @Test
-    public void testPageAssertBeforeEyesOpened() throws IOException
+    public void testPageAssertBeforeEyesOpened()
     {
         Selenide.open("https://www.xceptance.com/en/");
         final String invalidApiKey = UUID.randomUUID().toString().replaceAll("-", "");
@@ -74,7 +73,7 @@ public class ApplitoolsApiExceptionsTest extends AbstractTest
     }
 
     @Test
-    public void testElementAssertBeforeEyesOpened() throws IOException
+    public void testElementAssertBeforeEyesOpened()
     {
         Selenide.open("https://www.xceptance.com/en/");
         final String invalidApiKey = UUID.randomUUID().toString().replaceAll("-", "");

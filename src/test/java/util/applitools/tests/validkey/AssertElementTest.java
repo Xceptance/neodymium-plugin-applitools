@@ -1,7 +1,5 @@
 package util.applitools.tests.validkey;
 
-import java.io.IOException;
-
 import org.junit.Test;
 import org.openqa.selenium.By;
 
@@ -15,7 +13,7 @@ import util.applitools.ApplitoolsApi;
 public class AssertElementTest extends AbstractDeleteBatchAfterTest
 {
     @Test
-    public void testAssertElement() throws IOException
+    public void testAssertElement()
     {
         Selenide.open(Neodymium.configuration().url());
         final String testName = "assert element test";

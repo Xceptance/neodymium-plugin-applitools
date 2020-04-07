@@ -1,7 +1,5 @@
 package util.applitools.tests.validkey;
 
-import java.io.IOException;
-
 import org.junit.Test;
 
 import com.codeborne.selenide.Selenide;
@@ -14,7 +12,7 @@ import util.applitools.ApplitoolsApi;
 public class OpenEyesTest extends AbstractDeleteBatchAfterTest
 {
     @Test
-    public void testOpenEyesWithValidApiKey() throws IOException
+    public void testOpenEyesWithValidApiKey()
     {
         final String testName = "open eyes test";
         Selenide.open(Neodymium.configuration().url());

@@ -1,7 +1,5 @@
 package util.applitools.tests.validkey;
 
-import java.io.IOException;
-
 import org.junit.Test;
 
 import com.codeborne.selenide.Selenide;
@@ -14,7 +12,7 @@ import util.applitools.ApplitoolsApi;
 public class AssertPageTest extends AbstractDeleteBatchAfterTest
 {
     @Test
-    public void testAssertPage() throws IOException
+    public void testAssertPage()
     {
         Selenide.open(Neodymium.configuration().url());
         final String testName = "assert page test";
