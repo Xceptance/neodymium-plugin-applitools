@@ -21,7 +21,11 @@ jobs:
         apiKey: ${{ secrets.apiKey }}
         username: ${{ secrets.username }}
         password: ${{ secrets.password }}
-      run: mvn -B clean compile package -P basic
+    - run: mvn -B clean compile package -P basic allure:report
+    - uses: actions/upload-artifact@v1
+      with:
+          name: allure-report-basic
+          path: home/runner/work/neodymium-plugin-applitools/neodymium-plugin-applitools/target/site
     - name: run test with valid api key in 2 threads and assert single batch created
       env:
         apiKey: ${{ secrets.apiKey }}
