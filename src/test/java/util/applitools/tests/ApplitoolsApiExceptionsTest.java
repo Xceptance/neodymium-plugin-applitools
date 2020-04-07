@@ -1,6 +1,5 @@
 package util.applitools.tests;
 
-import java.io.IOException;
 import java.util.UUID;
 
 import org.aeonbits.owner.ConfigFactory;
@@ -23,25 +22,25 @@ public class ApplitoolsApiExceptionsTest extends AbstractTest
     public ExpectedException exceptionRule = ExpectedException.none();
 
     @Test
-    public void testSetupGlobalWithoutApiKey() throws IOException
+    public void testSetupGlobalWithoutApiKey()
     {
         properties2.put("applitools.apiKey", "");
         writeMapToPropertiesFile(properties2, tempConfigFile2);
-        ConfigFactory.setProperty("neodymium.temporaryConfigFile", "file:" + fileLocation);
+        ConfigFactory.setProperty(ApplitoolsApi.TEMPORARY_CONFIG_FILE_PROPERTY_NAME, "file:" + fileLocation);
         exceptionRule.expect(RuntimeException.class);
         exceptionRule.expectMessage("No Applitools API Key found: Please set the 'applitools.apiKey' property in 'config/applitools.properties' file.");
         ApplitoolsApi.setupGlobal();
     }
 
     @Test
-    public void testOpenEyesWithInvalidApiKey() throws IOException
+    public void testOpenEyesWithInvalidApiKey()
     {
         Selenide.open("https://www.xceptance.com/en/");
         final String invalidApiKey = UUID.randomUUID().toString().replaceAll("-", "");
 
         properties2.put("applitools.apiKey", invalidApiKey);
         writeMapToPropertiesFile(properties2, tempConfigFile2);
-        ConfigFactory.setProperty("neodymium.temporaryConfigFile", "file:" + fileLocation);
+        ConfigFactory.setProperty(ApplitoolsApi.TEMPORARY_CONFIG_FILE_PROPERTY_NAME, "file:" + fileLocation);
 
         exceptionRule.expect(EyesException.class);
         exceptionRule.expectMessage("eyes.openBase() failed");
@@ -58,14 +57,14 @@ public class ApplitoolsApiExceptionsTest extends AbstractTest
     }
 
     @Test
-    public void testPageAssertBeforeEyesOpened() throws IOException
+    public void testPageAssertBeforeEyesOpened()
     {
         Selenide.open("https://www.xceptance.com/en/");
         final String invalidApiKey = UUID.randomUUID().toString().replaceAll("-", "");
 
         properties2.put("applitools.apiKey", invalidApiKey);
         writeMapToPropertiesFile(properties2, tempConfigFile2);
-        ConfigFactory.setProperty("neodymium.temporaryConfigFile", "file:" + fileLocation);
+        ConfigFactory.setProperty(ApplitoolsApi.TEMPORARY_CONFIG_FILE_PROPERTY_NAME, "file:" + fileLocation);
 
         exceptionRule.expect(IllegalStateException.class);
         exceptionRule.expectMessage("Eyes not open");
@@ -74,14 +73,14 @@ public class ApplitoolsApiExceptionsTest extends AbstractTest
     }
 
     @Test
-    public void testElementAssertBeforeEyesOpened() throws IOException
+    public void testElementAssertBeforeEyesOpened()
     {
         Selenide.open("https://www.xceptance.com/en/");
         final String invalidApiKey = UUID.randomUUID().toString().replaceAll("-", "");
 
         properties2.put("applitools.apiKey", invalidApiKey);
         writeMapToPropertiesFile(properties2, tempConfigFile2);
-        ConfigFactory.setProperty("neodymium.temporaryConfigFile", "file:" + fileLocation);
+        ConfigFactory.setProperty(ApplitoolsApi.TEMPORARY_CONFIG_FILE_PROPERTY_NAME, "file:" + fileLocation);
 
         exceptionRule.expect(IllegalStateException.class);
         exceptionRule.expectMessage("Eyes not open");

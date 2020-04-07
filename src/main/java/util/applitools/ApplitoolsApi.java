@@ -11,8 +11,6 @@ import java.util.function.Supplier;
 import org.aeonbits.owner.ConfigFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.remote.RemoteWebDriver;
-import org.openqa.selenium.support.events.EventFiringWebDriver;
 
 import com.applitools.eyes.BatchInfo;
 import com.applitools.eyes.MatchLevel;
@@ -24,6 +22,8 @@ import com.xceptance.neodymium.util.Neodymium;
 public class ApplitoolsApi
 {
     private static final Map<Thread, ApplitoolsConfiguration> CONFIGURATION = Collections.synchronizedMap(new WeakHashMap<>());
+
+    public final static String TEMPORARY_CONFIG_FILE_PROPERTY_NAME = "applitools.temporaryConfigFile";
 
     private static ThreadLocal<Eyes> eyes = ThreadLocal.withInitial(new Supplier<Eyes>()
     {
@@ -37,24 +37,41 @@ public class ApplitoolsApi
     protected static HashMap<String, BatchInfo> batches = new HashMap<String, BatchInfo>();
 
     /**
-     * Retrieves the context instance for the current Thread.
+     * Retrieves the instance of applitools configuration for the current thread.
      * 
-     * @return the context instance for the current Thread
+     * @return the configuration instance for the current thread
      */
     public static ApplitoolsConfiguration getConfiguration()
     {
+        // the property needs to be a valid URI in order to satisfy the Owner framework
+        if (null == ConfigFactory.getProperty(TEMPORARY_CONFIG_FILE_PROPERTY_NAME))
+        {
+            ConfigFactory.setProperty(TEMPORARY_CONFIG_FILE_PROPERTY_NAME, "file:this/path/should/never/exist/noOneShouldCreateMe.properties");
+        }
         return CONFIGURATION.computeIfAbsent(Thread.currentThread(), key -> {
             return ConfigFactory.create(ApplitoolsConfiguration.class);
         });
     }
 
+    /**
+     * Method to access eyes instance for current thread. This can be used to make custom manipulations with this
+     * object, e.g. to download pictures after test
+     * 
+     * @return eyes instance for current thread
+     */
     public static Eyes getEyes()
     {
         return eyes.get();
     }
 
+    /**
+     * Configures eyes object to start test. Configurations will be cleared and read from configuration file again. Use
+     * this method to setup tests, which belong to global batch (one with the name you entered in applitools.properties)
+     */
     public static void setupGlobal()
     {
+        CONFIGURATION.remove(Thread.currentThread());
+        getConfiguration();
         final String batch = getConfiguration().batch();
         if (isNullOrEmpty(batch))
         {
@@ -66,6 +83,14 @@ public class ApplitoolsApi
         }
     }
 
+    /**
+     * Configures eyes object to start test. Configurations will be cleared and read from configuration file again. Use
+     * this method with the same batchName parameter to setup the group tests, which belong to one batch , e.g. for all
+     * order test call this method with batchName 'order'
+     * 
+     * @param batchName
+     *            name of batch for group of tests
+     */
     public synchronized static void setupGroupingOfTestsByName(String batchName)
     {
         CONFIGURATION.remove(Thread.currentThread());
@@ -87,25 +112,55 @@ public class ApplitoolsApi
         setupBasic();
     }
 
+    /**
+     * Configures eyes object with minimal configurations. Use this method if you don't want test to belong to any
+     * existing batch
+     */
     public static void setupBasic()
     {
+        CONFIGURATION.remove(Thread.currentThread());
+        getConfiguration();
         getEyes().setMatchLevel(getConfiguration().matchLevel());
         getEyes().setApiKey(getApplitoolsApiKey());
     }
 
+    /**
+     * Wrapper method for eyes.setMatchLevel. Through this method match level can be changed at any point of the test.
+     * To get to know more about avaliable match levels, please read
+     * <a href="https://help.applitools.com/hc/en-us/articles/360007188591-Match-Levels">this</a> article
+     * 
+     * @param matchLevel
+     *            string value of com.applitools.eyes.MatchLevel enum object
+     */
     public static void setMatchLevel(String matchLevel)
     {
         getEyes().setMatchLevel(MatchLevel.valueOf(matchLevel));
     }
 
+    /**
+     * Method to add property for test. Adds a custom key name/value property that will be associated with tests. You
+     * can view these properties and filter and group by these properties in the Test Manager.
+     * 
+     * @param name
+     *            property name
+     * @param value
+     *            property value
+     */
     public static void addProperty(String name, String value)
     {
         getEyes().addProperty(name, value);
     }
 
+    /**
+     * Method to start visual assertions. Call this method to start a test, before calling any of the check methods.
+     * 
+     * @param testName
+     *            The name of the test. This name must be unique within the scope of the application name. It may be any
+     *            string.
+     */
     public static void openEyes(String testName)
     {
-        getEyes().open(getRemoteWebDriver(), getConfiguration().projectName(), testName);
+        getEyes().open(Neodymium.getRemoteWebDriver(), getConfiguration().projectName(), testName);
     }
 
     /**
@@ -118,34 +173,59 @@ public class ApplitoolsApi
         getEyes().setHideCaret(hideCaret);
     }
 
-    public static void assertPage(String pageDescription)
-    {
-        getEyes().checkWindow(pageDescription);
-    }
-
-    public static void assertElements(String elementSelector)
-    {
-        WebDriver driver = getRemoteWebDriver();
-        if (elementSelector.substring(0, 1).equals("//"))
-        {
-            driver.findElements(By.xpath(elementSelector)).forEach(element -> getEyes().checkElement(element, elementSelector));
-        }
-        else
-        {
-            driver.findElements(By.cssSelector(elementSelector)).forEach(element -> getEyes().checkElement(element, elementSelector));
-        }
-    }
-
+    /**
+     * Use this method to set the amount of time in milliseconds that Eyes will wait before capturing a screenshot.
+     * 
+     * @param waitBeforeScreenshots
+     *            time in milliseconds
+     */
     public static void setWaitBeforeScreenshot(int waitBeforeScreenshots)
     {
         getEyes().setWaitBeforeScreenshots(waitBeforeScreenshots);
     }
 
+    /**
+     * Method to make visual assert for the whole page
+     * 
+     * @param pageDescription
+     *            name for the screenshot
+     */
+    public static void assertPage(String pageDescription)
+    {
+        getEyes().checkWindow(pageDescription);
+    }
+
+    /**
+     * Method to make visual assert for elements in collection
+     * 
+     * @param condition
+     *            org.openqa.selenium.By object to select target elements
+     * @param description
+     *            screenshot description
+     */
+    public static void assertElements(By condition, String description)
+    {
+        WebDriver driver = Neodymium.getRemoteWebDriver();
+        driver.findElements(condition).forEach(element -> getEyes().checkElement(element, description));
+    }
+
+    /**
+     * Method to make visual assert for single element
+     * 
+     * @param condition
+     *            org.openqa.selenium.By object to select target element
+     * @param imageDescription
+     *            screenshot description
+     */
     public static void assertElement(By condition, String imageDescription)
     {
         getEyes().checkElement(condition, imageDescription);
     }
 
+    /**
+     * This method should be called at the end of each test to end all visual assertions and to add link to results to
+     * your allure report
+     */
     public static void endAssertions()
     {
         TestResults allTestResults = getEyes().close(getConfiguration().throwException());
@@ -166,11 +246,5 @@ public class ApplitoolsApi
             throw new RuntimeException("No Applitools API Key found: Please set the 'applitools.apiKey' property in 'config/applitools.properties' file.");
         }
         return applitoolsApiKey;
-    }
-
-    private static RemoteWebDriver getRemoteWebDriver()
-    {
-        EventFiringWebDriver eventFiringWebDriver = (EventFiringWebDriver) Neodymium.getDriver();
-        return (RemoteWebDriver) eventFiringWebDriver.getWrappedDriver();
     }
 }

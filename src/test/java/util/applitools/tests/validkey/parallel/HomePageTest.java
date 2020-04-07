@@ -5,6 +5,7 @@ import static com.codeborne.selenide.Selenide.$;
 import org.junit.Test;
 
 import com.codeborne.selenide.Selenide;
+import com.xceptance.neodymium.util.Neodymium;
 
 import util.applitools.ApplitoolsApi;
 import util.applitools.tests.validkey.AbstractValidKeyTest;
@@ -14,7 +15,7 @@ public class HomePageTest extends AbstractValidKeyTest
     @Test
     public void testHomepage()
     {
-        Selenide.open("https://www.xceptance.com/en/");
+        Selenide.open(Neodymium.configuration().url());
         ApplitoolsApi.openEyes("home page test");
         ApplitoolsApi.assertPage("Home Page");
     }
@@ -23,7 +24,7 @@ public class HomePageTest extends AbstractValidKeyTest
     public void testHomepageWithCookies()
     {
         // Goto the home page
-        Selenide.open("https://www.xceptance.com/en/");
+        Selenide.open(Neodymium.configuration().url());
         ApplitoolsApi.openEyes("home page with cookies test");
 
         // accept cookies
