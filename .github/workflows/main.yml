@@ -18,6 +18,8 @@ jobs:
         java-version: 1.8
     - name: Customize Maven repo settings
       run: cp .github/workflows/settings.xml ~/.m2
+    - name: Install GPG key  
+      run: echo "${{ secrets.GPG_KEY }}" | gpg --batch --import
     - name: Deploy
       env:
         OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
@@ -26,6 +28,4 @@ jobs:
         apiKey: ${{ secrets.apiKey }}
         username: ${{ secrets.username }}
         password: ${{ secrets.password }}
-      run: |
-          echo "${{ secrets.GPG_KEY }}" | gpg --batch --import
-          mvn -B deploy
+      run: mvn -B deploy
