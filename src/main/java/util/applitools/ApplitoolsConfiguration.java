@@ -29,6 +29,14 @@ public interface ApplitoolsConfiguration extends Mutable
     @DefaultValue("false")
     boolean throwException();
 
+    @Key("applitools.hideCaret")
+    @DefaultValue("true")
+    boolean hideCaret();
+
+    @Key("applitools.waitBeforeScreenshot")
+    @DefaultValue("100")
+    int waitBeforeScreenshot();
+
     @Key("applitools.batch")
     String batch();
 }

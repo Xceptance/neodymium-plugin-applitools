@@ -122,6 +122,8 @@ public class ApplitoolsApi
         getConfiguration();
         getEyes().setMatchLevel(getConfiguration().matchLevel());
         getEyes().setApiKey(getApplitoolsApiKey());
+        getEyes().setHideCaret(getConfiguration().hideCaret());
+        getEyes().setWaitBeforeScreenshots(getConfiguration().waitBeforeScreenshot());
     }
 
     /**

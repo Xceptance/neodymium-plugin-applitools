@@ -1,6 +1,5 @@
 package util.applitools.tests;
 
-import java.io.IOException;
 import java.util.UUID;
 
 import org.aeonbits.owner.ConfigFactory;
@@ -18,7 +17,7 @@ import util.applitools.testclasses.ConfigurationGetsCleared;
 public class ApplitoolsConfigurationTest extends AbstractTest
 {
     @Test
-    public void testProjectName() throws IOException, InterruptedException
+    public void testProjectName()
     {
         final String projectName = "Test-Project";
         properties2.put("applitools.projectName", projectName);
@@ -28,7 +27,7 @@ public class ApplitoolsConfigurationTest extends AbstractTest
     }
 
     @Test
-    public void testMatchLevel() throws IOException, InterruptedException
+    public void testMatchLevel()
     {
         final String matchLevel = "NONE";
         properties2.put("applitools.matchLevel", matchLevel);
@@ -38,7 +37,7 @@ public class ApplitoolsConfigurationTest extends AbstractTest
     }
 
     @Test
-    public void testApiKey() throws IOException, InterruptedException
+    public void testApiKey()
     {
         final String apiKey = UUID.randomUUID().toString();
         properties2.put("applitools.apiKey", apiKey);
@@ -48,7 +47,7 @@ public class ApplitoolsConfigurationTest extends AbstractTest
     }
 
     @Test
-    public void testBatch() throws IOException, InterruptedException
+    public void testBatch()
     {
         final String batchName = "Test-Batch";
         properties2.put("applitools.batch", batchName);
@@ -58,13 +57,33 @@ public class ApplitoolsConfigurationTest extends AbstractTest
     }
 
     @Test
-    public void testThrowException() throws IOException, InterruptedException
+    public void testThrowException()
     {
         final String throwException = "true";
         properties2.put("applitools.throwException", throwException);
         writeMapToPropertiesFile(properties2, tempConfigFile2);
         ConfigFactory.setProperty(ApplitoolsApi.TEMPORARY_CONFIG_FILE_PROPERTY_NAME, "file:" + fileLocation);
         Assert.assertEquals(Boolean.parseBoolean(throwException), ConfigFactory.create(ApplitoolsConfiguration.class).throwException());
+    }
+
+    @Test
+    public void testHideCaret()
+    {
+        final String hideCaret = "false";
+        properties2.put("applitools.hideCaret", hideCaret);
+        writeMapToPropertiesFile(properties2, tempConfigFile2);
+        ConfigFactory.setProperty(ApplitoolsApi.TEMPORARY_CONFIG_FILE_PROPERTY_NAME, "file:" + fileLocation);
+        Assert.assertEquals(Boolean.parseBoolean(hideCaret), ConfigFactory.create(ApplitoolsConfiguration.class).hideCaret());
+    }
+
+    @Test
+    public void testWaitBeforeScreenshot()
+    {
+        final String waitBeforeScreenshot = "300";
+        properties2.put("applitools.waitBeforeScreenshot", waitBeforeScreenshot);
+        writeMapToPropertiesFile(properties2, tempConfigFile2);
+        ConfigFactory.setProperty(ApplitoolsApi.TEMPORARY_CONFIG_FILE_PROPERTY_NAME, "file:" + fileLocation);
+        Assert.assertEquals(Integer.parseInt(waitBeforeScreenshot), ConfigFactory.create(ApplitoolsConfiguration.class).waitBeforeScreenshot());
     }
 
     @Test
