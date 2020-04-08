@@ -25,4 +25,4 @@ jobs:
         apiKey: ${{ secrets.apiKey }}
         username: ${{ secrets.username }}
         password: ${{ secrets.password }}
-      run: mvn deploy
+      run: mvn -B deploy
