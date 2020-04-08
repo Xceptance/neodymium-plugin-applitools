@@ -80,7 +80,7 @@ public class ApplitoolsConfigurationTest extends AbstractTest
     public void testWaitBeforeScreenshot()
     {
         final String waitBeforeScreenshot = "300";
-        properties2.put("applitools.throwException", waitBeforeScreenshot);
+        properties2.put("applitools.waitBeforeScreenshot", waitBeforeScreenshot);
         writeMapToPropertiesFile(properties2, tempConfigFile2);
         ConfigFactory.setProperty(ApplitoolsApi.TEMPORARY_CONFIG_FILE_PROPERTY_NAME, "file:" + fileLocation);
         Assert.assertEquals(Integer.parseInt(waitBeforeScreenshot), ConfigFactory.create(ApplitoolsConfiguration.class).waitBeforeScreenshot());
