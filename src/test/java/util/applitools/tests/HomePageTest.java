@@ -7,23 +7,26 @@ import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
 
 import com.codeborne.selenide.Selenide;
+import com.xceptance.neodymium.NeodymiumRunner;
 import com.xceptance.neodymium.module.statement.browser.multibrowser.Browser;
 
 import util.applitools.ApplitoolsApi;
-import util.applitools.ApplitoolsRunner;
+import util.applitools.ApplitoolsWatcher;
 
 @Browser("Chrome_1500x1000")
-@RunWith(ApplitoolsRunner.class)
+@RunWith(NeodymiumRunner.class)
 public class HomePageTest
 {
     @Rule
     public TestName name = new TestName();
 
+    @Rule
+    public ApplitoolsWatcher watcher = new ApplitoolsWatcher();
+
     @Test
     public void testHomePage()
     {
         Selenide.open("https://www.xceptance.com/en/");
-        ApplitoolsApi.openEyes(name.getMethodName());
 
         // if the page you test contains some dynamic content, like the page we test here, there are two options to
         // avoid failure of visual compare
@@ -47,7 +50,6 @@ public class HomePageTest
     public void testHomePage2()
     {
         Selenide.open("https://www.xceptance.com/en/");
-        ApplitoolsApi.openEyes(name.getMethodName());
 
         // if the page you test contains some dynamic content, like the page we test here, there are two options to
         // avoid failure of visual compare
