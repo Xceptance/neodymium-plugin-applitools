@@ -2,7 +2,6 @@ package util.applitools.tests;
 
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.TestName;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
 
@@ -17,9 +16,6 @@ import util.applitools.ApplitoolsWatcher;
 @RunWith(NeodymiumRunner.class)
 public class HomePageTest
 {
-    @Rule
-    public TestName name = new TestName();
-
     @Rule
     public ApplitoolsWatcher watcher = new ApplitoolsWatcher();
 
