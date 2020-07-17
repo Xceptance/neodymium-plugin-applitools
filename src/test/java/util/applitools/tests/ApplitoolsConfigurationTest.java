@@ -20,9 +20,9 @@ public class ApplitoolsConfigurationTest extends AbstractTest
     public void testProjectName()
     {
         final String projectName = "Test-Project";
-        properties2.put("applitools.projectName", projectName);
-        writeMapToPropertiesFile(properties2, tempConfigFile2);
-        ConfigFactory.setProperty(ApplitoolsApi.TEMPORARY_CONFIG_FILE_PROPERTY_NAME, "file:" + fileLocation);
+        configProperties.put("applitools.projectName", projectName);
+        writeMapToPropertiesFile(configProperties, tempConfigFile);
+        ConfigFactory.setProperty(ApplitoolsApi.TEMPORARY_CONFIG_FILE_PROPERTY_NAME, "file:" + configFileLocation);
         Assert.assertEquals(projectName, ConfigFactory.create(ApplitoolsConfiguration.class).projectName());
     }
 
@@ -30,9 +30,9 @@ public class ApplitoolsConfigurationTest extends AbstractTest
     public void testMatchLevel()
     {
         final String matchLevel = "NONE";
-        properties2.put("applitools.matchLevel", matchLevel);
-        writeMapToPropertiesFile(properties2, tempConfigFile2);
-        ConfigFactory.setProperty(ApplitoolsApi.TEMPORARY_CONFIG_FILE_PROPERTY_NAME, "file:" + fileLocation);
+        configProperties.put("applitools.matchLevel", matchLevel);
+        writeMapToPropertiesFile(configProperties, tempConfigFile);
+        ConfigFactory.setProperty(ApplitoolsApi.TEMPORARY_CONFIG_FILE_PROPERTY_NAME, "file:" + configFileLocation);
         Assert.assertEquals(MatchLevel.valueOf(matchLevel), ConfigFactory.create(ApplitoolsConfiguration.class).matchLevel());
     }
 
@@ -40,9 +40,9 @@ public class ApplitoolsConfigurationTest extends AbstractTest
     public void testApiKey()
     {
         final String apiKey = UUID.randomUUID().toString();
-        properties2.put("applitools.apiKey", apiKey);
-        writeMapToPropertiesFile(properties2, tempConfigFile2);
-        ConfigFactory.setProperty(ApplitoolsApi.TEMPORARY_CONFIG_FILE_PROPERTY_NAME, "file:" + fileLocation);
+        configProperties.put("applitools.apiKey", apiKey);
+        writeMapToPropertiesFile(configProperties, tempConfigFile);
+        ConfigFactory.setProperty(ApplitoolsApi.TEMPORARY_CONFIG_FILE_PROPERTY_NAME, "file:" + configFileLocation);
         Assert.assertEquals(apiKey, ConfigFactory.create(ApplitoolsConfiguration.class).applitoolsApiKey());
     }
 
@@ -50,9 +50,9 @@ public class ApplitoolsConfigurationTest extends AbstractTest
     public void testBatch()
     {
         final String batchName = "Test-Batch";
-        properties2.put("applitools.batch", batchName);
-        writeMapToPropertiesFile(properties2, tempConfigFile2);
-        ConfigFactory.setProperty(ApplitoolsApi.TEMPORARY_CONFIG_FILE_PROPERTY_NAME, "file:" + fileLocation);
+        configProperties.put("applitools.batch", batchName);
+        writeMapToPropertiesFile(configProperties, tempConfigFile);
+        ConfigFactory.setProperty(ApplitoolsApi.TEMPORARY_CONFIG_FILE_PROPERTY_NAME, "file:" + configFileLocation);
         Assert.assertEquals(batchName, ConfigFactory.create(ApplitoolsConfiguration.class).batch());
     }
 
@@ -60,9 +60,9 @@ public class ApplitoolsConfigurationTest extends AbstractTest
     public void testThrowException()
     {
         final String throwException = "true";
-        properties2.put("applitools.throwException", throwException);
-        writeMapToPropertiesFile(properties2, tempConfigFile2);
-        ConfigFactory.setProperty(ApplitoolsApi.TEMPORARY_CONFIG_FILE_PROPERTY_NAME, "file:" + fileLocation);
+        configProperties.put("applitools.throwException", throwException);
+        writeMapToPropertiesFile(configProperties, tempConfigFile);
+        ConfigFactory.setProperty(ApplitoolsApi.TEMPORARY_CONFIG_FILE_PROPERTY_NAME, "file:" + configFileLocation);
         Assert.assertEquals(Boolean.parseBoolean(throwException), ConfigFactory.create(ApplitoolsConfiguration.class).throwException());
     }
 
@@ -70,9 +70,9 @@ public class ApplitoolsConfigurationTest extends AbstractTest
     public void testHideCaret()
     {
         final String hideCaret = "false";
-        properties2.put("applitools.hideCaret", hideCaret);
-        writeMapToPropertiesFile(properties2, tempConfigFile2);
-        ConfigFactory.setProperty(ApplitoolsApi.TEMPORARY_CONFIG_FILE_PROPERTY_NAME, "file:" + fileLocation);
+        configProperties.put("applitools.hideCaret", hideCaret);
+        writeMapToPropertiesFile(configProperties, tempConfigFile);
+        ConfigFactory.setProperty(ApplitoolsApi.TEMPORARY_CONFIG_FILE_PROPERTY_NAME, "file:" + configFileLocation);
         Assert.assertEquals(Boolean.parseBoolean(hideCaret), ConfigFactory.create(ApplitoolsConfiguration.class).hideCaret());
     }
 
@@ -80,9 +80,9 @@ public class ApplitoolsConfigurationTest extends AbstractTest
     public void testWaitBeforeScreenshot()
     {
         final String waitBeforeScreenshot = "300";
-        properties2.put("applitools.waitBeforeScreenshot", waitBeforeScreenshot);
-        writeMapToPropertiesFile(properties2, tempConfigFile2);
-        ConfigFactory.setProperty(ApplitoolsApi.TEMPORARY_CONFIG_FILE_PROPERTY_NAME, "file:" + fileLocation);
+        configProperties.put("applitools.waitBeforeScreenshot", waitBeforeScreenshot);
+        writeMapToPropertiesFile(configProperties, tempConfigFile);
+        ConfigFactory.setProperty(ApplitoolsApi.TEMPORARY_CONFIG_FILE_PROPERTY_NAME, "file:" + configFileLocation);
         Assert.assertEquals(Integer.parseInt(waitBeforeScreenshot), ConfigFactory.create(ApplitoolsConfiguration.class).waitBeforeScreenshot());
     }
 

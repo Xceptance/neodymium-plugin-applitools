@@ -25,10 +25,10 @@ public abstract class AbstractValidKeyTest extends AbstractTest
     @Before
     public void beforeEach()
     {
-        properties2.put("applitools.apiKey", applitoolsApiKey);
-        properties2.put("applitools.projectName", "Unit-Test");
-        writeMapToPropertiesFile(properties2, tempConfigFile2);
-        ConfigFactory.setProperty(ApplitoolsApi.TEMPORARY_CONFIG_FILE_PROPERTY_NAME, "file:" + fileLocation);
+        configProperties.put("applitools.apiKey", applitoolsApiKey);
+        configProperties.put("applitools.projectName", "Unit-Test");
+        writeMapToPropertiesFile(configProperties, tempConfigFile);
+        ConfigFactory.setProperty(ApplitoolsApi.TEMPORARY_CONFIG_FILE_PROPERTY_NAME, "file:" + configFileLocation);
         ApplitoolsApi.setupGroupingOfTestsByName(batchName);
     }
 }

@@ -50,12 +50,12 @@ public class ApplitoolsApiTest extends AbstractTest
         final String matchLevel = "NONE";
         final String batchName = "Test Batch";
 
-        properties2.put("applitools.apiKey", invalidApiKey);
-        properties2.put("applitools.matchLevel", matchLevel);
-        properties2.put("applitools.batch", batchName);
+        configProperties.put("applitools.apiKey", invalidApiKey);
+        configProperties.put("applitools.matchLevel", matchLevel);
+        configProperties.put("applitools.batch", batchName);
 
-        writeMapToPropertiesFile(properties2, tempConfigFile2);
-        ConfigFactory.setProperty(ApplitoolsApi.TEMPORARY_CONFIG_FILE_PROPERTY_NAME, "file:" + fileLocation);
+        writeMapToPropertiesFile(configProperties, tempConfigFile);
+        ConfigFactory.setProperty(ApplitoolsApi.TEMPORARY_CONFIG_FILE_PROPERTY_NAME, "file:" + configFileLocation);
 
         ApplitoolsApi.setupGlobal();
         Assert.assertEquals(MatchLevel.NONE, ApplitoolsApi.getEyes().getConfiguration().getMatchLevel());
@@ -67,9 +67,9 @@ public class ApplitoolsApiTest extends AbstractTest
     public void testSetupGlobaWithEmptyOptionalProperties()
     {
         final String invalidApiKey = UUID.randomUUID().toString().replaceAll("-", "");
-        properties2.put("applitools.apiKey", invalidApiKey);
-        writeMapToPropertiesFile(properties2, tempConfigFile2);
-        ConfigFactory.setProperty(ApplitoolsApi.TEMPORARY_CONFIG_FILE_PROPERTY_NAME, "file:" + fileLocation);
+        configProperties.put("applitools.apiKey", invalidApiKey);
+        writeMapToPropertiesFile(configProperties, tempConfigFile);
+        ConfigFactory.setProperty(ApplitoolsApi.TEMPORARY_CONFIG_FILE_PROPERTY_NAME, "file:" + configFileLocation);
         ApplitoolsApi.setupGlobal();
     }
 }

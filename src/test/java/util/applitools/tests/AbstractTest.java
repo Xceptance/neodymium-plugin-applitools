@@ -25,16 +25,16 @@ public abstract class AbstractTest
 {
     protected List<File> tempFiles = new LinkedList<>();
 
-    protected Map<String, String> properties2 = new HashMap<>();
+    protected Map<String, String> configProperties = new HashMap<>();
 
-    protected final String fileLocation = "config/temp-applitools.properties";
+    protected final String configFileLocation = "config/temp-applitools.properties";
 
-    protected File tempConfigFile2 = new File("./" + fileLocation);
+    protected File tempConfigFile = new File("./" + configFileLocation);
 
     @Before
     public void setupApplitoolsConfiguration()
     {
-        tempFiles.add(tempConfigFile2);
+        tempFiles.add(tempConfigFile);
     }
 
     @After
@@ -42,7 +42,7 @@ public abstract class AbstractTest
     {
         try
         {
-            ApplitoolsApi.endAssertions();
+            ApplitoolsApi.closeEyes();
         }
         catch (RuntimeException e)
         {
