@@ -17,7 +17,7 @@ public class OpenEyesTest extends AbstractDeleteBatchAfterTest
         final String testName = "open eyes test";
         Selenide.open(Neodymium.configuration().url());
         ApplitoolsApi.openEyes(testName);
-        ApplitoolsApi.endAssertions();
+        ApplitoolsApi.closeEyes();
         ApplitoolsTestManagerPage testManger = new ApplitoolsLoginPage().login(username, password);
         testManger.validateBatchContainsTest(batchName, testName);
     }

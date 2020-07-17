@@ -228,16 +228,16 @@ public class ApplitoolsApi
      * This method should be called at the end of each test to end all visual assertions and to add link to results to
      * your allure report
      */
-    public static void endAssertions()
+    public static void closeEyes()
     {
         TestResults allTestResults = getEyes().close(getConfiguration().throwException());
         if (allTestResults == null)
         {
-            throw new RuntimeException("something went wrong, maybe you have not called Applitools.openEyes() before calling this method");
+            throw new RuntimeException("Something went wrong, maybe you have not called Applitools.openEyes() before calling this method");
         }
         AllureAddons.addToReport("number of missmatches", allTestResults.getMismatches());
         AllureAddons.addToReport("link to results of visual assetions in this test", allTestResults.getUrl());
-        getEyes().abortIfNotClosed();
+        getEyes().closeAsync();
     }
 
     private static String getApplitoolsApiKey()

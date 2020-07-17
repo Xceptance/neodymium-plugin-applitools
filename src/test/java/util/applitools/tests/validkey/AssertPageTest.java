@@ -18,7 +18,7 @@ public class AssertPageTest extends AbstractDeleteBatchAfterTest
         final String testName = "assert page test";
         ApplitoolsApi.openEyes(testName);
         ApplitoolsApi.assertPage("Homepage");
-        ApplitoolsApi.endAssertions();
+        ApplitoolsApi.closeEyes();
         ApplitoolsTestManagerPage testManger = new ApplitoolsLoginPage().login(username, password);
         testManger.validateBatchContainsTest(batchName, testName);
         testManger.validateTestContainsScreenshots(batchName, testName, 1);

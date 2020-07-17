@@ -19,7 +19,7 @@ public class AssertElementTest extends AbstractDeleteBatchAfterTest
         final String testName = "assert element test";
         ApplitoolsApi.openEyes(testName);
         ApplitoolsApi.assertElement(By.cssSelector("#navigation"), "top navigation menu");
-        ApplitoolsApi.endAssertions();
+        ApplitoolsApi.closeEyes();
         ApplitoolsTestManagerPage testManger = new ApplitoolsLoginPage().login(username, password);
         testManger.validateBatchContainsTest(batchName, testName);
         testManger.validateTestContainsScreenshots(batchName, testName, 1);
