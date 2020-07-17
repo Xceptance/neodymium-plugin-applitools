@@ -208,7 +208,9 @@ public class ApplitoolsApi
     public static void assertElements(By condition, String description)
     {
         WebDriver driver = Neodymium.getRemoteWebDriver();
-        driver.findElements(condition).forEach(element -> getEyes().checkElement(element, description));
+        driver.findElements(condition).forEach((element) -> {
+            getEyes().checkElement(element, description);
+        });
     }
 
     /**
@@ -237,7 +239,7 @@ public class ApplitoolsApi
         }
         AllureAddons.addToReport("number of missmatches", allTestResults.getMismatches());
         AllureAddons.addToReport("link to results of visual assetions in this test", allTestResults.getUrl());
-        getEyes().closeAsync();
+        getEyes().abortIfNotClosed();
     }
 
     private static String getApplitoolsApiKey()

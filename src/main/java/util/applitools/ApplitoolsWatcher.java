@@ -3,9 +3,6 @@ package util.applitools;
 import org.junit.rules.TestWatcher;
 import org.junit.runner.Description;
 
-import com.applitools.eyes.TestResults;
-import com.xceptance.neodymium.util.AllureAddons;
-
 public class ApplitoolsWatcher extends TestWatcher
 {
     private boolean useGlobalSetup;
@@ -49,13 +46,6 @@ public class ApplitoolsWatcher extends TestWatcher
     @Override
     protected void finished(Description description)
     {
-        TestResults allTestResults = ApplitoolsApi.getEyes().close(ApplitoolsApi.getConfiguration().throwException());
-        if (allTestResults == null)
-        {
-            throw new RuntimeException("something went wrong, maybe you have not called Applitools.openEyes() before calling this method");
-        }
-        AllureAddons.addToReport("number of missmatches", allTestResults.getMismatches());
-        AllureAddons.addToReport("link to results of visual assetions in this test", allTestResults.getUrl());
-        ApplitoolsApi.getEyes().abortIfNotClosed();
+        ApplitoolsApi.closeEyes();
     }
 }
