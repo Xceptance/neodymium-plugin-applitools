@@ -3,9 +3,8 @@ package util.applitools.tests;
 import java.util.UUID;
 
 import org.aeonbits.owner.ConfigFactory;
-import org.junit.Rule;
+import org.junit.Assert;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import org.openqa.selenium.By;
 
 import com.applitools.eyes.EyesException;
@@ -17,19 +16,16 @@ import util.applitools.ApplitoolsApi;
 @Browser("Chrome_headless")
 public class ApplitoolsApiExceptionsTest extends AbstractTest
 {
-
-    @Rule
-    public ExpectedException exceptionRule = ExpectedException.none();
-
     @Test
     public void testSetupGlobalWithoutApiKey()
     {
-        properties2.put("applitools.apiKey", "");
-        writeMapToPropertiesFile(properties2, tempConfigFile2);
-        ConfigFactory.setProperty(ApplitoolsApi.TEMPORARY_CONFIG_FILE_PROPERTY_NAME, "file:" + fileLocation);
-        exceptionRule.expect(RuntimeException.class);
-        exceptionRule.expectMessage("No Applitools API Key found: Please set the 'applitools.apiKey' property in 'config/applitools.properties' file.");
-        ApplitoolsApi.setupGlobal();
+        configProperties.put("applitools.apiKey", "");
+        writeMapToPropertiesFile(configProperties, tempConfigFile);
+        ConfigFactory.setProperty(ApplitoolsApi.TEMPORARY_CONFIG_FILE_PROPERTY_NAME, "file:" + configFileLocation);
+        Assert.assertThrows("No Applitools API Key found: Please set the 'applitools.apiKey' property in 'config/applitools.properties' file.",
+                            RuntimeException.class, () -> {
+                                ApplitoolsApi.setupGlobal();
+                            });
     }
 
     @Test
@@ -38,22 +34,23 @@ public class ApplitoolsApiExceptionsTest extends AbstractTest
         Selenide.open("https://www.xceptance.com/en/");
         final String invalidApiKey = UUID.randomUUID().toString().replaceAll("-", "");
 
-        properties2.put("applitools.apiKey", invalidApiKey);
-        writeMapToPropertiesFile(properties2, tempConfigFile2);
-        ConfigFactory.setProperty(ApplitoolsApi.TEMPORARY_CONFIG_FILE_PROPERTY_NAME, "file:" + fileLocation);
+        configProperties.put("applitools.apiKey", invalidApiKey);
+        writeMapToPropertiesFile(configProperties, tempConfigFile);
+        ConfigFactory.setProperty(ApplitoolsApi.TEMPORARY_CONFIG_FILE_PROPERTY_NAME, "file:" + configFileLocation);
 
-        exceptionRule.expect(EyesException.class);
-        exceptionRule.expectMessage("eyes.openBase() failed");
         ApplitoolsApi.setupGlobal();
-        ApplitoolsApi.openEyes("test");
+        Assert.assertThrows("eyes.openBase() failed", EyesException.class, () -> {
+            ApplitoolsApi.openEyes("test");
+        });
     }
 
     @Test
     public void testEndAssertionBeforeStart()
     {
-        exceptionRule.expect(RuntimeException.class);
-        exceptionRule.expectMessage("something went wrong, maybe you have not called Applitools.openEyes() before calling this method");
-        ApplitoolsApi.endAssertions();
+        Assert.assertThrows("something went wrong, maybe you have not called Applitools.openEyes() before calling this method",
+                            RuntimeException.class, () -> {
+                                ApplitoolsApi.closeEyes();
+                            });
     }
 
     @Test
@@ -62,14 +59,14 @@ public class ApplitoolsApiExceptionsTest extends AbstractTest
         Selenide.open("https://www.xceptance.com/en/");
         final String invalidApiKey = UUID.randomUUID().toString().replaceAll("-", "");
 
-        properties2.put("applitools.apiKey", invalidApiKey);
-        writeMapToPropertiesFile(properties2, tempConfigFile2);
-        ConfigFactory.setProperty(ApplitoolsApi.TEMPORARY_CONFIG_FILE_PROPERTY_NAME, "file:" + fileLocation);
+        configProperties.put("applitools.apiKey", invalidApiKey);
+        writeMapToPropertiesFile(configProperties, tempConfigFile);
+        ConfigFactory.setProperty(ApplitoolsApi.TEMPORARY_CONFIG_FILE_PROPERTY_NAME, "file:" + configFileLocation);
 
-        exceptionRule.expect(IllegalStateException.class);
-        exceptionRule.expectMessage("Eyes not open");
         ApplitoolsApi.setupGlobal();
-        ApplitoolsApi.assertPage("Homepage");
+        Assert.assertThrows("Eyes not open", IllegalStateException.class, () -> {
+            ApplitoolsApi.assertPage("Homepage");
+        });
     }
 
     @Test
@@ -78,13 +75,13 @@ public class ApplitoolsApiExceptionsTest extends AbstractTest
         Selenide.open("https://www.xceptance.com/en/");
         final String invalidApiKey = UUID.randomUUID().toString().replaceAll("-", "");
 
-        properties2.put("applitools.apiKey", invalidApiKey);
-        writeMapToPropertiesFile(properties2, tempConfigFile2);
-        ConfigFactory.setProperty(ApplitoolsApi.TEMPORARY_CONFIG_FILE_PROPERTY_NAME, "file:" + fileLocation);
+        configProperties.put("applitools.apiKey", invalidApiKey);
+        writeMapToPropertiesFile(configProperties, tempConfigFile);
+        ConfigFactory.setProperty(ApplitoolsApi.TEMPORARY_CONFIG_FILE_PROPERTY_NAME, "file:" + configFileLocation);
 
-        exceptionRule.expect(IllegalStateException.class);
-        exceptionRule.expectMessage("Eyes not open");
         ApplitoolsApi.setupGlobal();
-        ApplitoolsApi.assertElement(By.cssSelector("#navigation"), "top navigation menu");
+        Assert.assertThrows("Eyes not open", IllegalStateException.class, () -> {
+            ApplitoolsApi.assertElement(By.cssSelector("#navigation"), "top navigation menu");
+        });
     }
 }
