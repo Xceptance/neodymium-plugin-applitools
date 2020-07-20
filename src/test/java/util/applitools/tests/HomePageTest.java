@@ -10,14 +10,14 @@ import com.xceptance.neodymium.NeodymiumRunner;
 import com.xceptance.neodymium.module.statement.browser.multibrowser.Browser;
 
 import util.applitools.ApplitoolsApi;
-import util.applitools.ApplitoolsWatcher;
+import util.applitools.NeodymiumApplitoolsSetup;
 
 @Browser("Chrome_1500x1000")
 @RunWith(NeodymiumRunner.class)
 public class HomePageTest
 {
     @Rule
-    public ApplitoolsWatcher watcher = new ApplitoolsWatcher();
+    public NeodymiumApplitoolsSetup watcher = new NeodymiumApplitoolsSetup();
 
     @Test
     public void testHomePage()

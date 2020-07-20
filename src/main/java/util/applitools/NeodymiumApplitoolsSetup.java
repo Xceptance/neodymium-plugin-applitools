@@ -3,25 +3,25 @@ package util.applitools;
 import org.junit.rules.TestWatcher;
 import org.junit.runner.Description;
 
-public class ApplitoolsWatcher extends TestWatcher
+public class NeodymiumApplitoolsSetup extends TestWatcher
 {
     private boolean useGlobalSetup;
 
     private String batchName;
 
-    public ApplitoolsWatcher(boolean useGlobalSetup)
+    public NeodymiumApplitoolsSetup()
+    {
+        this(false);
+    }
+
+    public NeodymiumApplitoolsSetup(boolean useGlobalSetup)
     {
         this.useGlobalSetup = useGlobalSetup;
     }
 
-    public ApplitoolsWatcher()
+    public NeodymiumApplitoolsSetup(String batchName)
     {
-        this.useGlobalSetup = false;
-    }
-
-    public ApplitoolsWatcher(String batchName)
-    {
-        this.useGlobalSetup = false;
+        this();
         this.batchName = batchName;
     }
 
