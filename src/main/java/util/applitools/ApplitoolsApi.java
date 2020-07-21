@@ -49,16 +49,7 @@ public class ApplitoolsApi
             ConfigFactory.setProperty(TEMPORARY_CONFIG_FILE_PROPERTY_NAME, "file:this/path/should/never/exist/noOneShouldCreateMe.properties");
         }
         return CONFIGURATION.computeIfAbsent(Thread.currentThread(), key -> {
-            Map<String, String> apiKey = new HashMap<String, String>()
-            {
-                {
-                    if (System.getenv("APIKEY") != null)
-                    {
-                        this.put("applitools.apiKey", System.getenv("APIKEY"));
-                    }
-                }
-            };
-            return ConfigFactory.create(ApplitoolsConfiguration.class, apiKey);
+            return ConfigFactory.create(ApplitoolsConfiguration.class);
         });
     }
 
@@ -79,8 +70,6 @@ public class ApplitoolsApi
      */
     public static void setupGlobal()
     {
-        CONFIGURATION.remove(Thread.currentThread());
-        getConfiguration();
         final String batch = getConfiguration().batch();
         if (isNullOrEmpty(batch))
         {
@@ -93,6 +82,16 @@ public class ApplitoolsApi
     }
 
     /**
+     * In case there were some changes in applitools.properties file while test run, you can use this method to pull the
+     * changes
+     */
+    public static void updateConfiguration()
+    {
+        CONFIGURATION.remove(Thread.currentThread());
+        getConfiguration();
+    }
+
+    /**
      * Configures eyes object to start test. Configurations will be cleared and read from configuration file again. Use
      * this method with the same batchName parameter to setup the group tests, which belong to one batch , e.g. for all
      * order test call this method with batchName 'order'
@@ -102,8 +101,6 @@ public class ApplitoolsApi
      */
     public synchronized static void setupGroupingOfTestsByName(String batchName)
     {
-        CONFIGURATION.remove(Thread.currentThread());
-        getConfiguration();
         BatchInfo batch;
         if (!isNullOrEmpty(batchName))
         {
@@ -127,8 +124,6 @@ public class ApplitoolsApi
      */
     public static void setupBasic()
     {
-        CONFIGURATION.remove(Thread.currentThread());
-        getConfiguration();
         getEyes().setMatchLevel(getConfiguration().matchLevel());
         getEyes().setApiKey(getApplitoolsApiKey());
         getEyes().setHideCaret(getConfiguration().hideCaret());
