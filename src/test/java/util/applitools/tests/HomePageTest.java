@@ -12,7 +12,7 @@ import com.xceptance.neodymium.module.statement.browser.multibrowser.Browser;
 import util.applitools.ApplitoolsApi;
 import util.applitools.NeodymiumApplitoolsSetup;
 
-@Browser("Chrome_1500x1000")
+@Browser("Chrome_headless")
 @RunWith(NeodymiumRunner.class)
 public class HomePageTest
 {
