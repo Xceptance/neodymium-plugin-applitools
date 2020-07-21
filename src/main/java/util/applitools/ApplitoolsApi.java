@@ -49,7 +49,16 @@ public class ApplitoolsApi
             ConfigFactory.setProperty(TEMPORARY_CONFIG_FILE_PROPERTY_NAME, "file:this/path/should/never/exist/noOneShouldCreateMe.properties");
         }
         return CONFIGURATION.computeIfAbsent(Thread.currentThread(), key -> {
-            return ConfigFactory.create(ApplitoolsConfiguration.class);
+            Map<String, String> apiKey = new HashMap<String, String>()
+            {
+                {
+                    if (System.getenv("APIKEY") != null)
+                    {
+                        this.put("applitools.apiKey", System.getenv("APIKEY"));
+                    }
+                }
+            };
+            return ConfigFactory.create(ApplitoolsConfiguration.class, apiKey);
         });
     }
 
