@@ -1,9 +1,9 @@
-name: Deployment
+name: Java CI
 
 on:
   push:
     branches:
-      - master
+      - develop
 
 jobs:
   build:
@@ -16,17 +16,25 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 1.8
-    - name: Customize Maven repo settings
-      run: cp .github/workflows/settings.xml ~/.m2
-    - name: Install GPG key  
-      run: echo "${{ secrets.GPG_KEY }}" | gpg --batch --import
-    - name: Deploy
+    - name: run basic tests
       env:
-        OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
-        OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
-        GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
         apiKey: ${{ secrets.apiKey }}
         username: ${{ secrets.username }}
         password: ${{ secrets.password }}
-      run: mvn -B deploy
- 
+      run: mvn -B clean compile package -P basic allure:report
+    - uses: actions/upload-artifact@v1
+      with:
+          name: allure-report-basic
+          path: target/site
+    - name: run test with valid api key in 2 threads and assert single batch created
+      env:
+        apiKey: ${{ secrets.apiKey }}
+        username: ${{ secrets.username }}
+        password: ${{ secrets.password }}
+      run: |
+        mvn -B clean compile package -P run-tests-in-parallel-threads
+        mvn -B compile package -Dtest=OneBatchOnParallelTest allure:report
+    - uses: actions/upload-artifact@v1
+      with:
+          name: allure-report-parallel-run
+          path: target/site
