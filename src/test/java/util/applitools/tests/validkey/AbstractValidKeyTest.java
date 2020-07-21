@@ -29,6 +29,7 @@ public abstract class AbstractValidKeyTest extends AbstractCloseEyesAfterTest
         configProperties.put("applitools.projectName", "Unit-Test");
         writeMapToPropertiesFile(configProperties, tempConfigFile);
         ConfigFactory.setProperty(ApplitoolsApi.TEMPORARY_CONFIG_FILE_PROPERTY_NAME, "file:" + configFileLocation);
+        ApplitoolsApi.updateConfiguration();
         ApplitoolsApi.setupGroupingOfTestsByName(batchName);
     }
 }

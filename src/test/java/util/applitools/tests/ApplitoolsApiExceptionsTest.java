@@ -22,6 +22,7 @@ public class ApplitoolsApiExceptionsTest extends AbstractCloseEyesAfterTest
         configProperties.put("applitools.apiKey", "");
         writeMapToPropertiesFile(configProperties, tempConfigFile);
         ConfigFactory.setProperty(ApplitoolsApi.TEMPORARY_CONFIG_FILE_PROPERTY_NAME, "file:" + configFileLocation);
+        ApplitoolsApi.updateConfiguration();
         Assert.assertThrows("No Applitools API Key found: Please set the 'applitools.apiKey' property in 'config/applitools.properties' file.",
                             RuntimeException.class, () -> {
                                 ApplitoolsApi.setupGlobal();
@@ -37,6 +38,8 @@ public class ApplitoolsApiExceptionsTest extends AbstractCloseEyesAfterTest
         configProperties.put("applitools.apiKey", invalidApiKey);
         writeMapToPropertiesFile(configProperties, tempConfigFile);
         ConfigFactory.setProperty(ApplitoolsApi.TEMPORARY_CONFIG_FILE_PROPERTY_NAME, "file:" + configFileLocation);
+
+        ApplitoolsApi.updateConfiguration();
 
         ApplitoolsApi.setupGlobal();
         Assert.assertThrows("eyes.openBase() failed", EyesException.class, () -> {
@@ -63,6 +66,8 @@ public class ApplitoolsApiExceptionsTest extends AbstractCloseEyesAfterTest
         writeMapToPropertiesFile(configProperties, tempConfigFile);
         ConfigFactory.setProperty(ApplitoolsApi.TEMPORARY_CONFIG_FILE_PROPERTY_NAME, "file:" + configFileLocation);
 
+        ApplitoolsApi.updateConfiguration();
+
         ApplitoolsApi.setupGlobal();
         Assert.assertThrows("Eyes not open", IllegalStateException.class, () -> {
             ApplitoolsApi.assertPage("Homepage");
@@ -78,6 +83,8 @@ public class ApplitoolsApiExceptionsTest extends AbstractCloseEyesAfterTest
         configProperties.put("applitools.apiKey", invalidApiKey);
         writeMapToPropertiesFile(configProperties, tempConfigFile);
         ConfigFactory.setProperty(ApplitoolsApi.TEMPORARY_CONFIG_FILE_PROPERTY_NAME, "file:" + configFileLocation);
+
+        ApplitoolsApi.updateConfiguration();
 
         ApplitoolsApi.setupGlobal();
         Assert.assertThrows("Eyes not open", IllegalStateException.class, () -> {

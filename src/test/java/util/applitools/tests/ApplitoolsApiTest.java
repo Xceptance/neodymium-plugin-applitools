@@ -57,6 +57,8 @@ public class ApplitoolsApiTest extends AbstractCloseEyesAfterTest
         writeMapToPropertiesFile(configProperties, tempConfigFile);
         ConfigFactory.setProperty(ApplitoolsApi.TEMPORARY_CONFIG_FILE_PROPERTY_NAME, "file:" + configFileLocation);
 
+        ApplitoolsApi.updateConfiguration();
+
         ApplitoolsApi.setupGlobal();
         Assert.assertEquals(MatchLevel.NONE, ApplitoolsApi.getEyes().getConfiguration().getMatchLevel());
         Assert.assertEquals(batchName, ApplitoolsApi.getEyes().getBatch().getName());

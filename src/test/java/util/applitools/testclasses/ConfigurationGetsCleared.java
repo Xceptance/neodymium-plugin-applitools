@@ -20,6 +20,7 @@ public class ConfigurationGetsCleared extends AbstractCloseEyesAfterTest
         configProperties.put("applitools.apiKey", apiKey);
         writeMapToPropertiesFile(configProperties, tempConfigFile);
         ConfigFactory.setProperty(ApplitoolsApi.TEMPORARY_CONFIG_FILE_PROPERTY_NAME, "file:" + configFileLocation);
+        ApplitoolsApi.updateConfiguration();
         ApplitoolsApi.setupGlobal();
     }
 
