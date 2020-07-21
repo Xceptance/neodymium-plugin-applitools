@@ -16,7 +16,6 @@ import com.applitools.eyes.MatchLevel;
 public interface ApplitoolsConfiguration extends Mutable
 {
     @Key("applitools.apiKey")
-    @DefaultValue("{APIKEY}")
     String applitoolsApiKey();
 
     @Key("applitools.projectName")
