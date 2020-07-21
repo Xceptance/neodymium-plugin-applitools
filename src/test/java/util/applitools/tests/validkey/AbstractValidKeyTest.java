@@ -7,10 +7,10 @@ import com.xceptance.neodymium.module.statement.browser.multibrowser.Browser;
 
 import util.Credentials;
 import util.applitools.ApplitoolsApi;
-import util.applitools.tests.AbstractTest;
+import util.applitools.tests.AbstractCloseEyesAfterTest;
 
 @Browser("Chrome_headless")
-public abstract class AbstractValidKeyTest extends AbstractTest
+public abstract class AbstractValidKeyTest extends AbstractCloseEyesAfterTest
 {
     protected static final Credentials CREDENTIALS = ConfigFactory.create(Credentials.class, System.getenv());
 

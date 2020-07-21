@@ -18,8 +18,6 @@ import org.junit.runner.RunWith;
 import com.google.common.base.Joiner;
 import com.xceptance.neodymium.NeodymiumRunner;
 
-import util.applitools.ApplitoolsApi;
-
 @RunWith(NeodymiumRunner.class)
 public abstract class AbstractTest
 {
@@ -40,14 +38,6 @@ public abstract class AbstractTest
     @After
     public void cleanup()
     {
-        try
-        {
-            ApplitoolsApi.closeEyes();
-        }
-        catch (RuntimeException e)
-        {
-
-        }
         for (File tempFile : tempFiles)
         {
             deleteTempFile(tempFile);

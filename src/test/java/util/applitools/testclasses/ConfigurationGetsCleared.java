@@ -9,9 +9,9 @@ import org.junit.Test;
 
 import util.applitools.ApplitoolsApi;
 import util.applitools.ApplitoolsConfiguration;
-import util.applitools.tests.AbstractTest;
+import util.applitools.tests.AbstractCloseEyesAfterTest;
 
-public class ConfigurationGetsCleared extends AbstractTest
+public class ConfigurationGetsCleared extends AbstractCloseEyesAfterTest
 {
     @Before
     public void setupGlobal()

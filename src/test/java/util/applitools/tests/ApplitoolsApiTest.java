@@ -10,7 +10,7 @@ import com.applitools.eyes.MatchLevel;
 
 import util.applitools.ApplitoolsApi;
 
-public class ApplitoolsApiTest extends AbstractTest
+public class ApplitoolsApiTest extends AbstractCloseEyesAfterTest
 {
     @Test
     public void testSetMatchLevel()

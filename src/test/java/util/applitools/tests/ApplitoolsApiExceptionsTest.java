@@ -14,7 +14,7 @@ import com.xceptance.neodymium.module.statement.browser.multibrowser.Browser;
 import util.applitools.ApplitoolsApi;
 
 @Browser("Chrome_headless")
-public class ApplitoolsApiExceptionsTest extends AbstractTest
+public class ApplitoolsApiExceptionsTest extends AbstractCloseEyesAfterTest
 {
     @Test
     public void testSetupGlobalWithoutApiKey()

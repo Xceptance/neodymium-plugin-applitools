@@ -14,7 +14,7 @@ import util.applitools.ApplitoolsApi;
 import util.applitools.ApplitoolsConfiguration;
 import util.applitools.testclasses.ConfigurationGetsCleared;
 
-public class ApplitoolsConfigurationTest extends AbstractTest
+public class ApplitoolsConfigurationTest extends AbstractCloseEyesAfterTest
 {
     @Test
     public void testProjectName()
