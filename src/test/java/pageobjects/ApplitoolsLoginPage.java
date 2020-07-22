@@ -11,9 +11,26 @@ public class ApplitoolsLoginPage
         Selenide.open("https://applitools.com/users/login");
         Selenide.clearBrowserCookies();
         Selenide.refresh();
-        $("#email").val(email);
-        $("#password").val(password);
+        $("#email").sendKeys(email);
+        Selenide.sleep(4000);
+        $("#password").sendKeys(password);
+        Selenide.sleep(4000);
+        retypeCredentials(email, password);
         $(".btn-call-to-action").click();
         return new ApplitoolsTestManagerPage().isExpectedPage();
+    }
+
+    private void retypeCredentials(String email, String password)
+    {
+        if (!$("#email").getText().equals(email))
+        {
+            $("#email").clear();
+            $("#email").sendKeys(email);
+        }
+        if (!$("#password").getText().equals(password))
+        {
+            $("#password").clear();
+            $("#password").sendKeys(password);
+        }
     }
 }

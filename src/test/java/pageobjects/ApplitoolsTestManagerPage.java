@@ -13,7 +13,7 @@ public class ApplitoolsTestManagerPage
 {
     private final ElementsCollection batchNames = $$(".callout-title");
 
-    private final ElementsCollection testContainters = $$(".cell-content .ellipsis");
+    private final ElementsCollection testContainters = $$(".data-table-body-scroller-content>div>.clickable>.cells-container>.data-table-cell>.flex-row>.ellipsis");
 
     public ApplitoolsTestManagerPage isExpectedPage()
     {
@@ -51,7 +51,10 @@ public class ApplitoolsTestManagerPage
     {
         batchNames.findBy(exactText(batchName)).click();
         SelenideElement testContainer = testContainters.findBy(exactText(testName));
-        testContainer.click();
+        if (!testContainer.parent().parent().parent().parent().parent().parent().getCssValue("height").equals("315px"))
+        {
+            testContainer.click();
+        }
         testContainer.parent().parent().parent().parent().parent().parent().parent().findAll(".clickable.overlay").shouldHaveSize(screenshotAmount);
         return this;
     }
