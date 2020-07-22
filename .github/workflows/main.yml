@@ -28,7 +28,7 @@ jobs:
           path: target/site
     - name: run test with valid api key in 2 threads and assert single batch created
       env:
-         applitools.apiKey: ${{ secrets.apiKey }}
+        applitools.apiKey: ${{ secrets.apiKey }}
         USERNAME: ${{ secrets.username }}
         PASSWORD: ${{ secrets.password }}
       run: |
