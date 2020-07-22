@@ -22,6 +22,8 @@ public abstract class AbstractNeodymiumApplitoolsSetupTest extends AbstractTest
 {
     protected static final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:")
     {
+        private static final long serialVersionUID = 5383324711820050508L;
+
         {
             this.setTimeZone(TimeZone.getTimeZone("GMT"));
         }
