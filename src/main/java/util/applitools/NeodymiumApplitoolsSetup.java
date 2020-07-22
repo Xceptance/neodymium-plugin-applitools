@@ -28,10 +28,6 @@ public class NeodymiumApplitoolsSetup extends TestWatcher
     @Override
     protected void starting(Description description)
     {
-        if (System.getenv("APIKEY") != null)
-        {
-            ApplitoolsApi.getConfiguration().setProperty("applitools.apiKey", System.getenv("APIKEY"));
-        }
         if (useGlobalSetup)
         {
             ApplitoolsApi.setupGlobal();

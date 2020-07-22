@@ -25,7 +25,7 @@ public abstract class AbstractTest
 
     protected Map<String, String> configProperties = new HashMap<>();
 
-    protected final String configFileLocation = "config/temp-applitools.properties";
+    protected static final String configFileLocation = "config/temp-applitools.properties";
 
     protected File tempConfigFile = new File("./" + configFileLocation);
 
