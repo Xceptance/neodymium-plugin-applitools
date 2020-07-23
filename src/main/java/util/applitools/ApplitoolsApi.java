@@ -49,7 +49,7 @@ public class ApplitoolsApi
             ConfigFactory.setProperty(TEMPORARY_CONFIG_FILE_PROPERTY_NAME, "file:this/path/should/never/exist/noOneShouldCreateMe.properties");
         }
         return CONFIGURATION.computeIfAbsent(Thread.currentThread(), key -> {
-            return ConfigFactory.create(ApplitoolsConfiguration.class, System.getProperties(), System.getenv());
+            return ConfigFactory.create(ApplitoolsConfiguration.class);
         });
     }
 
