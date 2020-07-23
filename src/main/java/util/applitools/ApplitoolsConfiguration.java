@@ -10,7 +10,7 @@ import com.applitools.eyes.MatchLevel;
 @LoadPolicy(LoadType.MERGE)
 @Sources(
 {
-  "${applitools.temporaryConfigFile}", "file:config/dev-applitools.properties", "file:config/applitools.properties"
+  "${applitools.temporaryConfigFile}", "system:properties", "file:config/dev-applitools.properties", "file:config/applitools.properties"
 })
 
 public interface ApplitoolsConfiguration extends Mutable
