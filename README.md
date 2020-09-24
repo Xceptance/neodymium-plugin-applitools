@@ -19,4 +19,4 @@
            <version>0.0.1-SNAPSHOT</version>
         </dependency>
 ```
-To get to know, how to use this plugin, please read the [wiki](https://github.com/Xceptance/neodymium-library/Applitools-Plugin)
+To get to know, how to use this plugin, please read the [wiki](https://github.com/Xceptance/neodymium-library/wiki/Applitools-Plugin)
