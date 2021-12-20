@@ -32,7 +32,7 @@ jobs:
         USERNAME: ${{ secrets.username }}
         PASSWORD: ${{ secrets.password }}
       run: |
-        mvn -B clean compile package -P run-tests-in-parallel-threads
+        mvn -B clean compile package -P run-tests-in-parallel-threads -Dapplitools.apiKey=${{ secrets.apiKey }}
         mvn -B compile package -Dtest=OneBatchOnParallelTest -Dapplitools.apiKey=${{ secrets.apiKey }} allure:report
     - uses: actions/upload-artifact@v1
       with:
