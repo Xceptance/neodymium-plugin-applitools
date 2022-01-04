@@ -23,7 +23,7 @@ jobs:
         APIKEY: ${{ secrets.apiKey }}
         USERNAME: ${{ secrets.username }}
         PASSWORD: ${{ secrets.password }}
-      run: mvn -B clean compile package -P basic -Dapplitools.apiKey=${{ secrets.apiKey }} allure:report
+      run: mvn -B clean compile package -P basic -Dapplitools.apiKey=${{ secrets.apiKey }} -Dusername=${{ secrets.username }} -Dpassword=${{ secrets.password }} allure:report
     - uses: actions/upload-artifact@v1
       with:
           name: allure-report-basic

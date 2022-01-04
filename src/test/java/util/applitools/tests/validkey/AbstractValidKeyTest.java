@@ -12,7 +12,7 @@ import util.applitools.tests.AbstractTest;
 @Browser("Chrome_headless")
 public abstract class AbstractValidKeyTest extends AbstractTest
 {
-    protected static final Credentials CREDENTIALS = ConfigFactory.create(Credentials.class, System.getenv());
+    protected static final Credentials CREDENTIALS = ConfigFactory.create(Credentials.class, System.getProperties(), System.getenv());
 
     protected static final String applitoolsApiKey = CREDENTIALS.applitoolsApiKey();
 
