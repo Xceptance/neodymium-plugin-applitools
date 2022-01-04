@@ -16,8 +16,9 @@ import com.applitools.eyes.BatchInfo;
 import com.applitools.eyes.MatchLevel;
 import com.applitools.eyes.TestResults;
 import com.applitools.eyes.selenium.Eyes;
-import com.xceptance.neodymium.util.AllureAddons;
 import com.xceptance.neodymium.util.Neodymium;
+
+import io.qameta.allure.Allure;
 
 public class ApplitoolsApi
 {
@@ -237,8 +238,8 @@ public class ApplitoolsApi
         {
             throw new RuntimeException("Something went wrong, maybe you have not called Applitools.openEyes() before calling this method");
         }
-        AllureAddons.addToReport("number of missmatches", allTestResults.getMismatches());
-        AllureAddons.addToReport("link to results of visual assetions in this test", allTestResults.getUrl());
+        Allure.link("Number of missmatches found by Applitools is " + allTestResults.getMismatches()
+                    + ". Please, see more details about visual compare results by this link", allTestResults.getUrl());
         getEyes().abortIfNotClosed();
     }
 
