@@ -10,6 +10,7 @@ import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 
+import io.qameta.allure.Step;
 import util.ApplitoolsTestHelper;
 
 public class ApplitoolsTestManagerPage
@@ -35,6 +36,7 @@ public class ApplitoolsTestManagerPage
         return this;
     }
 
+    @Step("delete all batches with name '{name}'")
     public ApplitoolsTestManagerPage deleteAllBatchesWithName(String name)
     {
         batchNames.shouldHave(sizeGreaterThan(0));

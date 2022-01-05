@@ -22,7 +22,11 @@ jobs:
         APIKEY: ${{ secrets.apiKey }}
         USERNAME: ${{ secrets.username }}
         PASSWORD: ${{ secrets.password }}
-      run: mvn -B clean compile package -P basic -Dapplitools.apiKey=${{ secrets.apiKey }} -Dusername=${{ secrets.username }} -Dpassword=${{ secrets.password }} allure:report
+      run: |
+        mvn -B clean compile package -P basic -Dapplitools.apiKey=${{ secrets.apiKey }} -Dusername=${{ secrets.username }} -Dpassword=${{ secrets.password }} -DapiKey=${{ secrets.apiKey }} allure:report
+        find ./target/site/allure-maven-plugin/data/test-cases/ -type f -exec sed -i "s/${{ secrets.username }}/***/g" {} \;
+        find ./target/site/allure-maven-plugin/data/test-cases/ -type f -exec sed -i "s/${{ secrets.password }}/***/g" {} \;
+        find ./target/site/allure-maven-plugin/data/test-cases/ -type f -exec sed -i "s/${{ secrets.apiKey }}/***/g" {} \;
     - uses: actions/upload-artifact@v1
       with:
           name: allure-report-basic
@@ -33,8 +37,11 @@ jobs:
         USERNAME: ${{ secrets.username }}
         PASSWORD: ${{ secrets.password }}
       run: |
-        mvn -B clean compile package -P run-tests-in-parallel-threads -Dapplitools.apiKey=${{ secrets.apiKey }}
-        mvn -B compile package -Dtest=OneBatchOnParallelTest -Dapplitools.apiKey=${{ secrets.apiKey }} allure:report
+        mvn -B clean compile package -P run-tests-in-parallel-threads -Dapplitools.apiKey=${{ secrets.apiKey }} -Dusername=${{ secrets.username }} -Dpassword=${{ secrets.password }} -DapiKey=${{ secrets.apiKey }}
+        mvn -B compile package -Dtest=OneBatchOnParallelTest -Dapplitools.apiKey=${{ secrets.apiKey }} -Dusername=${{ secrets.username }} -Dpassword=${{ secrets.password }} -DapiKey=${{ secrets.apiKey }} allure:report 
+        find ./target/site/allure-maven-plugin/data/test-cases/ -type f -exec sed -i "s/${{ secrets.username }}/***/g" {} \;
+        find ./target/site/allure-maven-plugin/data/test-cases/ -type f -exec sed -i "s/${{ secrets.password }}/***/g" {} \;
+        find ./target/site/allure-maven-plugin/data/test-cases/ -type f -exec sed -i "s/${{ secrets.apiKey }}/***/g" {} \;
     - uses: actions/upload-artifact@v1
       with:
           name: allure-report-parallel-run
