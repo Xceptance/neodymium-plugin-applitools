@@ -7,7 +7,6 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.By;
 
-import com.applitools.eyes.EyesException;
 import com.codeborne.selenide.Selenide;
 import com.xceptance.neodymium.module.statement.browser.multibrowser.Browser;
 
@@ -39,7 +38,7 @@ public class ApplitoolsApiExceptionsTest extends AbstractTest
         ConfigFactory.setProperty(ApplitoolsApi.TEMPORARY_CONFIG_FILE_PROPERTY_NAME, "file:" + configFileLocation);
 
         ApplitoolsApi.setupGlobal();
-        Assert.assertThrows("eyes.openBase() failed", EyesException.class, () -> {
+        Assert.assertThrows("Opening Applitools eyes took too long. Please make sure you have entered the correct api key", RuntimeException.class, () -> {
             ApplitoolsApi.openEyes("test");
         });
     }

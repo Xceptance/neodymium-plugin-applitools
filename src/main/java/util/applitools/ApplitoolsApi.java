@@ -6,16 +6,24 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.WeakHashMap;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import java.util.function.Supplier;
 
 import org.aeonbits.owner.ConfigFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 import com.applitools.eyes.BatchInfo;
 import com.applitools.eyes.MatchLevel;
 import com.applitools.eyes.TestResults;
 import com.applitools.eyes.selenium.Eyes;
+import com.google.common.util.concurrent.SimpleTimeLimiter;
+import com.google.common.util.concurrent.TimeLimiter;
 import com.xceptance.neodymium.util.Neodymium;
 
 import io.qameta.allure.Allure;
@@ -163,7 +171,21 @@ public class ApplitoolsApi
      */
     public static void openEyes(String testName)
     {
-        getEyes().open(Neodymium.getRemoteWebDriver(), getConfiguration().projectName(), testName);
+        ExecutorService es = Executors.newSingleThreadExecutor();
+        TimeLimiter tl = SimpleTimeLimiter.create(es);
+        RemoteWebDriver driver = Neodymium.getRemoteWebDriver();
+        Eyes eyes = getEyes();
+        try
+        {
+            tl.callWithTimeout(() -> {
+                return eyes.open(driver, getConfiguration().projectName(), testName);
+            },
+                               30, TimeUnit.SECONDS);
+        }
+        catch (TimeoutException | InterruptedException | ExecutionException e)
+        {
+            throw new RuntimeException("Opening Applitools eyes took too long. Please make sure you have entered the correct api key", e);
+        }
     }
 
     /**
@@ -234,7 +256,7 @@ public class ApplitoolsApi
     public static void closeEyes()
     {
         TestResults allTestResults = getEyes().close(getConfiguration().throwException());
-        if (allTestResults == null)
+        if (allTestResults.getUrl() == null)
         {
             throw new RuntimeException("Something went wrong, maybe you have not called Applitools.openEyes() before calling this method");
         }
