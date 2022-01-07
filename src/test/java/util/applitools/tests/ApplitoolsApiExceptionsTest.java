@@ -21,10 +21,12 @@ public class ApplitoolsApiExceptionsTest extends AbstractTest
         configProperties.put("applitools.apiKey", "");
         writeMapToPropertiesFile(configProperties, tempConfigFile);
         ConfigFactory.setProperty(ApplitoolsApi.TEMPORARY_CONFIG_FILE_PROPERTY_NAME, "file:" + configFileLocation);
-        Assert.assertThrows("No Applitools API Key found: Please set the 'applitools.apiKey' property in 'config/applitools.properties' file.",
-                            RuntimeException.class, () -> {
-                                ApplitoolsApi.setupGlobal();
-                            });
+        Assert.assertThrows(
+                "No Applitools API Key found: Please set the 'applitools.apiKey' property in 'config/applitools.properties' file.",
+                RuntimeException.class, () ->
+                {
+                    ApplitoolsApi.setupGlobal();
+                });
     }
 
     @Test
@@ -38,18 +40,23 @@ public class ApplitoolsApiExceptionsTest extends AbstractTest
         ConfigFactory.setProperty(ApplitoolsApi.TEMPORARY_CONFIG_FILE_PROPERTY_NAME, "file:" + configFileLocation);
 
         ApplitoolsApi.setupGlobal();
-        Assert.assertThrows("Opening Applitools eyes took too long. Please make sure you have entered the correct api key", RuntimeException.class, () -> {
-            ApplitoolsApi.openEyes("test");
-        });
+        Assert.assertThrows(
+                "Opening Applitools eyes took too long. Please make sure you have entered the correct api key",
+                RuntimeException.class, () ->
+                {
+                    ApplitoolsApi.openEyes("test");
+                });
     }
 
     @Test
     public void testEndAssertionBeforeStart()
     {
-        Assert.assertThrows("something went wrong, maybe you have not called Applitools.openEyes() before calling this method",
-                            RuntimeException.class, () -> {
-                                ApplitoolsApi.closeEyes();
-                            });
+        Assert.assertThrows(
+                "something went wrong, maybe you have not called Applitools.openEyes() before calling this method",
+                RuntimeException.class, () ->
+                {
+                    ApplitoolsApi.closeEyes();
+                });
     }
 
     @Test
@@ -63,7 +70,8 @@ public class ApplitoolsApiExceptionsTest extends AbstractTest
         ConfigFactory.setProperty(ApplitoolsApi.TEMPORARY_CONFIG_FILE_PROPERTY_NAME, "file:" + configFileLocation);
 
         ApplitoolsApi.setupGlobal();
-        Assert.assertThrows("Eyes not open", IllegalStateException.class, () -> {
+        Assert.assertThrows("Eyes not open", IllegalStateException.class, () ->
+        {
             ApplitoolsApi.assertPage("Homepage");
         });
     }
@@ -79,7 +87,8 @@ public class ApplitoolsApiExceptionsTest extends AbstractTest
         ConfigFactory.setProperty(ApplitoolsApi.TEMPORARY_CONFIG_FILE_PROPERTY_NAME, "file:" + configFileLocation);
 
         ApplitoolsApi.setupGlobal();
-        Assert.assertThrows("Eyes not open", IllegalStateException.class, () -> {
+        Assert.assertThrows("Eyes not open", IllegalStateException.class, () ->
+        {
             ApplitoolsApi.assertElement(By.cssSelector("#navigation"), "top navigation menu");
         });
     }

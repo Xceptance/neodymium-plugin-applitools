@@ -20,6 +20,7 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 
 import com.applitools.eyes.BatchInfo;
 import com.applitools.eyes.MatchLevel;
+import com.applitools.eyes.StdoutLogHandler;
 import com.applitools.eyes.TestResults;
 import com.applitools.eyes.selenium.Eyes;
 import com.google.common.util.concurrent.SimpleTimeLimiter;
@@ -30,7 +31,8 @@ import io.qameta.allure.Allure;
 
 public class ApplitoolsApi
 {
-    private static final Map<Thread, ApplitoolsConfiguration> CONFIGURATION = Collections.synchronizedMap(new WeakHashMap<>());
+    private static final Map<Thread, ApplitoolsConfiguration> CONFIGURATION = Collections
+            .synchronizedMap(new WeakHashMap<>());
 
     public final static String TEMPORARY_CONFIG_FILE_PROPERTY_NAME = "applitools.temporaryConfigFile";
 
@@ -46,25 +48,30 @@ public class ApplitoolsApi
     protected static HashMap<String, BatchInfo> batches = new HashMap<String, BatchInfo>();
 
     /**
-     * Retrieves the instance of applitools configuration for the current thread.
+     * Retrieves the instance of applitools configuration for the current
+     * thread.
      * 
      * @return the configuration instance for the current thread
      */
     public static ApplitoolsConfiguration getConfiguration()
     {
-        // the property needs to be a valid URI in order to satisfy the Owner framework
+        // the property needs to be a valid URI in order to satisfy the Owner
+        // framework
         if (null == ConfigFactory.getProperty(TEMPORARY_CONFIG_FILE_PROPERTY_NAME))
         {
-            ConfigFactory.setProperty(TEMPORARY_CONFIG_FILE_PROPERTY_NAME, "file:this/path/should/never/exist/noOneShouldCreateMe.properties");
+            ConfigFactory.setProperty(TEMPORARY_CONFIG_FILE_PROPERTY_NAME,
+                    "file:this/path/should/never/exist/noOneShouldCreateMe.properties");
         }
-        return CONFIGURATION.computeIfAbsent(Thread.currentThread(), key -> {
+        return CONFIGURATION.computeIfAbsent(Thread.currentThread(), key ->
+        {
             return ConfigFactory.create(ApplitoolsConfiguration.class);
         });
     }
 
     /**
-     * Method to access eyes instance for current thread. This can be used to make custom manipulations with this
-     * object, e.g. to download pictures after test
+     * Method to access eyes instance for current thread. This can be used to
+     * make custom manipulations with this object, e.g. to download pictures
+     * after test
      * 
      * @return eyes instance for current thread
      */
@@ -74,8 +81,10 @@ public class ApplitoolsApi
     }
 
     /**
-     * Configures eyes object to start test. Configurations will be cleared and read from configuration file again. Use
-     * this method to setup tests, which belong to global batch (one with the name you entered in applitools.properties)
+     * Configures eyes object to start test. Configurations will be cleared and
+     * read from configuration file again. Use this method to setup tests, which
+     * belong to global batch (one with the name you entered in
+     * applitools.properties)
      */
     public static void setupGlobal()
     {
@@ -93,9 +102,10 @@ public class ApplitoolsApi
     }
 
     /**
-     * Configures eyes object to start test. Configurations will be cleared and read from configuration file again. Use
-     * this method with the same batchName parameter to setup the group tests, which belong to one batch , e.g. for all
-     * order test call this method with batchName 'order'
+     * Configures eyes object to start test. Configurations will be cleared and
+     * read from configuration file again. Use this method with the same
+     * batchName parameter to setup the group tests, which belong to one batch ,
+     * e.g. for all order test call this method with batchName 'order'
      * 
      * @param batchName
      *            name of batch for group of tests
@@ -122,13 +132,14 @@ public class ApplitoolsApi
     }
 
     /**
-     * Configures eyes object with minimal configurations. Use this method if you don't want test to belong to any
-     * existing batch
+     * Configures eyes object with minimal configurations. Use this method if
+     * you don't want test to belong to any existing batch
      */
     public static void setupBasic()
     {
         CONFIGURATION.remove(Thread.currentThread());
         getConfiguration();
+        getEyes().setLogHandler(new StdoutLogHandler());
         getEyes().setMatchLevel(getConfiguration().matchLevel());
         getEyes().setApiKey(getApplitoolsApiKey());
         getEyes().setHideCaret(getConfiguration().hideCaret());
@@ -136,9 +147,11 @@ public class ApplitoolsApi
     }
 
     /**
-     * Wrapper method for eyes.setMatchLevel. Through this method match level can be changed at any point of the test.
-     * To get to know more about avaliable match levels, please read
-     * <a href="https://help.applitools.com/hc/en-us/articles/360007188591-Match-Levels">this</a> article
+     * Wrapper method for eyes.setMatchLevel. Through this method match level
+     * can be changed at any point of the test. To get to know more about
+     * avaliable match levels, please read <a href=
+     * "https://help.applitools.com/hc/en-us/articles/360007188591-Match-Levels">this</a>
+     * article
      * 
      * @param matchLevel
      *            string value of com.applitools.eyes.MatchLevel enum object
@@ -149,8 +162,9 @@ public class ApplitoolsApi
     }
 
     /**
-     * Method to add property for test. Adds a custom key name/value property that will be associated with tests. You
-     * can view these properties and filter and group by these properties in the Test Manager.
+     * Method to add property for test. Adds a custom key name/value property
+     * that will be associated with tests. You can view these properties and
+     * filter and group by these properties in the Test Manager.
      * 
      * @param name
      *            property name
@@ -163,11 +177,12 @@ public class ApplitoolsApi
     }
 
     /**
-     * Method to start visual assertions. Call this method to start a test, before calling any of the check methods.
+     * Method to start visual assertions. Call this method to start a test,
+     * before calling any of the check methods.
      * 
      * @param testName
-     *            The name of the test. This name must be unique within the scope of the application name. It may be any
-     *            string.
+     *            The name of the test. This name must be unique within the
+     *            scope of the application name. It may be any string.
      */
     public static void openEyes(String testName)
     {
@@ -177,19 +192,21 @@ public class ApplitoolsApi
         Eyes eyes = getEyes();
         try
         {
-            tl.callWithTimeout(() -> {
+            tl.callWithTimeout(() ->
+            {
                 return eyes.open(driver, getConfiguration().projectName(), testName);
-            },
-                               30, TimeUnit.SECONDS);
+            }, 30, TimeUnit.SECONDS);
         }
         catch (TimeoutException | InterruptedException | ExecutionException e)
         {
-            throw new RuntimeException("Opening Applitools eyes took too long. Please make sure you have entered the correct api key", e);
+            throw new RuntimeException(
+                    "Opening Applitools eyes took too long. Please make sure you have entered the correct api key", e);
         }
     }
 
     /**
-     * Use this method to set if Eyes should hide the cursor before the screenshot is captured.
+     * Use this method to set if Eyes should hide the cursor before the
+     * screenshot is captured.
      * 
      * @param hideCaret
      */
@@ -199,7 +216,8 @@ public class ApplitoolsApi
     }
 
     /**
-     * Use this method to set the amount of time in milliseconds that Eyes will wait before capturing a screenshot.
+     * Use this method to set the amount of time in milliseconds that Eyes will
+     * wait before capturing a screenshot.
      * 
      * @param waitBeforeScreenshots
      *            time in milliseconds
@@ -231,7 +249,8 @@ public class ApplitoolsApi
     public static void assertElements(By condition, String description)
     {
         WebDriver driver = Neodymium.getRemoteWebDriver();
-        driver.findElements(condition).forEach((element) -> {
+        driver.findElements(condition).forEach((element) ->
+        {
             getEyes().checkElement(element, description);
         });
     }
@@ -250,18 +269,21 @@ public class ApplitoolsApi
     }
 
     /**
-     * This method should be called at the end of each test to end all visual assertions and to add link to results to
-     * your allure report
+     * This method should be called at the end of each test to end all visual
+     * assertions and to add link to results to your allure report
      */
     public static void closeEyes()
     {
         TestResults allTestResults = getEyes().close(getConfiguration().throwException());
         if (allTestResults.getUrl() == null)
         {
-            throw new RuntimeException("Something went wrong, maybe you have not called Applitools.openEyes() before calling this method");
+            throw new RuntimeException(
+                    "Something went wrong, maybe you have not called Applitools.openEyes() before calling this method");
         }
-        Allure.link("Number of missmatches found by Applitools is " + allTestResults.getMismatches()
-                    + ". Please, see more details about visual compare results by this link", allTestResults.getUrl());
+        Allure.link(
+                "Number of missmatches found by Applitools is " + allTestResults.getMismatches()
+                        + ". Please, see more details about visual compare results by this link",
+                allTestResults.getUrl());
         getEyes().abortIfNotClosed();
     }
 
@@ -270,7 +292,8 @@ public class ApplitoolsApi
         String applitoolsApiKey = getConfiguration().applitoolsApiKey();
         if (isNullOrEmpty(applitoolsApiKey))
         {
-            throw new RuntimeException("No Applitools API Key found: Please set the 'applitools.apiKey' property in 'config/applitools.properties' file.");
+            throw new RuntimeException(
+                    "No Applitools API Key found: Please set the 'applitools.apiKey' property in 'config/applitools.properties' file.");
         }
         return applitoolsApiKey;
     }
