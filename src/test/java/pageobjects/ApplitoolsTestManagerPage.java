@@ -2,6 +2,7 @@ package pageobjects;
 
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
 import static com.codeborne.selenide.Condition.exactText;
+import static com.codeborne.selenide.Condition.cssClass;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
@@ -27,7 +28,7 @@ public class ApplitoolsTestManagerPage
     {
         $(".logo.clickable").waitUntil(visible, 100000);
         if (ApplitoolsTestHelper.optionalWaitUntilCondition(chatFrame, visible,
-                                                            ApplitoolsTestHelper.standardWaitingTime))
+                ApplitoolsTestHelper.standardWaitingTime))
         {
             Selenide.switchTo().frame(chatFrame);
             $(".intercom-messenger div[aria-label='Close']").click();
@@ -40,10 +41,12 @@ public class ApplitoolsTestManagerPage
     public ApplitoolsTestManagerPage deleteAllBatchesWithName(String name)
     {
         batchNames.shouldHave(sizeGreaterThan(0));
-        batchNames.filterBy(exactText(name)).forEach(batch -> {
-            batch.parent().parent().parent().find(".checkbox.default").hover();
-            batch.parent().parent().parent().find(".checkbox.default").click();
-            batch.parent().parent().parent().find(".checkbox.default.checked").waitUntil(visible, 10000);
+        batchNames.filterBy(exactText(name)).forEach(batch ->
+        {
+            var checkbox = batch.closest(".list-item ").find(".checkbox.default");
+            checkbox.hover();
+            checkbox.click();
+            checkbox.waitUntil(cssClass("checked"), 10000);
         });
         $(".ai-trash").click();
         $("button[data-test='modal-confirm']").click();
@@ -63,11 +66,13 @@ public class ApplitoolsTestManagerPage
         return this;
     }
 
-    public ApplitoolsTestManagerPage validateTestContainsScreenshots(String batchName, String testName, int screenshotAmount)
+    public ApplitoolsTestManagerPage validateTestContainsScreenshots(String batchName, String testName,
+            int screenshotAmount)
     {
         batchNames.findBy(exactText(batchName)).click();
         SelenideElement testContainer = testContainters.findBy(exactText(testName));
-        if (!ApplitoolsTestHelper.optionalWaitUntilCondition($(screenshotsSelector), visible, ApplitoolsTestHelper.standardWaitingTime))
+        if (!ApplitoolsTestHelper.optionalWaitUntilCondition($(screenshotsSelector), visible,
+                ApplitoolsTestHelper.standardWaitingTime))
         {
             testContainer.click();
         }
