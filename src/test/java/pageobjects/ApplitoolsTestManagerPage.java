@@ -43,7 +43,7 @@ public class ApplitoolsTestManagerPage
         batchNames.shouldHave(sizeGreaterThan(0));
         batchNames.filterBy(exactText(name)).forEach(batch ->
         {
-            var checkbox = batch.closest(".list-item ").find(".checkbox.default");
+            var checkbox = batch.closest(".list-item").find(".checkbox.default");
             checkbox.hover();
             checkbox.click();
             checkbox.waitUntil(cssClass("checked"), 10000);
