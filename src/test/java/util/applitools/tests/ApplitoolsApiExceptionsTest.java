@@ -69,7 +69,7 @@ public class ApplitoolsApiExceptionsTest extends AbstractCloseEyesAfterTest
         ApplitoolsApi.updateConfiguration();
 
         ApplitoolsApi.setupGlobal();
-        Assert.assertThrows("Eyes not open", IllegalStateException.class, () -> {
+        Assert.assertThrows("Eyes not open", EyesException.class, () -> {
             ApplitoolsApi.assertPage("Homepage");
         });
     }
@@ -87,7 +87,7 @@ public class ApplitoolsApiExceptionsTest extends AbstractCloseEyesAfterTest
         ApplitoolsApi.updateConfiguration();
 
         ApplitoolsApi.setupGlobal();
-        Assert.assertThrows("Eyes not open", IllegalStateException.class, () -> {
+        Assert.assertThrows("Eyes not open", EyesException.class, () -> {
             ApplitoolsApi.assertElement(By.cssSelector("#navigation"), "top navigation menu");
         });
     }
